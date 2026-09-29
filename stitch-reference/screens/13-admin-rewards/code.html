@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-fixed-variant":"#5b4300","on-primary-fixed":"#0a1d2e","on-surface-variant":"#44474c","surface-container-lowest":"#ffffff","tertiary-container":"#00210a","secondary-fixed":"#ffdf9d","surface":"#f7f9ff","error-container":"#ffdad6","tertiary-fixed":"#8ef9a4","on-tertiary-container":"#26974d","secondary-fixed-dim":"#f9bd14","on-surface":"#121c26","surface-container-highest":"#d9e3f1","inverse-primary":"#b6c8df","surface-bright":"#f7f9ff","on-tertiary-fixed-variant":"#005324","on-secondary":"#ffffff","primary-container":"#071a2b","on-primary-fixed-variant":"#37485b","on-error":"#ffffff","on-secondary-fixed":"#251a00","tertiary":"#000000","primary":"#000000","tertiary-fixed-dim":"#71dc8a","outline-variant":"#c4c6cd","on-background":"#121c26","surface-container":"#e4effd","on-error-container":"#93000a","primary-fixed":"#d2e4fc","on-tertiary":"#ffffff","on-secondary-container":"#6c5000","outline":"#74777d","error":"#ba1a1a","on-tertiary-fixed":"#00210a","on-primary":"#ffffff","surface-variant":"#d9e3f1","secondary-container":"#f2b705","primary-fixed-dim":"#b6c8df","surface-tint":"#4f6074","on-primary-container":"#74859b","inverse-surface":"#27313c","secondary":"#785900","background":"#f7f9ff","inverse-on-surface":"#e8f2ff","surface-container-high":"#dfe9f7","surface-dim":"#d1dbe9","surface-container-low":"#edf4ff"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-lg":"1.5rem","gutter-mobile":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","margin-mobile":"1rem","space-md":"1rem","margin":"2.5rem","space-xl":"2.5rem","gutter":"1.5rem"},"fontFamily":{"body-md":["Manrope"],"label-caps":["Manrope"],"body-lg":["Manrope"],"title-zar-val":["Sora"],"headline-sm":["Sora"],"tabular-stat":["Manrope"],"headline-xl":["Sora"],"headline-md":["Sora"],"headline-xl-mobile":["Sora"],"display-hero":["Sora"],"headline-lg":["Sora"],"display-hero-mobile":["Sora"],"body-sm":["Manrope"]},"fontSize":{"body-md":["15px",{"lineHeight":"22px","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"title-zar-val":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"tabular-stat":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen">
+<!-- ==================== QA PROTOTYPE SIMULATOR BAR ==================== -->
+<aside aria-label="Prototype State Simulator" class="sticky top-0 z-50 w-full bg-primary-container text-on-primary text-xs px-4 py-2 flex flex-wrap items-center justify-between gap-3 shadow-md border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-secondary-container text-on-primary-fixed text-[10px] font-bold">QA</span>
+<span class="font-bold tracking-wider uppercase text-[11px] text-surface-variant">Prototype Viewport Presets:</span>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="px-2.5 py-1 rounded bg-secondary-container text-on-primary-fixed font-semibold hover:opacity-90 transition-all text-xs" id="btn-qa-all" onclick="setQAMode('all')" type="button">1. All Records (Default)</button>
+<button class="px-2.5 py-1 rounded bg-on-primary-fixed-variant text-on-primary hover:bg-surface-tint transition-all text-xs" id="btn-qa-unassigned" onclick="setQAMode('unassigned')" type="button">2. Unassigned Triage (2 Pending)</button>
+<button class="px-2.5 py-1 rounded bg-on-primary-fixed-variant text-on-primary hover:bg-surface-tint transition-all text-xs" id="btn-qa-zero" onclick="setQAMode('zero')" type="button">3. Zero Records (Empty State)</button>
+<button class="px-2 py-1 rounded bg-error/80 hover:bg-error text-on-error transition-all text-xs flex items-center gap-1" onclick="resetAllData()" type="button">
+<span class="material-symbols-outlined text-[14px]">refresh</span> Reset Data
+</button>
+</div>
+</aside>
+<!-- ==================== MOBILE ADMIN APP BAR (<1024px) ==================== -->
+<header class="lg:hidden w-full bg-surface-container-lowest px-4 py-3 flex items-center justify-between sticky top-[37px] z-40 shadow-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqfW5wsk3pgJfgYrRROK6D4w5dfB8i8Xvz_13P6t8726LNasPgv4TCoe4aVWMQv-NOGEBE1RRkkjQLKS_Aq5C3tNwAkLGD1Qpe8gT2kPSp7ZeJRI99QqAZpo1k1rdKQCdEaDEimz7xaB3ZaJjFlT7EJWpax_oujW5Cg7XxtWTTlU3mSWcZOeX39fgnuioHnuIlijhQ9o--jEMA_lifuJtSVFBPcsz5_VkiFK0NNy2xzb4VdkhfF7I8rx8TGs8JhjEWlBY"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-on-surface tracking-tight">Admin Console</span>
+<span class="text-[9px] font-semibold text-secondary uppercase tracking-widest">RSA AUDIT v2.4</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Toggle Theme" class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" onclick="toggleDarkMode()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="mobile-theme-icon">dark_mode</span>
+</button>
+<button aria-label="Open Admin Menu" class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center hover:bg-inverse-surface transition-colors" onclick="toggleMobileNav()" type="button">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</div>
+</header>
+<!-- ==================== MOBILE NAVIGATION DRAWER (<1024px) ==================== -->
+<div class="fixed inset-0 bg-primary-container/70 backdrop-blur-sm z-50 hidden transition-opacity" id="mobile-nav-backdrop" onclick="toggleMobileNav()"></div>
+<nav aria-label="Mobile Navigation" class="fixed top-0 right-0 h-full w-[280px] bg-surface-container-lowest z-50 p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 shadow-2xl" id="mobile-nav-drawer">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<img alt="WinDriveSA Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEMCweKuwM0iPMsLWx4qm4ZybYrvuX5wu1cG-E19ibg8xh3AFGWG_H5ztaL5tOui-_EO1y8dy35qULkxZ_kb1oKIyyrdltMu4T3-2a9X16-Q6m3JboljbvMMYJ9tOYImNMIb-i0eiO8aQnToClQfU7NwDCdMvMvhQB7kg4aUGftJYqiuLOZc4j9fItC-YW6eEU8h_dUgleKC5JYIriFny8DCZJg2h6QtKYYZP-cw9hzLTnhk4vpERe1MpnYnQPc9hBCzY"/>
+<span class="font-headline-sm text-xs font-bold uppercase tracking-wider text-secondary">Internal Ops</span>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface" onclick="toggleMobileNav()" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 text-sm font-semibold">
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/users">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>Users</span>
+</a>
+<a class="px-3 py-2 rounded bg-primary-container text-secondary-container flex items-center justify-between font-bold" href="/admin/rewards">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">military_tech</span>
+<span>Rewards</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/cash-prizes">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span>Cash Prizes</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/vehicle-prizes">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+<span>Vehicle Prizes</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/claims">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span>Claim Requests</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/claim-requirements">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Claim Requirements</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center justify-between" href="/admin/winners">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]">trophy</span>
+<span>Winners</span>
+</div>
+<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant uppercase font-bold tracking-wider">Internal</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/support">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+<span>Support</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/audit-logs">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Audit Logs</span>
+</a>
+<a class="px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container flex items-center gap-3" href="/admin/settings">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">OL</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">Operations Lead</span>
+<span class="text-[11px] text-on-surface-variant truncate">ops.desk@windrivesa.co.za</span>
+</div>
+</div>
+<button class="w-full py-2 text-xs font-bold text-error hover:bg-error-container/40 rounded transition-colors text-left flex items-center gap-2 px-2" onclick="alert('Session locked. Re-authenticate via RSA SSO.')" type="button">
+<span class="material-symbols-outlined text-[16px]">logout</span> Sign Out
+</button>
+</div>
+</nav>
+<!-- ==================== MAIN WORKSPACE SHELL ==================== -->
+<div class="flex w-full flex-1 min-h-[calc(100vh-37px)]">
+<!-- DESKTOP ADMIN PERSISTENT SIDEBAR (w-64 / 256px) -->
+<aside aria-label="Administrative Navigation" class="hidden lg:flex flex-col w-64 shrink-0 bg-surface-container-lowest p-5 justify-between shadow-sm relative z-20 border-r border-outline-variant/30">
+<div class="flex flex-col gap-5">
+<!-- Brand & Governance Deck -->
+<div class="flex flex-col gap-3 pb-3 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<img alt="WinDriveSA Admin Logo" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA39uZHGhez0Q5I4LqmFG476MrT1hifMHucFHoFUyCxAAWLzb9a_tctKzTUGIuQui1fEtMMvy4qEOER1XRYVJJ_XH6UDzSh0rY5SEakY7U8S6cJM858J0sP0vyYswqOKgNJVPL3bwNwuY54-ENBfDxmzx_VcP1RPAeoSmbafG7BI90hUPTK_urswqxTDqbWeb5o-aM3iJo8XF93amZtmTmN1iZZHVV2uzWegj4Uyb9ahQXD1V5khEdMYb2_dKu8zenlU28"/>
+</div>
+<div class="flex flex-col gap-1 p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-[10px] tracking-widest text-on-primary-fixed-variant uppercase font-bold">ADMIN CONSOLE</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface text-[10px] font-mono font-bold">v2.4 RSA</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span class="text-[10px] font-bold text-on-tertiary-container uppercase tracking-wider">AUDIT GRADE A • GOVERNANCE</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/users">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>Users</span>
+</a>
+<!-- Rewards ACTIVE: Deep Navy background #071a2b with Radiant Gold #f2b705 -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded bg-primary-container text-secondary-container text-sm font-bold shadow-sm" href="/admin/rewards">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">military_tech</span>
+<span>Rewards</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/cash-prizes">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span>Cash Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/vehicle-prizes">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+<span>Vehicle Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/claims">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span>Claim Requests</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/claim-requirements">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Claim Requirements</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/winners">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]">trophy</span>
+<span>Winners</span>
+</div>
+<span class="text-[9px] px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-bold tracking-wider uppercase">Internal</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/support">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/audit-logs">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors text-sm font-semibold" href="/admin/settings">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer / Admin Profile & Theme Switcher -->
+<div class="flex flex-col gap-3 pt-4 border-t border-outline-variant/30">
+<!-- Interactive Theme Switcher -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-xs font-semibold">
+<span class="text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" id="desktop-theme-icon">light_mode</span>
+<span>Theme Mode</span>
+</span>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors font-bold uppercase text-[10px] tracking-wider" onclick="toggleDarkMode()" type="button">
+Toggle
+</button>
+</div>
+<!-- Admin Profile -->
+<div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-surface-container-lowest">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs shrink-0">OL</div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-on-surface truncate">Operations Lead</span>
+<span class="text-[10px] text-on-surface-variant truncate">ops.desk@windrivesa.co.za</span>
+</div>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-error transition-colors" onclick="alert('Signed out. Redirecting to login.')" title="Sign Out" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- CONTENT WORKSPACE VIEWPORT -->
+<main class="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full min-w-0 gap-6">
+<!-- 1. Header & Breadcrumbs & Action Bar -->
+<section class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-label-caps uppercase tracking-widest text-secondary font-bold">REWARD MANAGEMENT</span>
+<span class="text-outline-variant">•</span>
+<span class="text-[11px] font-label-caps uppercase tracking-widest text-on-surface-variant">RSA Allocation Engine</span>
+</div>
+<h1 class="font-headline-xl text-3xl md:text-headline-xl font-bold text-primary-container tracking-tight">Rewards</h1>
+<p class="font-body-md text-sm text-on-surface-variant max-w-2xl">
+Assign, configure, and manage high-value cash and vehicle rewards associated with approved participant accounts. Changes adhere strictly to RSA National Treasury allocation governance.
+</p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="px-5 py-2.5 bg-secondary-container text-on-secondary-fixed hover:bg-secondary-fixed-dim rounded shadow-md font-headline-sm text-sm font-bold flex items-center gap-2 transition-all" onclick="openAssignModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Assign Reward</span>
+</button>
+</div>
+</section>
+<!-- 2. Operational Metrics Row -->
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between border border-outline-variant/20">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="text-xs font-label-caps font-bold uppercase tracking-wider">TOTAL REWARDS</span>
+<span class="material-symbols-outlined text-[18px] text-primary-container">database</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-title-zar-val text-3xl font-bold text-on-surface" id="metric-total">8</span>
+<span class="text-[11px] text-on-surface-variant">Accounts cataloged</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary-container h-full w-full"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between border border-outline-variant/20">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="text-xs font-label-caps font-bold uppercase tracking-wider">UNASSIGNED (APPROVED)</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">pending_actions</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-title-zar-val text-3xl font-bold text-secondary" id="metric-unassigned">2</span>
+<span class="text-[11px] text-secondary-fixed-variant font-bold">Awaiting reward</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-secondary-container h-full w-2/6"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between border border-outline-variant/20">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="text-xs font-label-caps font-bold uppercase tracking-wider">ASSIGNED (PENDING)</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">rule_folder</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-title-zar-val text-3xl font-bold text-on-surface" id="metric-assigned">2</span>
+<span class="text-[11px] text-on-surface-variant">Ready for activate</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-surface-tint h-full w-2/6"></div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between border border-outline-variant/20">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="text-xs font-label-caps font-bold uppercase tracking-wider">ACTIVE / COMPLETED</span>
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">verified</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-title-zar-val text-3xl font-bold text-on-tertiary-container" id="metric-active">4</span>
+<span class="text-[11px] text-on-tertiary-fixed-variant font-semibold">Live participant status</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-on-tertiary-container h-full w-4/6"></div>
+</div>
+</div>
+</section>
+<!-- 3. Filter & Search Toolbar -->
+<section class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/20">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm bg-surface-container-low text-on-surface rounded focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="filter-search" oninput="applyFilters()" placeholder="Search by participant name, email, or reference (e.g. WD-RSA-9941)..." type="text"/>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2 text-xs">
+<label class="font-bold text-on-surface-variant uppercase tracking-wider text-[10px]" for="filter-reward-status">Reward:</label>
+<select class="py-2 px-2.5 text-xs bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none focus:ring-2 focus:ring-primary-container" id="filter-reward-status" onchange="applyFilters()">
+<option value="ALL">All Rewards</option>
+<option value="NOT_ASSIGNED">Not Assigned</option>
+<option value="ASSIGNED">Assigned</option>
+<option value="ACTIVE">Active</option>
+<option value="COMPLETED">Completed</option>
+</select>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<label class="font-bold text-on-surface-variant uppercase tracking-wider text-[10px]" for="filter-account-status">Account:</label>
+<select class="py-2 px-2.5 text-xs bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none focus:ring-2 focus:ring-primary-container" id="filter-account-status" onchange="applyFilters()">
+<option value="ALL">All Statuses</option>
+<option value="APPROVED">Approved</option>
+<option value="ACTIVE">Active</option>
+<option value="INACTIVE">Inactive</option>
+</select>
+</div>
+<button class="px-3 py-2 text-xs font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors flex items-center gap-1" onclick="resetFilters()" type="button">
+<span class="material-symbols-outlined text-[16px]">filter_alt_off</span>
+<span>Reset</span>
+</button>
+</div>
+</section>
+<!-- Record Count Metadata -->
+<div class="flex items-center justify-between px-1">
+<span class="text-xs font-semibold text-on-surface-variant" id="table-counter">Showing 8 of 8 allocation records</span>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="inline-block w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span>SARB Monitored Pool Ledger</span>
+</div>
+</div>
+<!-- 4. Reward Directory Table / Responsive Data Grid -->
+<section class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden flex flex-col border border-outline-variant/20">
+<!-- Desktop Table (>= 1024px) -->
+<div class="hidden lg:block overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-[11px] uppercase tracking-wider border-b border-outline-variant/20">
+<th class="py-3 px-4 font-bold">User / Recipient</th>
+<th class="py-3 px-3 font-bold">Account Status</th>
+<th class="py-3 px-3 font-bold">Cash Prize</th>
+<th class="py-3 px-4 font-bold">Vehicle Allocation</th>
+<th class="py-3 px-3 font-bold">Reward Status</th>
+<th class="py-3 px-3 font-bold">Updated</th>
+<th class="py-3 px-4 font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container" id="reward-table-body">
+<!-- Dynamically populated rows -->
+</tbody>
+</table>
+</div>
+<!-- Mobile & Tablet Responsive Card Deck (< 1024px) -->
+<div class="lg:hidden flex flex-col divide-y divide-surface-container" id="reward-cards-mobile">
+<!-- Dynamically populated cards -->
+</div>
+<!-- Empty State Container -->
+<div class="hidden p-12 flex flex-col items-center justify-center text-center gap-3" id="table-empty-state">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[32px]">folder_off</span>
+</div>
+<h3 class="font-headline-sm text-lg font-bold text-on-surface">No Rewards Found</h3>
+<p class="font-body-md text-xs text-on-surface-variant max-w-sm">No participant accounts match the configured filters or search keywords. Adjust parameters or clear filters.</p>
+<button class="mt-2 px-4 py-2 bg-primary-container text-on-primary text-xs font-bold rounded hover:bg-inverse-surface transition-colors" onclick="resetFilters()" type="button">
+Reset Filters
+</button>
+</div>
+</section>
+<!-- Statutory Internal Footer (NO public marketing footer) -->
+<footer class="mt-auto p-4 rounded-lg bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant border border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">verified_user</span>
+<span>POPIA Section 18 Compliance &amp; SARB Escrow Verification Enabled. Ledger hash: <span class="font-mono text-[11px] text-on-surface">0x7F9B...88D2</span></span>
+</div>
+<div class="flex items-center gap-4 text-[11px]">
+<span class="hover:underline cursor-pointer">Security Protocol</span>
+<span class="hover:underline cursor-pointer">Audit Ledger</span>
+<span class="hover:underline cursor-pointer">RSA Gazette Ref #4412-26</span>
+</div>
+</footer>
+</main>
+</div>
+<!-- ==================== MODAL: ASSIGN REWARD WIZARD (MULTI-STEP) ==================== -->
+<div class="fixed inset-0 bg-primary-container/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modal-assign">
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Modal Header -->
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-b border-outline-variant/20">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-caps uppercase tracking-widest text-secondary font-bold">ALLOCATION WIZARD</span>
+<h2 class="font-headline-sm text-lg font-bold text-on-surface" id="assign-wizard-title">Assign Reward to Participant</h2>
+</div>
+<button class="p-1.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeAssignModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Step Indicator -->
+<div class="px-6 py-3 bg-surface-container flex items-center justify-between text-xs font-semibold">
+<div class="flex items-center gap-2" id="step-ind-1">
+<span class="w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-[10px]">1</span>
+<span class="text-on-surface">Select User</span>
+</div>
+<span class="text-outline-variant">›</span>
+<div class="flex items-center gap-2" id="step-ind-2">
+<span class="w-5 h-5 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px]">2</span>
+<span class="text-on-surface-variant">Cash Prize</span>
+</div>
+<span class="text-outline-variant">›</span>
+<div class="flex items-center gap-2" id="step-ind-3">
+<span class="w-5 h-5 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px]">3</span>
+<span class="text-on-surface-variant">Vehicle Prize</span>
+</div>
+<span class="text-outline-variant">›</span>
+<div class="flex items-center gap-2" id="step-ind-4">
+<span class="w-5 h-5 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px]">4</span>
+<span class="text-on-surface-variant">Review</span>
+</div>
+</div>
+<!-- Modal Body (Steps) -->
+<div class="p-6 overflow-y-auto flex-1">
+<!-- STEP 1: Select User -->
+<div class="flex flex-col gap-4" id="assign-step-1">
+<p class="text-xs text-on-surface-variant">Select an approved participant account currently pending reward allocation:</p>
+<div class="flex flex-col gap-2" id="assign-user-list">
+<!-- Populated with eligible unassigned users -->
+</div>
+</div>
+<!-- STEP 2: Cash Prize -->
+<div class="hidden flex flex-col gap-4" id="assign-step-2">
+<p class="text-xs text-on-surface-variant">Configure the SARB-guaranteed escrow cash prize portion of this allocation:</p>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-on-surface" for="assign-cash-amount">Cash Amount (ZAR)</label>
+<div class="flex items-center rounded bg-surface-container-low overflow-hidden border border-outline-variant/30">
+<span class="px-3 py-2 text-xs font-bold text-on-surface-variant bg-surface-container">R</span>
+<input class="w-full px-3 py-2 text-sm bg-transparent text-on-surface font-tabular-stat font-bold focus:outline-none" id="assign-cash-amount" step="50000" type="number" value="250000"/>
+<span class="px-3 py-2 text-xs font-bold text-on-surface-variant">ZAR</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Standard tiers: R250,000 • R500,000 • R1,000,000</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-start gap-3 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container shrink-0">account_balance</span>
+<span>All cash allocations are escrowed under South African Reserve Bank Prudential Directive 402/2024 with instant draw validation.</span>
+</div>
+</div>
+<!-- STEP 3: Vehicle Prize -->
+<div class="hidden flex flex-col gap-4" id="assign-step-3">
+<p class="text-xs text-on-surface-variant">Configure vehicle prize allocation parameters and select homologated photography asset:</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="text-xs font-bold text-on-surface" for="assign-vehicle-make">Make</label>
+<input class="w-full mt-1 px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none border border-outline-variant/30" id="assign-vehicle-make" type="text" value="Toyota"/>
+</div>
+<div>
+<label class="text-xs font-bold text-on-surface" for="assign-vehicle-model">Model</label>
+<input class="w-full mt-1 px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none border border-outline-variant/30" id="assign-vehicle-model" type="text" value="Hilux 2.8 GD-6 Legend 4x4"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="text-xs font-bold text-on-surface" for="assign-vehicle-year">Model Year</label>
+<input class="w-full mt-1 px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none border border-outline-variant/30" id="assign-vehicle-year" type="number" value="2026"/>
+</div>
+<div>
+<label class="text-xs font-bold text-on-surface" for="assign-vehicle-val">Guaranteed Retail Value (ZAR)</label>
+<input class="w-full mt-1 px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none border border-outline-variant/30" id="assign-vehicle-val" type="text" value="R1,085,900 ZAR"/>
+</div>
+</div>
+<div>
+<label class="text-xs font-bold text-on-surface block mb-2">Select Vehicle Photo Specimen:</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-primary-container p-1 bg-surface-container-low">
+<input checked="" class="hidden" name="assign-vehicle-img" type="radio" value="hilux-mountain"/>
+<img class="w-full h-24 object-cover rounded" data-alt="A luxury dark graphite Toyota Hilux 2.8 GD-6 4x4 double cab bakkie driving on a winding scenic South African mountain pass road at golden hour sunset, dramatic jagged mountain peaks in background, cinematic automotive commercial photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIJHasZNVhPEzObQtEcMp6FrIy5d8iV8S2IGdv38a6HpW-7bS6xSmSZPyQCUH6XOXiy1D-CB8pm1qakZZvXrTEiiQYR4FwT-vsc_uJW2MnpKFSwv7OKypVbprOFsMaWo-zLejgC4Z7K4aE6047xdrkCFr8WKQglhjbgrqmj-yNBEmPnU-CVfFVG4t541LINqmVP7QnEMhE4MZqciHtDTV0o2s0eBbneOmBf0JAHDgLdqgDMu6gGO3rAQ"/>
+<span class="mt-2 text-xs font-bold text-on-surface text-center">Toyota Hilux (Cape Mountain Pass)</span>
+</label>
+<label class="cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-transparent hover:border-outline p-1 bg-surface-container-low">
+<input class="hidden" name="assign-vehicle-img" type="radio" value="hilux-coastal"/>
+<img class="w-full h-24 object-cover rounded" data-alt="A deep metallic Toyota Hilux Legend double cab pickup parked on a coastal South African cliff road along Chapman's Peak Drive overlooking the Atlantic ocean at sunset, warm cinematic automotive lighting, high precision finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaI2gnb4IFG7VIYX4-UpHLraJ8sQKa5kPpCjq5MD29LCMmYrset23UTFGnwhZEXmCu-jpDeqqMNN_SiO3NQrWiCfZ1Y862GZb6yzKyRA0l-zMvAsZVJD8cR08VnMMYFZCxuFuG_fWSF_olj8LnJiXkVQtmPgBwCeJNGy-JuMbOo2o50SrB0T9e3MtMs66AO6BG2bPbV3dzCmC5evsn0CkKKBP5QvRJ6CfSOf2CS5oEM1DtSAV_HtZxgg"/>
+<span class="mt-2 text-xs font-bold text-on-surface text-center">Toyota Hilux (Atlantic Coastal Spec)</span>
+</label>
+</div>
+</div>
+</div>
+<!-- STEP 4: Review & Confirm -->
+<div class="hidden flex flex-col gap-4" id="assign-step-4">
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3">
+<span class="text-[10px] font-label-caps uppercase tracking-wider text-secondary font-bold">REWARD SPECIFICATION PREVIEW</span>
+<div class="flex items-center justify-between">
+<span class="text-xs text-on-surface-variant">Allocated Recipient:</span>
+<span class="text-xs font-bold text-on-surface" id="review-user-name">Lerato Khumalo (WD-RSA-9942)</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs text-on-surface-variant">Cash Component:</span>
+<span class="text-xs font-bold text-on-surface font-tabular-stat" id="review-cash-val">R250,000 ZAR</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs text-on-surface-variant">Vehicle Component:</span>
+<span class="text-xs font-bold text-on-surface" id="review-vehicle-val">2026 Toyota Hilux 2.8 GD-6 Legend 4x4</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs text-on-surface-variant">Initial Reward State:</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-container text-on-secondary-fixed">ASSIGNED (Pending Activation)</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant">
+By confirming, this reward configuration is written to the WinDriveSA verified allocation register. The participant will require manual administrator activation before receiving portal notification.
+</p>
+</div>
+</div>
+<!-- Modal Footer Controls -->
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-t border-outline-variant/20">
+<button class="px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container rounded transition-colors hidden" id="assign-btn-prev" onclick="navAssignStep(-1)" type="button">
+Back
+</button>
+<div class="ml-auto flex items-center gap-3">
+<button class="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container rounded transition-colors" onclick="closeAssignModal()" type="button">
+Cancel
+</button>
+<button class="px-5 py-2 text-xs font-bold bg-primary-container text-on-primary hover:bg-inverse-surface rounded transition-colors" id="assign-btn-next" onclick="navAssignStep(1)" type="button">
+Next: Cash Prize
+</button>
+<button class="px-5 py-2 text-xs font-bold bg-secondary-container text-on-secondary-fixed hover:bg-secondary-fixed-dim rounded shadow-md transition-all hidden" id="assign-btn-submit" onclick="submitAssignReward()" type="button">
+Confirm &amp; Assign Reward
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================== MODAL: EDIT REWARD ==================== -->
+<div class="fixed inset-0 bg-primary-container/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modal-edit">
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-b border-outline-variant/20">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-caps uppercase tracking-widest text-secondary font-bold">AUDIT EDIT</span>
+<h2 class="font-headline-sm text-lg font-bold text-on-surface">Edit Reward Details</h2>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface" onclick="closeEditModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="p-6 flex flex-col gap-4" onsubmit="submitEditReward(event)">
+<input id="edit-reward-id" type="hidden"/>
+<div>
+<label class="text-xs font-bold text-on-surface block mb-1">Participant</label>
+<input class="w-full px-3 py-2 text-sm bg-surface-container text-on-surface-variant rounded font-semibold cursor-not-allowed border border-outline-variant/30" id="edit-user-display" readonly="" type="text"/>
+</div>
+<div>
+<label class="text-xs font-bold text-on-surface block mb-1" for="edit-cash-amount">Cash Prize (ZAR)</label>
+<input class="w-full px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-tabular-stat font-bold focus:outline-none focus:ring-2 focus:ring-primary-container border border-outline-variant/30" id="edit-cash-amount" required="" step="25000" type="number"/>
+</div>
+<div>
+<label class="text-xs font-bold text-on-surface block mb-1" for="edit-vehicle-model">Vehicle Prize Allocation</label>
+<input class="w-full px-3 py-2 text-sm bg-surface-container-low text-on-surface rounded font-semibold focus:outline-none focus:ring-2 focus:ring-primary-container border border-outline-variant/30" id="edit-vehicle-model" required="" type="text"/>
+</div>
+<div class="pt-2 flex items-center justify-end gap-3">
+<button class="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container rounded transition-colors" onclick="closeEditModal()" type="button">
+Cancel
+</button>
+<button class="px-5 py-2 text-xs font-bold bg-primary-container text-on-primary hover:bg-inverse-surface rounded transition-colors" type="submit">
+Save Changes
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- ==================== MODAL: ACTIVATE CONFIRMATION ==================== -->
+<div class="fixed inset-0 bg-primary-container/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modal-activate">
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed-dim/30 text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">rocket_launch</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-sm text-lg font-bold text-on-surface">Activate Reward?</h3>
+<p class="font-body-md text-xs text-on-surface-variant">
+This will make the assigned reward active for the participant. The user will immediately be able to view their vehicle and cash allocations in their authenticated WinDriveSA dashboard and commence claim submissions.
+</p>
+</div>
+<input id="activate-reward-id" type="hidden"/>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container rounded transition-colors" onclick="closeActivateModal()" type="button">
+Cancel
+</button>
+<button class="px-5 py-2 text-xs font-bold bg-on-tertiary-container text-on-tertiary hover:opacity-90 rounded transition-all shadow" onclick="confirmActivateReward()" type="button">
+Activate Reward
+</button>
+</div>
+</div>
+</div>
+<!-- ==================== MODAL: DEACTIVATE CONFIRMATION ==================== -->
+<div class="fixed inset-0 bg-primary-container/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modal-deactivate">
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">pause_circle</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-sm text-lg font-bold text-on-surface">Deactivate Reward?</h3>
+<p class="font-body-md text-xs text-on-surface-variant">
+This will deactivate the current reward for this account while preserving the underlying allocation record for statutory audit governance. Participant portal claims will be temporarily frozen.
+</p>
+</div>
+<input id="deactivate-reward-id" type="hidden"/>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:bg-surface-container rounded transition-colors" onclick="closeDeactivateModal()" type="button">
+Cancel
+</button>
+<button class="px-5 py-2 text-xs font-bold bg-error text-on-error hover:opacity-90 rounded transition-all shadow" onclick="confirmDeactivateReward()" type="button">
+Deactivate Reward
+</button>
+</div>
+</div>
+</div>
+<!-- ==================== DRAWER: VIEW REWARD DETAIL ==================== -->
+<div class="fixed inset-0 bg-primary-container/60 backdrop-blur-sm z-50 hidden transition-opacity" id="detail-drawer-backdrop" onclick="closeDetailDrawer()"></div>
+<aside aria-label="Reward Detail" class="fixed top-0 right-0 h-full w-full max-w-md bg-surface-container-lowest z-50 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300" id="detail-drawer">
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-b border-outline-variant/20">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-caps uppercase tracking-widest text-secondary font-bold">REWARD AUDIT SPEC</span>
+<h2 class="font-headline-sm text-base font-bold text-on-surface">Allocation Dossier</h2>
+</div>
+<button class="p-1 rounded text-on-surface-variant hover:text-on-surface" onclick="closeDetailDrawer()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto flex-1 flex flex-col gap-5" id="detail-drawer-content">
+<!-- Injected detail content -->
+</div>
+<div class="p-4 bg-surface-container-low flex items-center justify-between gap-3 border-t border-surface-container" id="detail-drawer-actions">
+<!-- Injected actions -->
+</div>
+</aside>
+<!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none" id="toast-container"></div>
+<!-- ==================== JAVASCRIPT STATE ENGINE ==================== -->
+<script>
+    // Primary Datastore: WinDriveSA Allocation Ledger
+    const INITIAL_REWARDS = [
+      {
+        id: "REW-101",
+        userName: "Nkosana Mthembu",
+        userEmail: "nkosana.m@vodamail.co.za",
+        accountRef: "WD-RSA-9941",
+        accountStatus: "APPROVED",
+        cashPrize: 250000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        vehicleImgType: "mountain",
+        rewardStatus: "ACTIVE",
+        updatedDate: "18 Jan 2026",
+        cashClaimStatus: "UNDER REVIEW",
+        vehicleClaimStatus: "SUBMITTED"
+      },
+      {
+        id: "REW-102",
+        userName: "Lerato Khumalo",
+        userEmail: "lerato.khumalo@gmail.com",
+        accountRef: "WD-RSA-9942",
+        accountStatus: "APPROVED",
+        cashPrize: null,
+        vehiclePrize: null,
+        vehicleImgType: null,
+        rewardStatus: "NOT_ASSIGNED",
+        updatedDate: "20 Jan 2026",
+        cashClaimStatus: "NOT STARTED",
+        vehicleClaimStatus: "NOT STARTED"
+      },
+      {
+        id: "REW-103",
+        userName: "Pieter van der Merwe",
+        userEmail: "pieter.vdm@afrihost.co.za",
+        accountRef: "WD-RSA-9943",
+        accountStatus: "ACTIVE",
+        cashPrize: 500000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Double-Cab",
+        vehicleImgType: "coastal",
+        rewardStatus: "ACTIVE",
+        updatedDate: "15 Jan 2026",
+        cashClaimStatus: "ESCROW DISBURSED",
+        vehicleClaimStatus: "DISPATCHED"
+      },
+      {
+        id: "REW-104",
+        userName: "Zanele Dlamini",
+        userEmail: "zanele.d@outlook.com",
+        accountRef: "WD-RSA-9944",
+        accountStatus: "APPROVED",
+        cashPrize: 250000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        vehicleImgType: "mountain",
+        rewardStatus: "ASSIGNED",
+        updatedDate: "19 Jan 2026",
+        cashClaimStatus: "NOT STARTED",
+        vehicleClaimStatus: "NOT STARTED"
+      },
+      {
+        id: "REW-105",
+        userName: "Thabo Molefe",
+        userEmail: "thabo.molefe@investec.co.za",
+        accountRef: "WD-RSA-9945",
+        accountStatus: "APPROVED",
+        cashPrize: null,
+        vehiclePrize: null,
+        vehicleImgType: null,
+        rewardStatus: "NOT_ASSIGNED",
+        updatedDate: "21 Jan 2026",
+        cashClaimStatus: "NOT STARTED",
+        vehicleClaimStatus: "NOT STARTED"
+      },
+      {
+        id: "REW-106",
+        userName: "Annelize Botha",
+        userEmail: "annelize.b@mweb.co.za",
+        accountRef: "WD-RSA-9946",
+        accountStatus: "ACTIVE",
+        cashPrize: 250000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        vehicleImgType: "mountain",
+        rewardStatus: "ASSIGNED",
+        updatedDate: "16 Jan 2026",
+        cashClaimStatus: "PENDING USER SIGNATURE",
+        vehicleClaimStatus: "PENDING LOGISTICS"
+      },
+      {
+        id: "REW-107",
+        userName: "Kagiso Ndlovu",
+        userEmail: "k.ndlovu@sars.gov.za",
+        accountRef: "WD-RSA-9947",
+        accountStatus: "ACTIVE",
+        cashPrize: 1000000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        vehicleImgType: "coastal",
+        rewardStatus: "COMPLETED",
+        updatedDate: "04 Jan 2026",
+        cashClaimStatus: "TRANSFERRED",
+        vehicleClaimStatus: "DELIVERED"
+      },
+      {
+        id: "REW-108",
+        userName: "Devan Govender",
+        userEmail: "devan.govender@fnb.co.za",
+        accountRef: "WD-RSA-9948",
+        accountStatus: "INACTIVE",
+        cashPrize: 250000,
+        vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        vehicleImgType: "mountain",
+        rewardStatus: "COMPLETED",
+        updatedDate: "28 Dec 2025",
+        cashClaimStatus: "TRANSFERRED",
+        vehicleClaimStatus: "DELIVERED"
+      }
+    ];
+
+    let rewardsState = JSON.parse(JSON.stringify(INITIAL_REWARDS));
+    let wizardStep = 1;
+    let selectedUserIdForAssign = null;
+    let isDarkMode = false;
+
+    // --- DOM INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      // Force Light Mode on initial load
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      renderTable();
+      updateMetrics();
+    });
+
+    // --- THEME SWITCHER (Light mode default, smooth toggle) ---
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+        document.getElementById('desktop-theme-icon').textContent = 'dark_mode';
+        document.getElementById('mobile-theme-icon').textContent = 'light_mode';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
+        document.getElementById('desktop-theme-icon').textContent = 'light_mode';
+        document.getElementById('mobile-theme-icon').textContent = 'dark_mode';
+      }
+    }
+
+    // --- MOBILE DRAWER NAVIGATION ---
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const backdrop = document.getElementById('mobile-nav-backdrop');
+      const isOpen = !drawer.classList.contains('translate-x-full');
+      if (isOpen) {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('hidden');
+      } else {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('hidden');
+      }
+    }
+
+    // --- TOAST NOTIFICATIONS ---
+    function showToast(title, message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto p-4 rounded-xl shadow-xl bg-primary-container text-on-primary flex items-start gap-3 w-80 transform transition-all duration-300 translate-y-2 opacity-0 border-l-4 ${type === 'success' ? 'border-secondary-container' : 'border-error'}`;
+      
+      const icon = type === 'success' ? 'check_circle' : 'info';
+      toast.innerHTML = `
+        <span class="material-symbols-outlined text-[20px] text-secondary-container shrink-0 mt-0.5">${icon}</span>
+        <div class="flex flex-col gap-0.5 flex-1">
+          <span class="text-xs font-bold text-on-primary">${title}</span>
+          <span class="text-[11px] text-on-primary-container leading-tight">${message}</span>
+        </div>
+        <button type="button" onclick="this.parentElement.remove()" class="text-on-primary-container hover:text-on-primary p-0.5">
+          <span class="material-symbols-outlined text-[16px]">close</span>
+        </button>
+      `;
+
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // --- RENDERING & FILTERING ---
+    function getFilteredData() {
+      const searchVal = document.getElementById('filter-search').value.toLowerCase().trim();
+      const rewardFilter = document.getElementById('filter-reward-status').value;
+      const accountFilter = document.getElementById('filter-account-status').value;
+
+      return rewardsState.filter(item => {
+        const matchesSearch = !searchVal ||
+          item.userName.toLowerCase().includes(searchVal) ||
+          item.userEmail.toLowerCase().includes(searchVal) ||
+          item.accountRef.toLowerCase().includes(searchVal);
+
+        const matchesReward = (rewardFilter === 'ALL') || (item.rewardStatus === rewardFilter);
+        const matchesAccount = (accountFilter === 'ALL') || (item.accountStatus === accountFilter);
+
+        return matchesSearch && matchesReward && matchesAccount;
+      });
+    }
+
+    function renderTable() {
+      const data = getFilteredData();
+      const tbody = document.getElementById('reward-table-body');
+      const mobileContainer = document.getElementById('reward-cards-mobile');
+      const emptyState = document.getElementById('table-empty-state');
+      const counter = document.getElementById('table-counter');
+
+      counter.textContent = `Showing ${data.length} of ${rewardsState.length} allocation records`;
+
+      if (data.length === 0) {
+        tbody.innerHTML = '';
+        mobileContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // Desktop Table Rows
+      tbody.innerHTML = data.map(item => {
+        const initials = item.userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const cashText = item.cashPrize ? `R${item.cashPrize.toLocaleString('en-ZA')} ZAR` : '— None';
+        
+        let vehicleHtml = `<span class="text-on-surface-variant text-xs italic">— Not Assigned</span>`;
+        if (item.vehiclePrize) {
+          const imgSrc = item.vehicleImgType === 'coastal' 
+            ? "https://lh3.googleusercontent.com/aida-public/AB6AXuBaI2gnb4IFG7VIYX4-UpHLraJ8sQKa5kPpCjq5MD29LCMmYrset23UTFGnwhZEXmCu-jpDeqqMNN_SiO3NQrWiCfZ1Y862GZb6yzKyRA0l-zMvAsZVJD8cR08VnMMYFZCxuFuG_fWSF_olj8LnJiXkVQtmPgBwCeJNGy-JuMbOo2o50SrB0T9e3MtMs66AO6BG2bPbV3dzCmC5evsn0CkKKBP5QvRJ6CfSOf2CS5oEM1DtSAV_HtZxgg"
+            : "https://lh3.googleusercontent.com/aida-public/AB6AXuAIJHasZNVhPEzObQtEcMp6FrIy5d8iV8S2IGdv38a6HpW-7bS6xSmSZPyQCUH6XOXiy1D-CB8pm1qakZZvXrTEiiQYR4FwT-vsc_uJW2MnpKFSwv7OKypVbprOFsMaWo-zLejgC4Z7K4aE6047xdrkCFr8WKQglhjbgrqmj-yNBEmPnU-CVfFVG4t541LINqmVP7QnEMhE4MZqciHtDTV0o2s0eBbneOmBf0JAHDgLdqgDMu6gGO3rAQ";
+          const prompt = item.vehicleImgType === 'coastal' 
+            ? "A deep metallic Toyota Hilux Legend double cab pickup parked on a coastal South African cliff road along Chapman's Peak Drive overlooking the Atlantic ocean at sunset, warm cinematic automotive lighting, high precision finish"
+            : "A luxury dark graphite Toyota Hilux 2.8 GD-6 4x4 double cab bakkie driving on a winding scenic South African mountain pass road at golden hour sunset, dramatic jagged mountain peaks in background, cinematic automotive commercial photography";
+
+          vehicleHtml = `
+            <div class="flex items-center gap-2.5">
+              <img src="${imgSrc}" data-alt="${prompt}" class="w-10 h-7 rounded object-cover shrink-0 shadow-sm border border-outline-variant/30">
+              <span class="text-xs font-semibold text-on-surface line-clamp-1 max-w-[200px]" title="${item.vehiclePrize}">${item.vehiclePrize}</span>
+            </div>
+          `;
+        }
+
+        return `
+          <tr class="hover:bg-surface-container-low/50 transition-colors">
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs font-bold shrink-0">
+                  ${initials}
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="text-xs font-bold text-on-surface truncate">${item.userName}</span>
+                  <span class="text-[11px] font-mono text-on-surface-variant">${item.accountRef}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-3">
+              ${renderAccountBadge(item.accountStatus)}
+            </td>
+            <td class="py-3 px-3 font-tabular-stat text-xs font-bold text-on-surface">
+              ${cashText}
+            </td>
+            <td class="py-3 px-4">
+              ${vehicleHtml}
+            </td>
+            <td class="py-3 px-3">
+              ${renderRewardBadge(item.rewardStatus)}
+            </td>
+            <td class="py-3 px-3 text-xs text-on-surface-variant font-medium">
+              ${item.updatedDate}
+            </td>
+            <td class="py-3 px-4 text-right">
+              ${renderActionsDesktop(item)}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Mobile Responsive Cards
+      mobileContainer.innerHTML = data.map(item => {
+        const initials = item.userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const cashText = item.cashPrize ? `R${item.cashPrize.toLocaleString('en-ZA')} ZAR` : '— None';
+
+        return `
+          <div class="p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs font-bold">
+                  ${initials}
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">${item.userName}</span>
+                  <span class="text-[10px] font-mono text-on-surface-variant">${item.accountRef}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                ${renderAccountBadge(item.accountStatus)}
+                ${renderRewardBadge(item.rewardStatus)}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/20">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Cash Allocation</span>
+                <span class="font-tabular-stat font-bold text-on-surface">${cashText}</span>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Updated</span>
+                <span class="text-on-surface">${item.updatedDate}</span>
+              </div>
+              <div class="col-span-2">
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Vehicle Prize</span>
+                <span class="font-semibold text-on-surface line-clamp-1">${item.vehiclePrize || '— Not Assigned'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-1">
+              ${renderActionsMobile(item)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAccountBadge(status) {
+      if (status === 'APPROVED') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Approved</span>`;
+      } else if (status === 'ACTIVE') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-tertiary-fixed-dim/30 text-on-tertiary-container uppercase tracking-wider">Active</span>`;
+      } else {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">Inactive</span>`;
+      }
+    }
+
+    function renderRewardBadge(status) {
+      if (status === 'NOT_ASSIGNED') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold border border-secondary-container text-secondary uppercase tracking-wider">Not Assigned</span>`;
+      } else if (status === 'ASSIGNED') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-fixed uppercase tracking-wider">Assigned</span>`;
+      } else if (status === 'ACTIVE') {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-on-tertiary-container text-on-tertiary uppercase tracking-wider">Active</span>`;
+      } else {
+        return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-surface-tint text-surface uppercase tracking-wider">Completed</span>`;
+      }
+    }
+
+    function renderActionsDesktop(item) {
+      if (item.rewardStatus === 'NOT_ASSIGNED') {
+        return `
+          <button type="button" onclick="openAssignForUser('${item.id}')" class="px-3 py-1.5 rounded bg-secondary-container text-on-secondary-fixed font-bold text-xs hover:bg-secondary-fixed-dim transition-all shadow-sm flex items-center gap-1.5 ml-auto">
+            <span class="material-symbols-outlined text-[16px]">add_circle</span>
+            <span>+ Assign Reward</span>
+          </button>
+        `;
+      }
+
+      if (item.rewardStatus === 'ASSIGNED') {
+        return `
+          <div class="flex items-center justify-end gap-1.5">
+            <button type="button" onclick="openDetailDrawer('${item.id}')" class="px-2 py-1 text-xs font-semibold text-on-surface hover:bg-surface-container rounded transition-colors">View</button>
+            <button type="button" onclick="openEditModal('${item.id}')" class="px-2 py-1 text-xs font-semibold text-on-surface hover:bg-surface-container rounded transition-colors">Edit Reward</button>
+            <button type="button" onclick="openActivateModal('${item.id}')" class="px-2.5 py-1 text-xs font-bold bg-on-tertiary-container text-on-tertiary hover:opacity-90 rounded transition-all shadow-sm">Activate</button>
+          </div>
+        `;
+      }
+
+      if (item.rewardStatus === 'ACTIVE') {
+        return `
+          <div class="flex items-center justify-end gap-1.5">
+            <button type="button" onclick="openDetailDrawer('${item.id}')" class="px-2 py-1 text-xs font-semibold text-on-surface hover:bg-surface-container rounded transition-colors">View</button>
+            <button type="button" onclick="openEditModal('${item.id}')" class="px-2 py-1 text-xs font-semibold text-on-surface hover:bg-surface-container rounded transition-colors">Edit Reward</button>
+            <button type="button" onclick="openDeactivateModal('${item.id}')" class="px-2.5 py-1 text-xs font-bold bg-surface-container text-error hover:bg-error-container/40 rounded transition-colors">Deactivate</button>
+          </div>
+        `;
+      }
+
+      return `
+        <button type="button" onclick="openDetailDrawer('${item.id}')" class="px-3 py-1 text-xs font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors ml-auto">
+          View Details
+        </button>
+      `;
+    }
+
+    function renderActionsMobile(item) {
+      if (item.rewardStatus === 'NOT_ASSIGNED') {
+        return `
+          <button type="button" onclick="openAssignForUser('${item.id}')" class="w-full py-2 bg-secondary-container text-on-secondary-fixed font-bold text-xs rounded hover:bg-secondary-fixed-dim transition-all">
+            + Assign Reward
+          </button>
+        `;
+      }
+      return `
+        <button type="button" onclick="openDetailDrawer('${item.id}')" class="px-3 py-1.5 text-xs font-semibold bg-surface-container rounded">View</button>
+        <button type="button" onclick="openEditModal('${item.id}')" class="px-3 py-1.5 text-xs font-semibold bg-surface-container rounded">Edit</button>
+        ${item.rewardStatus === 'ASSIGNED' ? `<button type="button" onclick="openActivateModal('${item.id}')" class="px-3 py-1.5 text-xs font-bold bg-on-tertiary-container text-on-tertiary rounded">Activate</button>` : ''}
+        ${item.rewardStatus === 'ACTIVE' ? `<button type="button" onclick="openDeactivateModal('${item.id}')" class="px-3 py-1.5 text-xs font-bold text-error bg-surface-container rounded">Deactivate</button>` : ''}
+      `;
+    }
+
+    function updateMetrics() {
+      const total = rewardsState.length;
+      const unassigned = rewardsState.filter(r => r.rewardStatus === 'NOT_ASSIGNED').length;
+      const assigned = rewardsState.filter(r => r.rewardStatus === 'ASSIGNED').length;
+      const active = rewardsState.filter(r => r.rewardStatus === 'ACTIVE' || r.rewardStatus === 'COMPLETED').length;
+
+      document.getElementById('metric-total').textContent = total;
+      document.getElementById('metric-unassigned').textContent = unassigned;
+      document.getElementById('metric-assigned').textContent = assigned;
+      document.getElementById('metric-active').textContent = active;
+    }
+
+    function applyFilters() {
+      renderTable();
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-search').value = '';
+      document.getElementById('filter-reward-status').value = 'ALL';
+      document.getElementById('filter-account-status').value = 'ALL';
+      renderTable();
+    }
+
+    // --- ASSIGN REWARD WIZARD WORKFLOW ---
+    function openAssignModal() {
+      wizardStep = 1;
+      selectedUserIdForAssign = null;
+      renderWizardUserList();
+      updateWizardUI();
+      document.getElementById('modal-assign').classList.remove('hidden');
+    }
+
+    function openAssignForUser(rewardId) {
+      selectedUserIdForAssign = rewardId;
+      openAssignModal();
+      // Fast forward to Step 2 since user was clicked directly
+      navAssignStep(1);
+    }
+
+    function closeAssignModal() {
+      document.getElementById('modal-assign').classList.add('hidden');
+    }
+
+    function renderWizardUserList() {
+      const list = document.getElementById('assign-user-list');
+      const unassignedUsers = rewardsState.filter(r => r.rewardStatus === 'NOT_ASSIGNED');
+
+      if (unassignedUsers.length === 0) {
+        list.innerHTML = `<div class="p-4 rounded bg-surface-container text-xs text-on-surface-variant">No pending unassigned approved users found.</div>`;
+        return;
+      }
+
+      list.innerHTML = unassignedUsers.map((user, idx) => {
+        const isSelected = selectedUserIdForAssign === user.id || (!selectedUserIdForAssign && idx === 0);
+        if (isSelected) selectedUserIdForAssign = user.id;
+
+        return `
+          <label class="p-3 rounded-lg border-2 ${isSelected ? 'border-primary-container bg-surface-container' : 'border-transparent bg-surface-container-low'} cursor-pointer flex items-center justify-between transition-all">
+            <div class="flex items-center gap-3">
+              <input type="radio" name="wizard-user-select" value="${user.id}" ${isSelected ? 'checked' : ''} onchange="selectedUserIdForAssign = '${user.id}'; updateReviewCard();" class="hidden">
+              <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center">
+                ${user.userName.substring(0, 2).toUpperCase()}
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-on-surface">${user.userName}</span>
+                <span class="text-[11px] text-on-surface-variant font-mono">${user.accountRef} • ${user.userEmail}</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">ELIGIBLE</span>
+          </label>
+        `;
+      }).join('');
+    }
+
+    function navAssignStep(delta) {
+      wizardStep += delta;
+      if (wizardStep < 1) wizardStep = 1;
+      if (wizardStep > 4) wizardStep = 4;
+      updateWizardUI();
+    }
+
+    function updateWizardUI() {
+      // Hide all step containers
+      [1, 2, 3, 4].forEach(s => {
+        document.getElementById(`assign-step-${s}`).classList.add('hidden');
+        const ind = document.getElementById(`step-ind-${s}`);
+        ind.querySelector('span:first-child').className = (s === wizardStep)
+          ? 'w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-[10px]'
+          : 'w-5 h-5 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px]';
+      });
+
+      document.getElementById(`assign-step-${wizardStep}`).classList.remove('hidden');
+
+      const prevBtn = document.getElementById('assign-btn-prev');
+      const nextBtn = document.getElementById('assign-btn-next');
+      const submitBtn = document.getElementById('assign-btn-submit');
+
+      prevBtn.classList.toggle('hidden', wizardStep === 1);
+      nextBtn.classList.toggle('hidden', wizardStep === 4);
+      submitBtn.classList.toggle('hidden', wizardStep !== 4);
+
+      if (wizardStep === 1) nextBtn.textContent = 'Next: Cash Prize';
+      if (wizardStep === 2) nextBtn.textContent = 'Next: Vehicle Prize';
+      if (wizardStep === 3) nextBtn.textContent = 'Next: Review & Confirm';
+
+      if (wizardStep === 4) {
+        updateReviewCard();
+      }
+    }
+
+    function updateReviewCard() {
+      const user = rewardsState.find(r => r.id === selectedUserIdForAssign);
+      if (user) {
+        document.getElementById('review-user-name').textContent = `${user.userName} (${user.accountRef})`;
+      }
+      const cashVal = parseInt(document.getElementById('assign-cash-amount').value, 10) || 250000;
+      document.getElementById('review-cash-val').textContent = `R${cashVal.toLocaleString('en-ZA')} ZAR`;
+
+      const make = document.getElementById('assign-vehicle-make').value;
+      const model = document.getElementById('assign-vehicle-model').value;
+      const year = document.getElementById('assign-vehicle-year').value;
+      document.getElementById('review-vehicle-val').textContent = `${year} ${make} ${model}`;
+    }
+
+    function submitAssignReward() {
+      const user = rewardsState.find(r => r.id === selectedUserIdForAssign);
+      if (!user) return;
+
+      const cashVal = parseInt(document.getElementById('assign-cash-amount').value, 10) || 250000;
+      const make = document.getElementById('assign-vehicle-make').value;
+      const model = document.getElementById('assign-vehicle-model').value;
+      const year = document.getElementById('assign-vehicle-year').value;
+      const imgRadio = document.querySelector('input[name="assign-vehicle-img"]:checked')?.value || 'mountain';
+
+      user.cashPrize = cashVal;
+      user.vehiclePrize = `${year} ${make} ${model}`;
+      user.vehicleImgType = imgRadio;
+      user.rewardStatus = 'ASSIGNED';
+      user.updatedDate = 'Just now';
+
+      closeAssignModal();
+      renderTable();
+      updateMetrics();
+      showToast('Reward Assigned', 'The reward has been assigned to this account. Status: ASSIGNED (Pending manual activation).', 'success');
+    }
+
+    // --- EDIT REWARD WORKFLOW ---
+    function openEditModal(rewardId) {
+      const item = rewardsState.find(r => r.id === rewardId);
+      if (!item) return;
+
+      document.getElementById('edit-reward-id').value = item.id;
+      document.getElementById('edit-user-display').value = `${item.userName} (${item.accountRef})`;
+      document.getElementById('edit-cash-amount').value = item.cashPrize || 250000;
+      document.getElementById('edit-vehicle-model').value = item.vehiclePrize || '2026 Toyota Hilux 2.8 GD-6 Legend 4x4';
+
+      document.getElementById('modal-edit').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('modal-edit').classList.add('hidden');
+    }
+
+    function submitEditReward(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-reward-id').value;
+      const item = rewardsState.find(r => r.id === id);
+      if (!item) return;
+
+      item.cashPrize = parseInt(document.getElementById('edit-cash-amount').value, 10);
+      item.vehiclePrize = document.getElementById('edit-vehicle-model').value;
+      item.updatedDate = 'Just now';
+
+      closeEditModal();
+      renderTable();
+      showToast('Reward Updated', 'Reward details have been updated successfully and logged in the treasury audit trail.', 'success');
+    }
+
+    // --- ACTIVATE WORKFLOW ---
+    function openActivateModal(rewardId) {
+      document.getElementById('activate-reward-id').value = rewardId;
+      document.getElementById('modal-activate').classList.remove('hidden');
+    }
+
+    function closeActivateModal() {
+      document.getElementById('modal-activate').classList.add('hidden');
+    }
+
+    function confirmActivateReward() {
+      const id = document.getElementById('activate-reward-id').value;
+      const item = rewardsState.find(r => r.id === id);
+      if (item) {
+        item.rewardStatus = 'ACTIVE';
+        item.updatedDate = 'Just now';
+        closeActivateModal();
+        renderTable();
+        updateMetrics();
+        showToast('Reward Activated', `Reward for ${item.userName} is now ACTIVE. Participant portal permissions updated.`, 'success');
+      }
+    }
+
+    // --- DEACTIVATE WORKFLOW ---
+    function openDeactivateModal(rewardId) {
+      document.getElementById('deactivate-reward-id').value = rewardId;
+      document.getElementById('modal-deactivate').classList.remove('hidden');
+    }
+
+    function closeDeactivateModal() {
+      document.getElementById('modal-deactivate').classList.add('hidden');
+    }
+
+    function confirmDeactivateReward() {
+      const id = document.getElementById('deactivate-reward-id').value;
+      const item = rewardsState.find(r => r.id === id);
+      if (item) {
+        item.rewardStatus = 'ASSIGNED';
+        item.updatedDate = 'Just now';
+        closeDeactivateModal();
+        renderTable();
+        updateMetrics();
+        showToast('Reward Deactivated', `Reward for ${item.userName} transitioned to ASSIGNED (Deactivated for claim processing).`, 'info');
+      }
+    }
+
+    // --- VIEW DETAIL DRAWER ---
+    function openDetailDrawer(rewardId) {
+      const item = rewardsState.find(r => r.id === rewardId);
+      if (!item) return;
+
+      const content = document.getElementById('detail-drawer-content');
+      const actions = document.getElementById('detail-drawer-actions');
+      const imgSrc = item.vehicleImgType === 'coastal'
+        ? "https://lh3.googleusercontent.com/aida-public/AB6AXuBaI2gnb4IFG7VIYX4-UpHLraJ8sQKa5kPpCjq5MD29LCMmYrset23UTFGnwhZEXmCu-jpDeqqMNN_SiO3NQrWiCfZ1Y862GZb6yzKyRA0l-zMvAsZVJD8cR08VnMMYFZCxuFuG_fWSF_olj8LnJiXkVQtmPgBwCeJNGy-JuMbOo2o50SrB0T9e3MtMs66AO6BG2bPbV3dzCmC5evsn0CkKKBP5QvRJ6CfSOf2CS5oEM1DtSAV_HtZxgg"
+        : "https://lh3.googleusercontent.com/aida-public/AB6AXuAIJHasZNVhPEzObQtEcMp6FrIy5d8iV8S2IGdv38a6HpW-7bS6xSmSZPyQCUH6XOXiy1D-CB8pm1qakZZvXrTEiiQYR4FwT-vsc_uJW2MnpKFSwv7OKypVbprOFsMaWo-zLejgC4Z7K4aE6047xdrkCFr8WKQglhjbgrqmj-yNBEmPnU-CVfFVG4t541LINqmVP7QnEMhE4MZqciHtDTV0o2s0eBbneOmBf0JAHDgLdqgDMu6gGO3rAQ";
+      const prompt = item.vehicleImgType === 'coastal'
+        ? "A deep metallic Toyota Hilux Legend double cab pickup parked on a coastal South African cliff road along Chapman's Peak Drive overlooking the Atlantic ocean at sunset, warm cinematic automotive lighting, high precision finish"
+        : "A luxury dark graphite Toyota Hilux 2.8 GD-6 4x4 double cab bakkie driving on a winding scenic South African mountain pass road at golden hour sunset, dramatic jagged mountain peaks in background, cinematic automotive commercial photography";
+
+      content.innerHTML = `
+        <div class="flex items-center justify-between pb-3 border-b border-surface-container">
+          <div class="flex flex-col">
+            <span class="text-sm font-bold text-on-surface">${item.userName}</span>
+            <span class="text-xs font-mono text-on-surface-variant">${item.accountRef} • ${item.userEmail}</span>
+          </div>
+          ${renderRewardBadge(item.rewardStatus)}
+        </div>
+
+        <!-- Cash Allocation Card -->
+        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-2 border border-outline-variant/20">
+          <div class="flex items-center justify-between text-xs font-bold text-on-surface-variant">
+            <span>CASH PRIZE ALLOCATION</span>
+            <span class="text-[10px] font-mono text-on-tertiary-container">SARB ESCROW VERIFIED</span>
+          </div>
+          <span class="font-title-zar-val text-2xl font-bold text-on-surface">
+            ${item.cashPrize ? `R${item.cashPrize.toLocaleString('en-ZA')} ZAR` : 'No Cash Specified'}
+          </span>
+          <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-1 border-t border-surface-container">
+            <span>Claim Status:</span>
+            <span class="font-bold text-on-surface">${item.cashClaimStatus}</span>
+          </div>
+        </div>
+
+        <!-- Vehicle Allocation Card -->
+        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3 border border-outline-variant/20">
+          <div class="flex items-center justify-between text-xs font-bold text-on-surface-variant">
+            <span>VEHICLE PRIZE ALLOCATION</span>
+            <span class="text-[10px] font-mono text-secondary">RSA HOMOLOGATED</span>
+          </div>
+          ${item.vehiclePrize ? `
+            <img src="${imgSrc}" data-alt="${prompt}" class="w-full h-36 object-cover rounded-lg shadow-sm border border-outline-variant/30">
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-on-surface">${item.vehiclePrize}</span>
+              <span class="text-xs text-on-surface-variant">Trim: Legend RS • 4x4 Automatic Transmission</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-1 border-t border-surface-container">
+              <span>Vehicle Claim Status:</span>
+              <span class="font-bold text-on-surface">${item.vehicleClaimStatus}</span>
+            </div>
+          ` : `
+            <span class="text-xs italic text-on-surface-variant py-4 text-center">No vehicle assigned to this participant yet.</span>
+          `}
+        </div>
+
+        <!-- Audit Metadata -->
+        <div class="p-3 rounded-lg bg-surface-container flex flex-col gap-1 text-[11px] text-on-surface-variant font-mono">
+          <div class="flex justify-between"><span>ALLOCATION ID:</span><span class="text-on-surface font-bold">${item.id}</span></div>
+          <div class="flex justify-between"><span>LAST AUDIT SYNC:</span><span class="text-on-surface font-bold">${item.updatedDate}</span></div>
+          <div class="flex justify-between"><span>GOVERNANCE HASH:</span><span class="text-on-surface font-bold">SHA-256: 4a8b...19e0</span></div>
+        </div>
+      `;
+
+      actions.innerHTML = `
+        <button type="button" onclick="closeDetailDrawer(); openEditModal('${item.id}');" class="px-3 py-2 text-xs font-semibold bg-surface-container text-on-surface rounded hover:bg-surface-container-high transition-colors flex-1">
+          Edit Config
+        </button>
+        ${item.rewardStatus === 'ASSIGNED' ? `
+          <button type="button" onclick="closeDetailDrawer(); openActivateModal('${item.id}');" class="px-3 py-2 text-xs font-bold bg-on-tertiary-container text-on-tertiary rounded flex-1">
+            Activate
+          </button>
+        ` : ''}
+        ${item.rewardStatus === 'ACTIVE' ? `
+          <button type="button" onclick="closeDetailDrawer(); openDeactivateModal('${item.id}');" class="px-3 py-2 text-xs font-bold bg-surface-container text-error rounded flex-1">
+            Deactivate
+          </button>
+        ` : ''}
+      `;
+
+      document.getElementById('detail-drawer-backdrop').classList.remove('hidden');
+      document.getElementById('detail-drawer').classList.remove('translate-x-full');
+    }
+
+    function closeDetailDrawer() {
+      document.getElementById('detail-drawer-backdrop').classList.add('hidden');
+      document.getElementById('detail-drawer').classList.add('translate-x-full');
+    }
+
+    // --- QA PRESET CONTROLLER ---
+    function setQAMode(mode) {
+      const btnAll = document.getElementById('btn-qa-all');
+      const btnUnassigned = document.getElementById('btn-qa-unassigned');
+      const btnZero = document.getElementById('btn-qa-zero');
+
+      [btnAll, btnUnassigned, btnZero].forEach(b => {
+        b.className = 'px-2.5 py-1 rounded bg-on-primary-fixed-variant text-on-primary hover:bg-surface-tint transition-all text-xs';
+      });
+
+      if (mode === 'all') {
+        btnAll.className = 'px-2.5 py-1 rounded bg-secondary-container text-on-primary-fixed font-semibold hover:opacity-90 transition-all text-xs';
+        rewardsState = JSON.parse(JSON.stringify(INITIAL_REWARDS));
+        resetFilters();
+      } else if (mode === 'unassigned') {
+        btnUnassigned.className = 'px-2.5 py-1 rounded bg-secondary-container text-on-primary-fixed font-semibold hover:opacity-90 transition-all text-xs';
+        rewardsState = JSON.parse(JSON.stringify(INITIAL_REWARDS));
+        document.getElementById('filter-reward-status').value = 'NOT_ASSIGNED';
+        document.getElementById('filter-search').value = '';
+        renderTable();
+      } else if (mode === 'zero') {
+        btnZero.className = 'px-2.5 py-1 rounded bg-secondary-container text-on-primary-fixed font-semibold hover:opacity-90 transition-all text-xs';
+        rewardsState = [];
+        renderTable();
+        updateMetrics();
+      }
+    }
+
+    function resetAllData() {
+      rewardsState = JSON.parse(JSON.stringify(INITIAL_REWARDS));
+      setQAMode('all');
+      showToast('Ledger Reset', 'The mock prototype rewards allocation ledger has been restored to default state.', 'info');
+    }
+  </script>
+</body></html>

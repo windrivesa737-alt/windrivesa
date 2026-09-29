@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinDriveSA - Admin Audit Logs</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    :root {
+      --admin-bg: #F5F7FA;
+      --admin-surface: #FFFFFF;
+      --admin-surface-subtle: #F8FAFC;
+      --admin-surface-raised: #FFFFFF;
+      --admin-border: #D9E0E7;
+      --admin-text-main: #071A2B;
+      --admin-text-muted: #667085;
+      --admin-text-subtle: #8C9BAE;
+      --admin-nav-bg: #FFFFFF;
+      --admin-nav-border: #D9E0E7;
+      --admin-nav-text: #17212B;
+      --admin-nav-muted: #667085;
+      --admin-nav-hover-bg: #F0F4F8;
+      --admin-nav-active-bg: #071A2B;
+      --admin-nav-active-text: #FFFFFF;
+      --admin-accent-gold: #F2B705;
+    }
+    html.dark {
+      --admin-bg: #06101B;
+      --admin-surface: #0B1928;
+      --admin-surface-subtle: #0E2034;
+      --admin-surface-raised: #11263E;
+      --admin-border: #1E344F;
+      --admin-text-main: #F4F7FA;
+      --admin-text-muted: #94A3B8;
+      --admin-text-subtle: #64748B;
+      --admin-nav-bg: #0B1928;
+      --admin-nav-border: #1E344F;
+      --admin-nav-text: #E2E8F0;
+      --admin-nav-muted: #94A3B8;
+      --admin-nav-hover-bg: #142840;
+      --admin-nav-active-bg: #1A3654;
+      --admin-nav-active-text: #F2B705;
+      --admin-accent-gold: #F2B705;
+    }
+    body {
+      background-color: var(--admin-bg);
+      color: var(--admin-text-main);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 116, 139, 0.2);
+      border-radius: 9999px;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            headline: ["Sora", "sans-serif"],
+            body: ["Manrope", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="font-body antialiased min-h-screen flex flex-col">
+<!-- STANDALONE ADMIN OPERATIONS CONSOLE WRAPPER -->
+<div class="flex-1 flex flex-col lg:flex-row min-h-screen w-full" style="background-color: var(--admin-bg);">
+<!-- 1. TABLET + MOBILE RESPONSIVE HEADER (Normal Document Flow) -->
+<header class="lg:hidden w-full relative flex items-center justify-between px-4 py-3 border-b transition-colors z-30" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Logo" class="h-7 w-auto object-contain dark:brightness-0 dark:invert transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1msVYbcOd9IWeN8OEXbrLKfS2eIfW8Z7P2_rPZS1XB8JbUL5BQ8tj5kRuqaegKuOQ-Yt-LkOy0qu8rqu5Ev3e0cHkMIXXJFR8u6GI3ZdhPJMymF5b382RvMX__OauT_p3IIOTAAhYF3kiYHiGr7VbIICi97JOjyA-CcqTbLDaOoJa_OrchnZUFHKHRAB72itqW61Q3eGxp-4IGVC7QntYAi8FyNFDgdugoytK19tEIlTwRfgbD45XUkU2JMrdmP6nih0"/>
+<div class="flex flex-col">
+<span class="font-headline text-sm font-bold tracking-tight leading-tight" style="color: var(--admin-text-main);">WinDriveSA</span>
+<span class="text-[9px] uppercase tracking-widest font-bold" style="color: var(--admin-accent-gold);">Ops Console</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Theme Toggle Button (Mobile) -->
+<button aria-label="Toggle Theme" class="p-2 rounded-lg border transition-colors flex items-center justify-center" onclick="window.toggleTheme()" style="border-color: var(--admin-border); color: var(--admin-text-muted);" title="Toggle Light / Dark Mode">
+<span class="material-symbols-outlined text-[19px] theme-icon-display">dark_mode</span>
+</button>
+<!-- Mobile Drawer Hamburger Button -->
+<button aria-expanded="false" aria-label="Open Navigation Menu" class="p-2 rounded-lg border transition-colors flex items-center justify-center" id="admin-menu-toggle-btn" onclick="window.toggleAdminMenu()" style="border-color: var(--admin-border); color: var(--admin-text-main);">
+<span class="material-symbols-outlined text-[22px]" id="admin-menu-toggle-icon">menu</span>
+</button>
+</div>
+</header>
+<!-- 2. TABLET + MOBILE NAVIGATION DRAWER & BACKDROP -->
+<div class="fixed inset-0 bg-black/60 z-40 hidden opacity-0 transition-opacity duration-200 lg:hidden" id="admin-drawer-backdrop" onclick="window.closeAdminMenu()"></div>
+<aside class="fixed top-0 left-0 bottom-0 w-72 max-w-[85vw] z-50 transform -translate-x-full transition-transform duration-200 ease-out flex flex-col shadow-2xl lg:hidden" id="admin-drawer" style="background-color: var(--admin-nav-bg); border-right: 1px solid var(--admin-nav-border);">
+<!-- Drawer Header -->
+<div class="p-4 flex items-center justify-between border-b" style="border-color: var(--admin-nav-border);">
+<div class="flex items-center gap-2.5">
+<img alt="WinDriveSA Logo" class="h-6 w-auto object-contain dark:brightness-0 dark:invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA54glvB0jbDnOXPlfX-5aYtapTCcV_b0w0xv2pJBDdtcoDLAKJDVkRAKMZuIij7nKDkDUvPF1GQtHzO9i1pi71GmVhdxtQ9w5hwx-ygg8lbBbwo87v_KSyymD0XhwF9MLpaXJeINpzKw-396QnVkhzFl8P9SJKkEJCcWIJj1W83J1CZW220ohTtRPj9fb2BZD7sbRcKTlR1M3FXZ9I71Xu6wSBPOhYR1EbB4RwpQOpGyMhpu5Bx4xAkPeO-jOomzD8qTo"/>
+<div class="flex flex-col">
+<span class="font-headline text-sm font-bold" style="color: var(--admin-text-main);">WinDriveSA</span>
+<span class="text-[9px] font-bold tracking-wider uppercase" style="color: var(--admin-accent-gold);">Institutional Core</span>
+</div>
+</div>
+<button aria-label="Close navigation" class="p-1 rounded-md transition-colors hover:opacity-75" onclick="window.closeAdminMenu()" style="color: var(--admin-text-muted);">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Operator Strip (Mobile) -->
+<div class="px-4 py-3 border-b flex items-center gap-3" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<div class="w-8 h-8 rounded bg-[#F2B705] text-[#071A2B] flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+          AD
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline text-xs font-bold truncate leading-tight" style="color: var(--admin-text-main);">A. Du Plessis</span>
+<span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide uppercase flex items-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> Senior Registrar
+          </span>
+</div>
+</div>
+<!-- Drawer Routes List -->
+<nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">dashboard</span> Dashboard
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/users" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">group</span> Users
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/rewards" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">featured_seasonal_and_gifts</span> Rewards
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/cash-prizes" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">payments</span> Cash Prizes
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/vehicle-prizes" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">directions_car</span> Vehicle Prizes
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/claims" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">fact_check</span> Claim Requests
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/claim-requirements" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">rule_folder</span> Claim Requirements
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/winners" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">workspace_premium</span> Winners
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/support" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">contact_support</span> Support
+        </a>
+<!-- ACTIVE: Audit Logs -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg font-semibold shadow-xs transition-colors" href="#/admin/audit-logs" onclick="window.closeAdminMenu()" style="background-color: var(--admin-nav-active-bg); color: var(--admin-nav-active-text); border-left: 4px solid var(--admin-accent-gold);">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[19px]" style="color: var(--admin-accent-gold);">history_edu</span>
+<span>Audit Logs</span>
+</div>
+<span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded bg-black/20 text-[#F2B705]">Active</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/settings" onclick="window.closeAdminMenu()" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">settings</span> Settings
+        </a>
+</nav>
+<!-- Drawer Footer -->
+<div class="p-3 border-t flex flex-col gap-2" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold border transition-colors" onclick="window.toggleTheme()" style="border-color: var(--admin-border); color: var(--admin-text-main); background-color: var(--admin-surface);">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] theme-icon-display">dark_mode</span>
+<span class="theme-label-display">Switch to Dark Mode</span>
+</span>
+<span class="text-[10px] uppercase font-bold" style="color: var(--admin-accent-gold);">Theme</span>
+</button>
+<button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors" onclick="triggerToast('Session termination simulated. Operational ledger locked.'); window.closeAdminMenu();">
+<span class="material-symbols-outlined text-[17px]">logout</span> Terminate Session
+        </button>
+</div>
+</aside>
+<!-- 3. DESKTOP ADMIN SIDEBAR (100dvh Sticky Left Column) -->
+<aside class="hidden lg:flex lg:flex-col w-64 h-[100dvh] sticky top-0 shrink-0 z-20 transition-colors" style="background-color: var(--admin-nav-bg); border-right: 1px solid var(--admin-nav-border); color: var(--admin-nav-text);">
+<!-- Logo Header -->
+<div class="p-5 pb-4 border-b flex flex-col gap-1 transition-colors" style="border-color: var(--admin-nav-border);">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Brand Mark" class="h-8 w-auto object-contain dark:brightness-0 dark:invert transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGy6GJj4x7M5voRBZf005fscEJKhwJWqt9RNW2JKYJvXU2CYrPIZsVRt-DcNN7cbc-gbt4qZtUQIlUxxPPhjnCHyQLQOQmERpTKPcfbWl90zia915Z1DZBGlXUZXvofZAxlGrTQgQF3gf3gV1xpuOkCRS8yHYK7C05bFinXD8b2QEmQdyA87g8UsLMjQip2GVwOL72uXb1rdXiwLEZfrOSFAIJCphZd_EzRMg5dnAbJfYGAto4rz2pHQIHbbGurPZ5rw8"/>
+<div class="flex flex-col">
+<span class="font-headline text-base font-bold tracking-tight leading-none" style="color: var(--admin-text-main);">WinDriveSA</span>
+<span class="text-[9px] font-bold tracking-widest uppercase mt-1" style="color: var(--admin-accent-gold);">Audit Governance</span>
+</div>
+</div>
+</div>
+<!-- Identity Strip -->
+<div class="px-5 py-3 border-b flex items-center gap-3 transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<div class="w-9 h-9 rounded-md bg-[#F2B705] text-[#071A2B] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+          AD
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline text-xs font-bold truncate leading-tight" style="color: var(--admin-text-main);">A. Du Plessis</span>
+<span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Senior Registrar
+          </span>
+</div>
+</div>
+<!-- 12 Desktop Navigation Links -->
+<nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 custom-scrollbar">
+<div class="px-3 pt-1 pb-1.5 text-[10px] font-bold uppercase tracking-wider" style="color: var(--admin-text-subtle);">
+          Platform Console
+        </div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/users" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/rewards" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">featured_seasonal_and_gifts</span>
+<span>Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/cash-prizes" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">payments</span>
+<span>Cash Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/vehicle-prizes" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">directions_car</span>
+<span>Vehicle Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/claims" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">fact_check</span>
+<span>Claim Requests</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/claim-requirements" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">rule_folder</span>
+<span>Claim Requirements</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/winners" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">workspace_premium</span>
+<span>Winners</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/support" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">contact_support</span>
+<span>Support</span>
+</a>
+<!-- ACTIVE ITEM: AUDIT LOGS -->
+<a class="flex items-center justify-between px-3 py-2 rounded-md font-semibold transition-all shadow-xs" href="#/admin/audit-logs" style="background-color: var(--admin-nav-active-bg); color: var(--admin-nav-active-text); border-left: 4px solid var(--admin-accent-gold);">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[19px]" style="color: var(--admin-accent-gold);">history_edu</span>
+<span>Audit Logs</span>
+</div>
+<span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded bg-black/20 text-[#F2B705]">Active</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors hover:bg-[var(--admin-nav-hover-bg)]" href="#/admin/settings" style="color: var(--admin-nav-muted);">
+<span class="material-symbols-outlined text-[19px]">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<!-- Sidebar Footer (Theme Toggle + Node Status + Logout) -->
+<div class="p-3.5 border-t flex flex-col gap-2.5 transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<!-- Global Theme Toggle Switch -->
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-semibold border transition-all hover:opacity-90" onclick="window.toggleTheme()" style="border-color: var(--admin-border); background-color: var(--admin-surface); color: var(--admin-text-main);">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] theme-icon-display">dark_mode</span>
+<span class="theme-label-display">Dark Mode</span>
+</div>
+<span class="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded" id="themeCurrentBadge" style="background-color: rgba(242, 183, 5, 0.15); color: #B28200;">OFF</span>
+</button>
+<div class="flex items-center justify-between text-xs px-1" style="color: var(--admin-text-muted);">
+<span class="text-[10px] uppercase font-bold tracking-wider">Node Status</span>
+<span class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-bold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            RSA-JHB-01
+          </span>
+</div>
+<button class="w-full flex items-center gap-2 px-3 py-2 rounded-md text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors" onclick="triggerToast('Session termination simulated. Operational ledger remains locked.')">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Terminate Session</span>
+</button>
+</div>
+</aside>
+<!-- 4. MAIN OPERATIONS WORKSPACE -->
+<main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 flex flex-col gap-6" style="background-color: var(--admin-bg);">
+<!-- TWO-LEVEL PAGE HEADER -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b transition-colors" style="border-color: var(--admin-border);">
+<div class="flex flex-col gap-1 max-w-2xl">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-[11px] px-2.5 py-0.5 rounded tracking-widest uppercase font-bold inline-flex items-center gap-1" style="background-color: rgba(242, 183, 5, 0.18); color: #8A6500;">
+<span class="material-symbols-outlined text-[13px]">verified_user</span>
+              ADMIN OPERATIONS • IMMUTABLE COMPLIANCE RECORD
+            </span>
+<span class="text-[11px] hidden sm:inline font-bold" style="color: var(--admin-text-subtle);">• ISO/IEC 27001 AUDITED</span>
+</div>
+<h1 class="font-headline text-2xl sm:text-3xl font-bold tracking-tight mt-1" style="color: var(--admin-text-main);">
+            Audit Logs
+          </h1>
+<p class="text-xs sm:text-sm mt-0.5 leading-relaxed" style="color: var(--admin-text-muted);">
+            Review a chronological record of administrative actions and important account, reward, claim, and configuration changes across the institutional engine.
+          </p>
+</div>
+<!-- Action Buttons: Refresh & Export Logs -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-md border shadow-xs transition-all hover:bg-[var(--admin-surface-subtle)]" id="refreshBtn" onclick="refreshLedger()" style="background-color: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text-main);">
+<span class="material-symbols-outlined text-[18px]" id="refreshIcon" style="color: var(--admin-text-muted);">sync</span>
+<span>Refresh</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-md shadow-sm transition-all hover:opacity-90" onclick="exportLogsModal()" style="background-color: #071A2B; color: #FFFFFF;">
+<span class="material-symbols-outlined text-[18px] text-[#F2B705]">download</span>
+<span>Export Logs</span>
+</button>
+</div>
+</section>
+<!-- OPERATIONAL SUMMARY STRIP (4 Compact Metric Cards) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric 1 -->
+<div class="p-4 rounded-lg border shadow-xs flex flex-col justify-between transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center justify-between" style="color: var(--admin-text-muted);">
+<span class="text-[11px] uppercase tracking-wider font-bold">Total Ledger Events</span>
+<span class="material-symbols-outlined text-[20px]" style="color: var(--admin-text-main);">receipt_long</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline text-2xl font-bold" style="color: var(--admin-text-main);">1,248</span>
+<span class="text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">Fiduciary</span>
+</div>
+<span class="text-[11px] mt-1" style="color: var(--admin-text-subtle);">Immutable SHA-256 block ledger</span>
+</div>
+<!-- Metric 2 -->
+<div class="p-4 rounded-lg border shadow-xs flex flex-col justify-between transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center justify-between" style="color: var(--admin-text-muted);">
+<span class="text-[11px] uppercase tracking-wider font-bold">Past 24 Hours</span>
+<span class="material-symbols-outlined text-[20px]" style="color: #F2B705;">schedule</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline text-2xl font-bold" style="color: var(--admin-text-main);">36</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: rgba(242, 183, 5, 0.15); color: #8A6500;">+12% vs avg</span>
+</div>
+<span class="text-[11px] mt-1" style="color: var(--admin-text-subtle);">Live active audit session</span>
+</div>
+<!-- Metric 3 -->
+<div class="p-4 rounded-lg border shadow-xs flex flex-col justify-between transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center justify-between" style="color: var(--admin-text-muted);">
+<span class="text-[11px] uppercase tracking-wider font-bold">User &amp; Account</span>
+<span class="material-symbols-outlined text-[20px]" style="color: var(--admin-text-main);">manage_accounts</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline text-2xl font-bold" style="color: var(--admin-text-main);">17</span>
+<span class="text-[10px] font-semibold" style="color: var(--admin-text-muted);">KYC &amp; Status</span>
+</div>
+<span class="text-[11px] mt-1" style="color: var(--admin-text-subtle);">High-priority compliance items</span>
+</div>
+<!-- Metric 4 -->
+<div class="p-4 rounded-lg border shadow-xs flex flex-col justify-between transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center justify-between" style="color: var(--admin-text-muted);">
+<span class="text-[11px] uppercase tracking-wider font-bold">Reward &amp; Claim</span>
+<span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400">emoji_events</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline text-2xl font-bold" style="color: var(--admin-text-main);">14</span>
+<span class="text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">Dispatched</span>
+</div>
+<span class="text-[11px] mt-1" style="color: var(--admin-text-subtle);">Vehicle &amp; cash prize releases</span>
+</div>
+</section>
+<!-- Ledger Prototype Notice Strip -->
+<div class="flex items-center justify-between px-3.5 py-2 rounded-lg border text-xs transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="color: var(--admin-text-muted);">info</span>
+<span>
+<strong>Demonstration Prototype Ledger:</strong> All audit records, cryptographic digests, and admin signatures simulate official institutional verification pipelines.
+          </span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-wider hidden sm:inline" style="color: var(--admin-text-muted);">POPIA Compliant</span>
+</div>
+<!-- FILTER & SEARCH TOOLBAR -->
+<section class="p-4 sm:p-5 rounded-lg border shadow-xs flex flex-col gap-4 transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<!-- Search Row -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px]" style="color: var(--admin-text-muted);">search</span>
+<input class="w-full pl-11 pr-10 py-2.5 rounded-md text-xs sm:text-sm border transition-all focus:outline-none focus:ring-2 focus:ring-amber-400/40" id="auditSearchInput" oninput="handleLiveFilter()" placeholder="Search by admin, action, user, email, or record (e.g. Mokoena, Hilux, CLM-9820)..." style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);" type="text"/>
+<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:opacity-75" id="clearSearchBtn" onclick="clearSearchInput()" style="color: var(--admin-text-muted);" title="Clear search">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<!-- 4 Dropdowns Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Action Category -->
+<div class="flex flex-col gap-1">
+<label class="text-[10px] uppercase font-bold tracking-wider" for="filterActionCategory" style="color: var(--admin-text-muted);">Action Category</label>
+<div class="relative">
+<select class="w-full appearance-none py-2 px-3 pr-8 rounded-md text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/40" id="filterActionCategory" onchange="handleLiveFilter()" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+<option value="ALL">All Actions</option>
+<option value="USER">User &amp; Account</option>
+<option value="REWARD">Rewards</option>
+<option value="CASH_PRIZE">Cash Prizes</option>
+<option value="VEHICLE_PRIZE">Vehicle Prizes</option>
+<option value="CLAIM">Claims</option>
+<option value="CLAIM_REQ">Claim Requirements</option>
+<option value="SUPPORT">Support</option>
+<option value="SETTINGS">Settings</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] pointer-events-none" style="color: var(--admin-text-muted);">expand_more</span>
+</div>
+</div>
+<!-- Admin Operator -->
+<div class="flex flex-col gap-1">
+<label class="text-[10px] uppercase font-bold tracking-wider" for="filterAdmin" style="color: var(--admin-text-muted);">Admin Operator</label>
+<div class="relative">
+<select class="w-full appearance-none py-2 px-3 pr-8 rounded-md text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/40" id="filterAdmin" onchange="handleLiveFilter()" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+<option value="ALL">All Admins</option>
+<option value="A. Du Plessis">A. Du Plessis (Senior Registrar)</option>
+<option value="C. van Zyl">C. van Zyl (Fiduciary Auditor)</option>
+<option value="Admin Controller 04">Admin Controller 04 (Systems)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] pointer-events-none" style="color: var(--admin-text-muted);">expand_more</span>
+</div>
+</div>
+<!-- Entity Type -->
+<div class="flex flex-col gap-1">
+<label class="text-[10px] uppercase font-bold tracking-wider" for="filterEntity" style="color: var(--admin-text-muted);">Entity Type</label>
+<div class="relative">
+<select class="w-full appearance-none py-2 px-3 pr-8 rounded-md text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/40" id="filterEntity" onchange="handleLiveFilter()" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+<option value="ALL">All Entities</option>
+<option value="User">User</option>
+<option value="Reward">Reward</option>
+<option value="Cash Prize">Cash Prize</option>
+<option value="Vehicle Prize">Vehicle Prize</option>
+<option value="Claim">Claim</option>
+<option value="Claim Requirement">Claim Requirement</option>
+<option value="Support Request">Support Request</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] pointer-events-none" style="color: var(--admin-text-muted);">expand_more</span>
+</div>
+</div>
+<!-- Date Range -->
+<div class="flex flex-col gap-1">
+<label class="text-[10px] uppercase font-bold tracking-wider" for="filterDateRange" style="color: var(--admin-text-muted);">Audit Range</label>
+<div class="relative">
+<select class="w-full appearance-none py-2 px-3 pr-8 rounded-md text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/40" id="filterDateRange" onchange="handleLiveFilter()" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+<option value="ALL">All Time</option>
+<option value="TODAY">Today (14 Sep 2026)</option>
+<option value="7DAYS">Last 7 Days</option>
+<option value="30DAYS">Last 30 Days</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] pointer-events-none" style="color: var(--admin-text-muted);">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Filter Action Strip -->
+<div class="flex items-center justify-between pt-1 border-t transition-colors" style="border-color: var(--admin-border);">
+<div class="text-xs font-medium" id="filterCountBadge" style="color: var(--admin-text-muted);">
+            Filtering active: <span class="font-bold" id="visibleEventsCount" style="color: var(--admin-text-main);">8</span> of 8 demo events shown
+          </div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-semibold rounded transition-colors hover:bg-[var(--admin-surface-subtle)]" onclick="resetAllFilters()" style="color: var(--admin-text-muted);">
+              Clear Filters
+            </button>
+<button class="px-3.5 py-1.5 rounded text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-all hover:opacity-90" onclick="handleLiveFilter(true)" style="background-color: #071A2B; color: #FFFFFF;">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span>Apply Filters</span>
+</button>
+</div>
+</div>
+</section>
+<!-- AUDIT LOGS LEDGER TABLE (Desktop) & STACKED CARDS (Mobile) -->
+<section class="rounded-lg border shadow-xs overflow-hidden flex flex-col transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<!-- Desktop Table View -->
+<div class="hidden md:block overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-muted);">
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Date &amp; Time</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Admin Operator</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Action</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Entity</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Record Reference</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider">Change Summary</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-center">Status</th>
+<th class="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y text-xs" id="auditTableBody" style="border-color: var(--admin-border);">
+<!-- Rendered via JavaScript -->
+</tbody>
+</table>
+</div>
+<!-- Tablet / Mobile Stacked Cards View -->
+<div class="md:hidden divide-y flex flex-col" id="auditCardsContainer" style="border-color: var(--admin-border);">
+<!-- Rendered via JavaScript -->
+</div>
+<!-- Empty State -->
+<div class="hidden py-14 px-6 text-center flex-col items-center justify-center" id="emptyAuditState">
+<div class="w-12 h-12 rounded-full flex items-center justify-center mb-3" style="background-color: var(--admin-surface-subtle); color: var(--admin-text-muted);">
+<span class="material-symbols-outlined text-[26px]">search_off</span>
+</div>
+<h3 class="font-headline text-sm sm:text-base font-bold" style="color: var(--admin-text-main);">No Audit Events Found</h3>
+<p class="text-xs max-w-sm mt-1" style="color: var(--admin-text-muted);">
+            No chronological records matched your filter criteria or search query. Verify your search parameters or reset filters.
+          </p>
+<button class="mt-4 px-4 py-2 text-xs font-semibold rounded transition-opacity hover:opacity-90 inline-flex items-center gap-2" onclick="resetAllFilters()" style="background-color: #071A2B; color: #FFFFFF;">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Reset All Filters</span>
+</button>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="p-3.5 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-muted);">
+<div class="flex items-center gap-2">
+<span class="font-semibold font-mono" id="paginationSummary" style="color: var(--admin-text-main);">
+              Showing 1–8 of 1,248 total recorded events
+            </span>
+<span class="hidden md:inline text-[10px] px-1.5 py-0.5 rounded uppercase font-bold" style="background-color: rgba(242, 183, 5, 0.15); color: #8A6500;">
+              Page 1 of 156
+            </span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 rounded border opacity-40 font-semibold flex items-center gap-1 cursor-not-allowed" disabled="" onclick="triggerToast('Viewing first page of demo ledger.')" style="background-color: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text-main);">
+<span class="material-symbols-outlined text-[15px]">chevron_left</span> Previous
+            </button>
+<span class="px-3 py-1 font-bold rounded shadow-xs" style="background-color: #071A2B; color: #FFFFFF;">1</span>
+<button class="px-3 py-1 rounded border font-semibold hover:bg-[var(--admin-surface-subtle)]" onclick="triggerToast('Simulating page 2: records AUD-20260910 through AUD-20260901.')" style="background-color: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text-main);">2</button>
+<button class="px-3 py-1 rounded border font-semibold hover:bg-[var(--admin-surface-subtle)]" onclick="triggerToast('Simulating page 3: older immutable audit records.')" style="background-color: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text-main);">3</button>
+<span class="px-1" style="color: var(--admin-text-muted);">...</span>
+<button class="px-2.5 py-1 rounded border font-semibold flex items-center gap-1 hover:bg-[var(--admin-surface-subtle)]" onclick="triggerToast('Navigating to latest audit page.')" style="background-color: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text-main);">
+              Next <span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Institutional Fiduciary Integrity Note -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs py-2 transition-colors" style="color: var(--admin-text-muted);">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Immutable Ledger Integrity: All operator changes logged under National Gambling &amp; Lotteries Compliance act.</span>
+</div>
+<div class="font-mono text-[11px]">
+          SHA-256 Ledger Root: <code class="font-bold" style="color: var(--admin-text-main);">8a4f91..d03e</code>
+</div>
+</div>
+</main>
+</div>
+<!-- AUDIT EVENT DETAIL MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="auditDetailModal" role="dialog">
+<!-- Backdrop -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200 opacity-0" id="modalBackdrop" onclick="closeDetailModal()"></div>
+<!-- Modal Card Container -->
+<div class="fixed inset-0 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
+<div class="w-full max-w-2xl rounded-xl border shadow-2xl overflow-hidden flex flex-col pointer-events-auto transform scale-95 opacity-0 transition-all duration-200 max-h-[90vh]" id="modalCard" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<!-- Modal Top Bar -->
+<div class="p-5 flex items-start justify-between border-b transition-colors" style="background-color: #071A2B; color: #FFFFFF; border-color: var(--admin-border);">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#F2B705]/20 text-[#F2B705]">
+                AUDIT EVENT RECORD
+              </span>
+<span class="font-mono text-xs text-slate-300" id="modalEventIdBadge">AUD-0000</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-white mt-1.5 leading-snug" id="modalActionTitle">
+              Action Title
+            </h3>
+</div>
+<button class="text-slate-400 hover:text-white p-1 rounded transition-colors" onclick="closeDetailModal()" title="Close modal (Esc)">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- Modal Body Content -->
+<div class="p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar text-xs sm:text-sm">
+<!-- Meta Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 rounded-lg border transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<div>
+<span class="text-[10px] uppercase font-bold tracking-wider block" style="color: var(--admin-text-subtle);">Timestamp</span>
+<span class="font-mono font-bold mt-0.5 block" id="modalTimestamp" style="color: var(--admin-text-main);">14 Sep 2026, 09:42</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-bold tracking-wider block" style="color: var(--admin-text-subtle);">Operator</span>
+<span class="font-bold mt-0.5 block" id="modalOperator" style="color: var(--admin-text-main);">A. Du Plessis</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-bold tracking-wider block" style="color: var(--admin-text-subtle);">Entity</span>
+<span class="font-bold mt-0.5 block" id="modalEntity" style="color: var(--admin-text-main);">User</span>
+</div>
+<div>
+<span class="text-[10px] uppercase font-bold tracking-wider block" style="color: var(--admin-text-subtle);">Verification</span>
+<span class="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold inline-block mt-0.5">
+                VERIFIED
+              </span>
+</div>
+</div>
+<!-- Target Subject Record -->
+<div class="flex items-center justify-between p-3.5 rounded-lg border transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<div>
+<span class="text-[10px] uppercase tracking-wider font-bold" style="color: var(--admin-text-subtle);">Target Record</span>
+<div class="font-headline text-xs sm:text-sm font-bold mt-0.5" id="modalTargetRecord" style="color: var(--admin-text-main);">
+                John Mokoena (mokoena.j@africamail.co.za)
+              </div>
+</div>
+<div id="modalQuickLinkContainer"></div>
+</div>
+<!-- BEFORE vs AFTER Comparison -->
+<div class="flex flex-col gap-2">
+<span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--admin-text-subtle);">
+              State Transformation (Sanitized Ledger View)
+            </span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<!-- Before -->
+<div class="p-3.5 rounded-lg border flex flex-col gap-1 bg-rose-500/5 dark:bg-rose-950/20 border-rose-500/20">
+<div class="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 text-[11px] font-bold uppercase">
+<span class="material-symbols-outlined text-[16px]">history</span> Before Change
+                </div>
+<div class="text-xs font-medium mt-1 text-rose-700 dark:text-rose-300" id="modalBeforeState">
+                  Status: PENDING REVIEW
+                </div>
+</div>
+<!-- After -->
+<div class="p-3.5 rounded-lg border flex flex-col gap-1 bg-emerald-500/5 dark:bg-emerald-950/20 border-emerald-500/20">
+<div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold uppercase">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> After Change
+                </div>
+<div class="text-xs font-bold mt-1 text-emerald-700 dark:text-emerald-300" id="modalAfterState">
+                  Status: APPROVED (Verified RSA ID &amp; POPIA clearance)
+                </div>
+</div>
+</div>
+<p class="text-[11px] italic mt-0.5" style="color: var(--admin-text-muted);">
+              * Note: Security and privacy policy prevents exposure of passwords, SHA secrets, PINs, or national identity digests.
+            </p>
+</div>
+<!-- Contextual Timeline -->
+<div class="flex flex-col gap-2 pt-2 border-t transition-colors" style="border-color: var(--admin-border);">
+<span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--admin-text-subtle);">
+              Timeline Context (Surrounding Events)
+            </span>
+<div class="space-y-2 text-xs" style="color: var(--admin-text-muted);">
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] font-semibold w-12" style="color: var(--admin-text-subtle);">08:56</span>
+<span class="w-2 h-2 rounded-full" style="background-color: var(--admin-text-subtle);"></span>
+<span>User document bundle submitted to secure registrar inbox</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] font-semibold w-12" style="color: var(--admin-text-subtle);">09:18</span>
+<span class="w-2 h-2 rounded-full bg-[#F2B705]"></span>
+<span class="font-semibold" style="color: var(--admin-text-main);">Reward assigned: Cash R250,000 &amp; 2026 Hilux</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] font-bold text-emerald-600 dark:text-emerald-400 w-12">09:42</span>
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="font-bold" style="color: var(--admin-text-main);">Account status marked APPROVED by A. Du Plessis</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="p-4 border-t flex items-center justify-between transition-colors" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border);">
+<span class="text-[11px] font-mono" id="modalSignature" style="color: var(--admin-text-subtle);">SIG: 0x7c94..31a8</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-semibold rounded border shadow-xs transition-colors hover:bg-[var(--admin-surface)]" onclick="downloadSingleAuditRecord()" style="border-color: var(--admin-border); color: var(--admin-text-main);">
+<span class="material-symbols-outlined text-[15px] align-middle mr-1">print</span> Print Digest
+            </button>
+<button class="px-4 py-1.5 text-xs font-semibold rounded shadow-xs transition-opacity hover:opacity-90" onclick="closeDetailModal()" style="background-color: #071A2B; color: #FFFFFF;">
+              Done
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- EXPORT PROMPT MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="exportModal" role="dialog">
+<div class="fixed inset-0 bg-black/50 backdrop-blur-xs" onclick="closeExportModal()"></div>
+<div class="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
+<div class="w-full max-w-md rounded-xl border shadow-2xl p-6 pointer-events-auto flex flex-col gap-4 transition-colors" style="background-color: var(--admin-surface); border-color: var(--admin-border);">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]" style="color: var(--admin-text-main);">archive</span>
+<h3 class="font-headline text-base font-bold" style="color: var(--admin-text-main);">Export Audit Ledger</h3>
+</div>
+<button class="p-1 rounded hover:opacity-75" onclick="closeExportModal()" style="color: var(--admin-text-muted);">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="text-xs leading-relaxed" style="color: var(--admin-text-muted);">
+          Exporting cryptographic event ledger for third-party auditing and National Gambling Board compliance verification. Select preferred specification:
+        </p>
+<div class="space-y-2">
+<label class="flex items-center gap-2.5 p-2.5 rounded-lg border cursor-pointer hover:bg-[var(--admin-surface-subtle)] transition-colors" style="border-color: var(--admin-border);">
+<input checked="" class="accent-amber-500" name="exportFormat" type="radio" value="CSV"/>
+<div class="flex flex-col text-xs">
+<span class="font-bold" style="color: var(--admin-text-main);">CSV Spreadsheet (Excel / Google Sheets)</span>
+<span style="color: var(--admin-text-muted);">Includes timestamps, admin usernames, records, and state delta summaries.</span>
+</div>
+</label>
+<label class="flex items-center gap-2.5 p-2.5 rounded-lg border cursor-pointer hover:bg-[var(--admin-surface-subtle)] transition-colors" style="border-color: var(--admin-border);">
+<input class="accent-amber-500" name="exportFormat" type="radio" value="JSON"/>
+<div class="flex flex-col text-xs">
+<span class="font-bold" style="color: var(--admin-text-main);">JSON Payload (Cryptographic Audit Schema)</span>
+<span style="color: var(--admin-text-muted);">Raw immutable blocks with parent SHA-256 validation signatures.</span>
+</div>
+</label>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t" style="border-color: var(--admin-border);">
+<button class="px-3.5 py-2 text-xs font-semibold rounded hover:opacity-80" onclick="closeExportModal()" style="color: var(--admin-text-muted);">
+            Cancel
+          </button>
+<button class="px-4 py-2 rounded text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-opacity hover:opacity-90" onclick="executeExportDownload()" style="background-color: #071A2B; color: #FFFFFF;">
+<span class="material-symbols-outlined text-[16px] text-[#F2B705]">file_download</span>
+<span>Download Archive</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none" id="toastContainer"></div>
+<!-- GLOBAL CLIENT STATE ENGINE & INTERACTION SCRIPTS -->
+<script>
+    /* ==========================================================
+       1. GLOBAL THEME ENGINE (STRICT LIGHT MODE DEFAULT)
+       - Light Mode is the strict explicit default.
+       - NEVER checks prefers-color-scheme or browser/OS dark settings.
+       - Controlled by presence of 'dark' class on document.documentElement.
+       ========================================================== */
+    window.toggleTheme = function() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      try {
+        localStorage.setItem('windrivesa_theme', isDark ? 'dark' : 'light');
+      } catch(e) {}
+      updateThemeUI(isDark);
+      triggerToast(isDark ? 'Dark mode enabled' : 'Light mode enabled');
+    };
+
+    function updateThemeUI(isDark) {
+      const icons = document.querySelectorAll('.theme-icon-display');
+      const labels = document.querySelectorAll('.theme-label-display');
+      const badge = document.getElementById('themeCurrentBadge');
+
+      icons.forEach(el => {
+        el.innerText = isDark ? 'light_mode' : 'dark_mode';
+      });
+
+      labels.forEach(el => {
+        el.innerText = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      });
+
+      if (badge) {
+        badge.innerText = isDark ? 'ON' : 'OFF';
+      }
+    }
+
+    // Initialize Theme State: STRICT LIGHT MODE DEFAULT
+    (function initTheme() {
+      let saved = null;
+      try {
+        saved = localStorage.getItem('windrivesa_theme');
+      } catch(e) {}
+
+      // Explicit default is Light Mode unless specifically saved as 'dark'
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        updateThemeUI(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateThemeUI(false);
+      }
+    })();
+
+    /* ==========================================================
+       2. MOBILE / TABLET DRAWER STATE MACHINE (isAdminMenuOpen)
+       ========================================================== */
+    let isAdminMenuOpen = false;
+
+    window.toggleAdminMenu = function() {
+      if (isAdminMenuOpen) {
+        window.closeAdminMenu();
+      } else {
+        window.openAdminMenu();
+      }
+    };
+
+    window.openAdminMenu = function() {
+      isAdminMenuOpen = true;
+      const drawer = document.getElementById('admin-drawer');
+      const backdrop = document.getElementById('admin-drawer-backdrop');
+      const icon = document.getElementById('admin-menu-toggle-icon');
+      const btn = document.getElementById('admin-menu-toggle-btn');
+
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+      if (icon) icon.innerText = 'close';
+
+      backdrop.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        drawer.classList.remove('-translate-x-full');
+      }, 10);
+    };
+
+    window.closeAdminMenu = function() {
+      isAdminMenuOpen = false;
+      const drawer = document.getElementById('admin-drawer');
+      const backdrop = document.getElementById('admin-drawer-backdrop');
+      const icon = document.getElementById('admin-menu-toggle-icon');
+      const btn = document.getElementById('admin-menu-toggle-btn');
+
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+      if (icon) icon.innerText = 'menu';
+
+      drawer.classList.add('-translate-x-full');
+      backdrop.classList.add('opacity-0');
+
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+      }, 200);
+    };
+
+    // Auto-close drawer if screen resizes to desktop width (>= 1024px)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && isAdminMenuOpen) {
+        window.closeAdminMenu();
+      }
+    });
+
+    /* ==========================================================
+       3. AUDIT DATA & FILTRATION ENGINE
+       ========================================================== */
+    const AUDIT_DATA = [
+      {
+        id: "AUD-20260914-0942-001",
+        date: "14 Sep 2026",
+        time: "09:42",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Approved User",
+        actionCategory: "USER",
+        entity: "User",
+        record: "John Mokoena (mokoena.j@africamail.co.za)",
+        summary: "Account status: Pending Review → Approved",
+        status: "Completed",
+        before: "Status: PENDING REVIEW (ID & Proof of Residence Pending Check)",
+        after: "Status: APPROVED (POPIA & FICA Verification Successful)",
+        relatedType: "User Profile",
+        relatedPath: "#/admin/users?id=JM-9921",
+        signature: "0x89a4..b4c1"
+      },
+      {
+        id: "AUD-20260914-0918-002",
+        date: "14 Sep 2026",
+        time: "09:18",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Assigned Reward",
+        actionCategory: "REWARD",
+        entity: "Reward",
+        record: "John Mokoena",
+        summary: "Cash: R250,000 ZAR · Vehicle: 2026 Toyota Hilux",
+        status: "Completed",
+        before: "Reward Ledger: UNASSIGNED TIER 1 DUAL ALLOCATION",
+        after: "Assigned to UID-48902 (Mokoena, J.) with Sandton Handover option",
+        relatedType: "Rewards Engine",
+        relatedPath: "#/admin/rewards?id=RWD-4481",
+        signature: "0x77f2..10e9"
+      },
+      {
+        id: "AUD-20260913-1605-003",
+        date: "13 Sep 2026",
+        time: "16:05",
+        admin: "C. van Zyl",
+        adminRole: "Fiduciary Auditor",
+        action: "Updated Claim Requirement",
+        actionCategory: "CLAIM_REQ",
+        entity: "Claim Requirement",
+        record: "Cash Prize Tier 1",
+        summary: "Applicable Charge configured (FICA Statutory Settlement)",
+        status: "Completed",
+        before: "Charge Rule: Standard Fee Template (2025 rev)",
+        after: "Charge Rule: 2026 Updated FICA Schedule #4 Registered",
+        relatedType: "Requirements Table",
+        relatedPath: "#/admin/claim-requirements?tier=1",
+        signature: "0x11a3..d84a"
+      },
+      {
+        id: "AUD-20260913-1431-004",
+        date: "13 Sep 2026",
+        time: "14:31",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Approved Cash Claim",
+        actionCategory: "CLAIM",
+        entity: "Claim",
+        record: "CLM-9820 (Lerato Khumalo)",
+        summary: "Status: Under Review → Approved (R150,000 ZAR)",
+        status: "Completed",
+        before: "Claim State: SUBMITTED (Document validation complete)",
+        after: "Claim State: APPROVED (EFT Disbursement Queue Scheduled)",
+        relatedType: "Claim Dossier",
+        relatedPath: "#/admin/claims?ref=CLM-9820",
+        signature: "0x33b9..9982"
+      },
+      {
+        id: "AUD-20260913-1214-005",
+        date: "13 Sep 2026",
+        time: "12:14",
+        admin: "Admin Controller 04",
+        adminRole: "Operations Controller",
+        action: "Updated Support Request",
+        actionCategory: "SUPPORT",
+        entity: "Support Request",
+        record: "#WD-SUP-1042 (Michael Dlamini)",
+        summary: "Status: Open → In Progress (Tier 2 Assigned)",
+        status: "Completed",
+        before: "Ticket Priority: Unassigned Queue · Status: OPEN",
+        after: "Ticket Priority: Escalated to Automotive Delivery Desk",
+        relatedType: "Support Ticket",
+        relatedPath: "#/admin/support?id=1042",
+        signature: "0x55aa..ee10"
+      },
+      {
+        id: "AUD-20260912-1520-006",
+        date: "12 Sep 2026",
+        time: "15:20",
+        admin: "C. van Zyl",
+        adminRole: "Fiduciary Auditor",
+        action: "Dispatched Vehicle Logistics",
+        actionCategory: "VEHICLE_PRIZE",
+        entity: "Vehicle Prize",
+        record: "CLM-9821 (Sipho Ndlovu)",
+        summary: "Handover Dealership: Sandton Toyota Assigned",
+        status: "Completed",
+        before: "Logistics: Factory Compound Holding (Durban Hub)",
+        after: "Logistics: Transporter Bill of Lading #TOY-SA-9901 Issued",
+        relatedType: "Vehicle Asset",
+        relatedPath: "#/admin/vehicle-prizes?ref=CLM-9821",
+        signature: "0x00cd..fa22"
+      },
+      {
+        id: "AUD-20260911-1005-007",
+        date: "11 Sep 2026",
+        time: "10:05",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Created Cash Prize Pool",
+        actionCategory: "CASH_PRIZE",
+        entity: "Cash Prize",
+        record: "Mid-Spring Tier A",
+        summary: "Amount: R500,000 ZAR · Escrow Verified",
+        status: "Completed",
+        before: "Pool Status: DRAFT ALLOCATION SPECIFICATION",
+        after: "Pool Status: ACTIVE ESCROW (Verified with Standard Bank Trust)",
+        relatedType: "Cash Pool",
+        relatedPath: "#/admin/cash-prizes?pool=spring-a",
+        signature: "0x9812..3041"
+      },
+      {
+        id: "AUD-20260910-1745-008",
+        date: "10 Sep 2026",
+        time: "17:45",
+        admin: "Admin Controller 04",
+        adminRole: "Operations Controller",
+        action: "Resolved Support Ticket",
+        actionCategory: "SUPPORT",
+        entity: "Support Request",
+        record: "#WD-SUP-1051 (Naledi Khumalo)",
+        summary: "Status: Waiting for User → Resolved",
+        status: "Completed",
+        before: "Status: PENDING USER CONFIRMATION (SMS Delivered)",
+        after: "Status: RESOLVED & ARCHIVED (Winner Acknowledgement Signed)",
+        relatedType: "Support Ticket",
+        relatedPath: "#/admin/support?id=1051",
+        signature: "0x89ee..4120"
+      }
+    ];
+
+    let currentEvents = [...AUDIT_DATA];
+    let selectedEvent = null;
+
+    function getActionBadgeStyle(category) {
+      switch (category) {
+        case 'USER':
+          return 'background-color: rgba(7, 26, 43, 0.08); color: var(--admin-text-main);';
+        case 'REWARD':
+          return 'background-color: rgba(242, 183, 5, 0.2); color: #8A6500;';
+        case 'CASH_PRIZE':
+          return 'background-color: rgba(16, 185, 129, 0.12); color: #047857;';
+        case 'VEHICLE_PRIZE':
+          return 'background-color: #071A2B; color: #FFFFFF;';
+        case 'CLAIM':
+        case 'CLAIM_REQ':
+          return 'background-color: rgba(245, 158, 11, 0.15); color: #B45309;';
+        case 'SUPPORT':
+          return 'background-color: rgba(100, 116, 139, 0.15); color: var(--admin-text-main);';
+        default:
+          return 'background-color: var(--admin-surface-subtle); color: var(--admin-text-main);';
+      }
+    }
+
+    function renderEvents(items) {
+      const tbody = document.getElementById('auditTableBody');
+      const cardsContainer = document.getElementById('auditCardsContainer');
+      const emptyState = document.getElementById('emptyAuditState');
+      const visibleCountEl = document.getElementById('visibleEventsCount');
+      const paginationSummary = document.getElementById('paginationSummary');
+
+      visibleCountEl.innerText = items.length;
+      paginationSummary.innerText = `Showing 1–${items.length} of 1,248 total recorded events`;
+
+      if (items.length === 0) {
+        tbody.innerHTML = '';
+        cardsContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+
+      // 1. Desktop Table Rows
+      tbody.innerHTML = items.map(ev => `
+        <tr class="transition-colors hover:bg-[var(--admin-surface-subtle)] group">
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <div class="font-mono text-xs font-bold" style="color: var(--admin-text-main);">${ev.date}</div>
+            <div class="font-mono text-[11px]" style="color: var(--admin-text-muted);">${ev.time} SAST</div>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded flex items-center justify-center font-bold text-[10px]" style="background-color: var(--admin-text-main); color: var(--admin-surface);">
+                ${ev.admin.split(' ').map(n=>n[0]).join('')}
+              </span>
+              <div>
+                <span class="font-semibold block leading-tight" style="color: var(--admin-text-main);">${ev.admin}</span>
+                <span class="text-[10px]" style="color: var(--admin-text-subtle);">${ev.adminRole}</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold" style="${getActionBadgeStyle(ev.actionCategory)}">
+              ${ev.action}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap text-xs" style="color: var(--admin-text-muted);">
+            ${ev.entity}
+          </td>
+          <td class="py-3.5 px-4">
+            <div class="font-semibold text-xs truncate max-w-[170px]" style="color: var(--admin-text-main);" title="${ev.record}">
+              ${ev.record}
+            </div>
+            <span class="font-mono text-[10px]" style="color: var(--admin-text-subtle);">${ev.id}</span>
+          </td>
+          <td class="py-3.5 px-4 max-w-xs">
+            <span class="text-xs truncate block" style="color: var(--admin-text-muted);" title="${ev.summary}">
+              ${ev.summary}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-center whitespace-nowrap">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              ${ev.status}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-right whitespace-nowrap">
+            <button onclick="openDetailModal('${ev.id}')" class="px-2.5 py-1 text-xs font-bold rounded transition-colors hover:bg-[var(--admin-surface-subtle)] border inline-flex items-center gap-1" style="border-color: var(--admin-border); color: var(--admin-text-main);">
+              <span>View</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // 2. Mobile Cards
+      cardsContainer.innerHTML = items.map(ev => `
+        <div class="p-4 flex flex-col gap-2 transition-colors hover:bg-[var(--admin-surface-subtle)]">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[10px]" style="color: var(--admin-text-subtle);">${ev.id}</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${ev.status}
+            </span>
+          </div>
+
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="font-headline text-sm font-bold block" style="color: var(--admin-text-main);">${ev.action}</span>
+              <span class="text-xs" style="color: var(--admin-text-muted);">${ev.record}</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold shrink-0" style="${getActionBadgeStyle(ev.actionCategory)}">
+              ${ev.entity}
+            </span>
+          </div>
+
+          <div class="p-2.5 rounded text-xs border" style="background-color: var(--admin-surface-subtle); border-color: var(--admin-border); color: var(--admin-text-main);">
+            ${ev.summary}
+          </div>
+
+          <div class="flex items-center justify-between pt-1 text-[11px]" style="color: var(--admin-text-muted);">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px]">person</span>
+              <span class="font-semibold" style="color: var(--admin-text-main);">${ev.admin}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-mono">${ev.date} · ${ev.time}</span>
+              <button onclick="openDetailModal('${ev.id}')" class="px-2.5 py-1 rounded text-xs font-bold shadow-xs flex items-center gap-1" style="background-color: #071A2B; color: #FFFFFF;">
+                <span>View</span>
+                <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleLiveFilter(isButtonTrigger = false) {
+      const searchVal = document.getElementById('auditSearchInput').value.toLowerCase().trim();
+      const actionCat = document.getElementById('filterActionCategory').value;
+      const adminVal = document.getElementById('filterAdmin').value;
+      const entityVal = document.getElementById('filterEntity').value;
+      const dateVal = document.getElementById('filterDateRange').value;
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+      if (searchVal.length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
+
+      currentEvents = AUDIT_DATA.filter(item => {
+        const matchesSearch = !searchVal || 
+          item.admin.toLowerCase().includes(searchVal) ||
+          item.action.toLowerCase().includes(searchVal) ||
+          item.record.toLowerCase().includes(searchVal) ||
+          item.summary.toLowerCase().includes(searchVal) ||
+          item.id.toLowerCase().includes(searchVal);
+
+        const matchesAction = (actionCat === 'ALL') || (item.actionCategory === actionCat);
+        const matchesAdmin = (adminVal === 'ALL') || (item.admin === adminVal);
+        const matchesEntity = (entityVal === 'ALL') || (item.entity === entityVal);
+
+        let matchesDate = true;
+        if (dateVal === 'TODAY') {
+          matchesDate = item.date.includes('14 Sep 2026');
+        }
+
+        return matchesSearch && matchesAction && matchesAdmin && matchesEntity && matchesDate;
+      });
+
+      renderEvents(currentEvents);
+
+      if (isButtonTrigger) {
+        triggerToast(`Applied filters. Showing ${currentEvents.length} events.`);
+      }
+    }
+
+    function clearSearchInput() {
+      document.getElementById('auditSearchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      handleLiveFilter();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('auditSearchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      document.getElementById('filterActionCategory').value = 'ALL';
+      document.getElementById('filterAdmin').value = 'ALL';
+      document.getElementById('filterEntity').value = 'ALL';
+      document.getElementById('filterDateRange').value = 'ALL';
+      currentEvents = [...AUDIT_DATA];
+      renderEvents(currentEvents);
+      triggerToast('Filters reset. Showing all 8 recent operational entries.');
+    }
+
+    function refreshLedger() {
+      const icon = document.getElementById('refreshIcon');
+      icon.classList.add('animate-spin');
+      triggerToast('Syncing with cryptographic audit nodes...');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin');
+        renderEvents(currentEvents);
+        triggerToast('Ledger up to date. Latest block verified.');
+      }, 650);
+    }
+
+    /* ==========================================================
+       4. MODALS (DETAIL & EXPORT)
+       ========================================================== */
+    function openDetailModal(eventId) {
+      const ev = AUDIT_DATA.find(i => i.id === eventId);
+      if (!ev) return;
+      selectedEvent = ev;
+
+      document.getElementById('modalEventIdBadge').innerText = ev.id;
+      document.getElementById('modalActionTitle').innerText = ev.action;
+      document.getElementById('modalTimestamp').innerText = `${ev.date}, ${ev.time} SAST`;
+      document.getElementById('modalOperator').innerText = `${ev.admin} (${ev.adminRole})`;
+      document.getElementById('modalEntity').innerText = ev.entity;
+      document.getElementById('modalTargetRecord').innerText = ev.record;
+      document.getElementById('modalBeforeState').innerText = ev.before;
+      document.getElementById('modalAfterState').innerText = ev.after;
+      document.getElementById('modalSignature').innerText = `NODE SIG: ${ev.signature}`;
+
+      const quickLinkContainer = document.getElementById('modalQuickLinkContainer');
+      quickLinkContainer.innerHTML = `
+        <a href="${ev.relatedPath}" onclick="triggerToast('Simulating inspection of ${ev.relatedType}')" class="px-3 py-1.5 rounded text-xs font-bold border transition-colors inline-flex items-center gap-1 shadow-xs hover:bg-[var(--admin-surface)]" style="border-color: var(--admin-border); color: var(--admin-text-main);">
+          <span>Inspect ${ev.relatedType}</span>
+          <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+        </a>
+      `;
+
+      const modal = document.getElementById('auditDetailModal');
+      const backdrop = document.getElementById('modalBackdrop');
+      const card = document.getElementById('modalCard');
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        card.classList.remove('opacity-0', 'scale-95');
+      }, 10);
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('auditDetailModal');
+      const backdrop = document.getElementById('modalBackdrop');
+      const card = document.getElementById('modalCard');
+
+      backdrop.classList.add('opacity-0');
+      card.classList.add('opacity-0', 'scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    function downloadSingleAuditRecord() {
+      if (!selectedEvent) return;
+      triggerToast(`Digest generated for ${selectedEvent.id}. Sending to printer.`);
+    }
+
+    function exportLogsModal() {
+      document.getElementById('exportModal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.add('hidden');
+    }
+
+    function executeExportDownload() {
+      const format = document.querySelector('input[name="exportFormat"]:checked').value;
+      closeExportModal();
+
+      triggerToast(`Preparing ${format} audit export (${currentEvents.length} events)...`);
+
+      setTimeout(() => {
+        const dummyContent = format === 'CSV' 
+          ? "ID,Timestamp,Admin,Action,Entity,Record,Summary,Status\n" + currentEvents.map(e => `"${e.id}","${e.date} ${e.time}","${e.admin}","${e.action}","${e.entity}","${e.record}","${e.summary}","${e.status}"`).join("\n")
+          : JSON.stringify(currentEvents, null, 2);
+
+        const blob = new Blob([dummyContent], { type: format === 'CSV' ? 'text/csv' : 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `WinDriveSA_AuditLogs_${new Date().toISOString().slice(0,10)}.${format.toLowerCase()}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        triggerToast(`Download started: WinDriveSA_AuditLogs.${format.toLowerCase()}`);
+      }, 700);
+    }
+
+    // Keyboard ESC Handler
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+        closeExportModal();
+        if (isAdminMenuOpen) window.closeAdminMenu();
+      }
+    });
+
+    /* ==========================================================
+       5. TOAST FEEDBACK SYSTEM
+       ========================================================== */
+    function triggerToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'border-l-4 px-4 py-3 rounded-md shadow-2xl text-xs font-semibold flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-200 pointer-events-auto max-w-sm';
+      toast.style.backgroundColor = '#071A2B';
+      toast.style.color = '#FFFFFF';
+      toast.style.borderColor = '#F2B705';
+      toast.innerHTML = `
+        <span class="material-symbols-outlined text-[18px] text-[#F2B705]">info</span>
+        <span class="flex-1 leading-snug">${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 200);
+      }, 3400);
+    }
+
+    // Initial render
+    renderEvents(currentEvents);
+  </script>
+</body></html>

@@ -1,0 +1,6 @@
+:root {
+  --wd-navy:#071A2B; --wd-gold:#F2B705; --wd-white:#FFFFFF; --wd-emerald:#00843D;
+  --wd-charcoal:#17212B; --wd-light:#F5F7FA; --wd-muted:#667085; --wd-border:#D9E0E7;
+  --wd-radius-sm:8px; --wd-radius-md:14px; --wd-radius-lg:22px;
+  --wd-shadow:0 12px 32px rgba(7,26,43,.08);
+}

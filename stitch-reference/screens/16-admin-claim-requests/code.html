@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinDriveSA — Admin Claim Requests</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            manrope: ['Manrope', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              gold: '#F2B705',
+              emerald: '#00843D',
+              charcoal: '#17212B',
+              bgLight: '#F5F7FA',
+              muted: '#667085',
+              border: '#D9E0E7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Sora', sans-serif; }
+    /* Smooth transitions */
+    .transition-theme { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+  </style>
+</head>
+<body class="h-full bg-[#F5F7FA] text-[#071A2B] dark:bg-[#07131E] dark:text-[#E2E8F0] transition-theme antialiased selection:bg-[#F2B705]/20">
+
+  <!-- ADMIN SHELL -->
+  <div id="admin-shell" class="min-h-screen flex flex-col lg:flex-row bg-[#F5F7FA] dark:bg-[#07131E]">
+
+    <!-- ======================================================== -->
+    <!-- DESKTOP ADMIN SIDEBAR (Visible lg:flex, 100dvh, Sticky) -->
+    <!-- ======================================================== -->
+    <aside id="desktop-sidebar" class="hidden lg:flex flex-col w-72 shrink-0 sticky top-0 h-screen bg-white dark:bg-[#0B1A28] border-r border-[#D9E0E7] dark:border-[#1E2E3E] z-30 transition-theme overflow-y-auto">
+      <!-- Sidebar Brand Header -->
+      <div class="p-6 border-b border-[#D9E0E7] dark:border-[#1E2E3E]">
+        <a href="/admin" class="block focus:outline-none focus:ring-2 focus:ring-[#F2B705] rounded-lg">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbFkJbweJSfL7S3mykkUuYyWsfA_1SVdyLsVOjAsxNOrvn5YDJtK2FgEOn5M5jETRmLZc0HAMKJOw3q_OpRB61syBsF-kq3zoPmektiJMLC_K5Bi5vqDIXsNHe2V6HOFiB11hvkIIpraOx-PtFeH6YK_vKVnlA2hZDZO-0i3owpXCPkHklh8_NVS19RDVddX-ofNXkYk9Aj8ildvpvM98VyL9HmwIGoFMTo48vOgfPfnO-Ee8UWDqXUoPkCYv21Jf1wbE" alt="WinDriveSA" class="h-10 w-auto object-contain">
+        </a>
+        <div class="mt-3 flex items-center justify-between">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#00843D]/10 text-[#00843D] dark:bg-[#00843D]/20 dark:text-[#10B981]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#00843D] dark:bg-[#10B981] animate-pulse"></span>
+            Operational Desk
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">v2.4.0</span>
+        </div>
+      </div>
+
+      <!-- Admin Operator Card -->
+      <div class="px-5 py-3 mx-4 my-3 rounded-xl bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E]">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-[#071A2B] text-[#F2B705] dark:bg-[#F2B705] dark:text-[#071A2B] flex items-center justify-center font-heading font-bold text-xs">
+            AO
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-bold truncate text-[#071A2B] dark:text-white">A. Du Plessis</p>
+            <p class="text-[11px] text-[#667085] dark:text-[#94A3B8] truncate">Senior Claims Registrar</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Items -->
+      <nav class="flex-1 px-4 py-2 space-y-1" aria-label="Admin Navigation">
+        <div class="px-3 pt-2 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">Operations</div>
+        
+        <a href="/admin" onclick="mockNav('/admin', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Dashboard
+        </a>
+
+        <a href="/admin/users" onclick="mockNav('/admin/users', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          Users
+        </a>
+
+        <a href="/admin/rewards" onclick="mockNav('/admin/rewards', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+          Rewards
+        </a>
+
+        <a href="/admin/cash-prizes" onclick="mockNav('/admin/cash-prizes', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          Cash Prizes
+        </a>
+
+        <a href="/admin/vehicle-prizes" onclick="mockNav('/admin/vehicle-prizes', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 2h10l2-2zM13 6h5l3 5v5h-2"/></svg>
+          Vehicle Prizes
+        </a>
+
+        <div class="px-3 pt-4 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">Compliance & Claims</div>
+
+        <!-- ACTIVE ITEM: Claim Requests -->
+        <a href="/admin/claims" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-bold bg-[#071A2B] text-white dark:bg-[#F2B705] dark:text-[#071A2B] shadow-sm transition-all">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Claim Requests
+          </div>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-[#F2B705] text-[#071A2B] dark:bg-[#071A2B] dark:text-[#F2B705] font-bold">8</span>
+        </a>
+
+        <a href="/admin/claim-requirements" onclick="mockNav('/admin/claim-requirements', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Claim Requirements
+        </a>
+
+        <a href="/admin/winners" onclick="mockNav('/admin/winners', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          Winners
+        </a>
+
+        <div class="px-3 pt-4 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">System & Governance</div>
+
+        <a href="/admin/support" onclick="mockNav('/admin/support', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          Support
+        </a>
+
+        <a href="/admin/audit-logs" onclick="mockNav('/admin/audit-logs', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Audit Logs
+        </a>
+
+        <a href="/admin/settings" onclick="mockNav('/admin/settings', event)" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Settings
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer (Theme Toggle + Logout) -->
+      <div class="p-4 border-t border-[#D9E0E7] dark:border-[#1E2E3E] space-y-2">
+        <button onclick="toggleGlobalTheme()" class="w-full flex items-center justify-between px-3.5 py-2 rounded-lg text-xs font-semibold text-[#071A2B] dark:text-white bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] hover:border-[#071A2B] dark:hover:border-white transition-colors">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#F2B705]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+            <span id="theme-mode-text-desktop">Console Theme</span>
+          </span>
+          <span class="text-[10px] font-mono uppercase text-[#667085] dark:text-[#94A3B8]">Light / Dark</span>
+        </button>
+
+        <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Terminate Session (Logout)
+        </button>
+      </div>
+    </aside>
+
+    <!-- ======================================================== -->
+    <!-- RESPONSIVE ADMIN HEADER (Visible < lg, Normal Doc Flow) -->
+    <!-- ======================================================== -->
+    <div class="lg:hidden flex flex-col w-full shrink-0 z-40 bg-white dark:bg-[#0B1A28] border-b border-[#D9E0E7] dark:border-[#1E2E3E] transition-theme">
+      <header class="relative w-full px-4 sm:px-6 py-3.5 flex items-center justify-between">
+        <!-- Logo Left -->
+        <a href="/admin" class="flex items-center gap-2 focus:outline-none">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlLUuj_tS9qKeYMy2kNQ09Ev0V_u20pqIMcHe_OXZ-Y_Emsw-2FZ4rD3rTHAeqRe-yoa0KXjrBVVS479-2noBnj3RgvGLsKUSmQu25LQ1Q8MPVJcIEKlIaVr6gNduWCtVL5WyXSDM2NOzJ_5xoO51Y9-McC3M1ZblcNFkMsAhCaPbhunH6A-hRKr58ajuJqs-8kxr3Ma2g4JWs6yxWAt5EJ1kcdhT0XOMotcsQTXNEWbJ870rUVN1i8GX_1b3CEgf8NUo" alt="WinDriveSA" class="h-8 w-auto object-contain">
+        </a>
+
+        <!-- Controls Right -->
+        <div class="flex items-center gap-2">
+          <!-- Theme Toggle -->
+          <button onclick="toggleGlobalTheme()" aria-label="Toggle visual theme" class="p-2.5 rounded-lg border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-[#E2E8F0] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] transition-colors focus:outline-none focus:ring-2 focus:ring-[#F2B705]">
+            <svg class="w-4 h-4 text-[#F2B705]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+          </button>
+
+          <!-- HAMBURGER BUTTON (State-governed with clear boundaries) -->
+          <button id="admin-hamburger-btn" onclick="toggleAdminMenu()" aria-expanded="false" aria-label="Open admin navigation" class="p-2.5 rounded-lg border border-[#D9E0E7] dark:border-[#1E2E3E] bg-[#F5F7FA] dark:bg-[#07131E] text-[#071A2B] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-[#F2B705] flex items-center justify-center">
+            <!-- Icon when closed: Hamburger 3 lines -->
+            <svg id="hamburger-icon" class="w-5 h-5 text-[#071A2B] dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <!-- Icon when open: Close X -->
+            <svg id="close-icon" class="w-5 h-5 hidden text-[#071A2B] dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ======================================================== -->
+      <!-- RESPONSIVE ADMIN DRAWER (Conditionally rendered)         -->
+      <!-- ======================================================== -->
+      <div id="responsive-admin-drawer" class="hidden w-full bg-white dark:bg-[#0B1A28] border-t border-[#D9E0E7] dark:border-[#1E2E3E] px-4 py-5 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between pb-2 border-b border-[#D9E0E7] dark:border-[#1E2E3E]">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">Admin Navigation</p>
+            <p class="text-xs font-semibold text-[#071A2B] dark:text-white">Fiduciary Operations Desk</p>
+          </div>
+          <button onclick="toggleAdminMenu()" class="text-xs text-[#667085] dark:text-[#94A3B8] hover:text-[#071A2B] dark:hover:text-white flex items-center gap-1 font-semibold">
+            <span>Close</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-1.5" aria-label="Mobile Admin Navigation">
+          <a href="/admin" onclick="mockNav('/admin', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Dashboard</a>
+          <a href="/admin/users" onclick="mockNav('/admin/users', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Users</a>
+          <a href="/admin/rewards" onclick="mockNav('/admin/rewards', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Rewards</a>
+          <a href="/admin/cash-prizes" onclick="mockNav('/admin/cash-prizes', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Cash Prizes</a>
+          <a href="/admin/vehicle-prizes" onclick="mockNav('/admin/vehicle-prizes', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Vehicle Prizes</a>
+          <!-- Active Item -->
+          <a href="/admin/claims" class="px-3.5 py-2.5 rounded-lg text-sm font-bold bg-[#071A2B] text-white dark:bg-[#F2B705] dark:text-[#071A2B] flex items-center justify-between">
+            <span>Claim Requests</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-[#F2B705] text-[#071A2B] dark:bg-[#071A2B] dark:text-[#F2B705]">8</span>
+          </a>
+          <a href="/admin/claim-requirements" onclick="mockNav('/admin/claim-requirements', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Claim Requirements</a>
+          <a href="/admin/winners" onclick="mockNav('/admin/winners', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Winners</a>
+          <a href="/admin/support" onclick="mockNav('/admin/support', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Support</a>
+          <a href="/admin/audit-logs" onclick="mockNav('/admin/audit-logs', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Audit Logs</a>
+          <a href="/admin/settings" onclick="mockNav('/admin/settings', event)" class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#667085] dark:text-[#94A3B8] hover:bg-[#F5F7FA] dark:hover:bg-[#0F2236] hover:text-[#071A2B] dark:hover:text-white">Settings</a>
+          <button onclick="handleLogout()" class="px-3.5 py-2.5 text-left rounded-lg text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30">Logout</button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MAIN CONTENT AREA                                        -->
+    <!-- ======================================================== -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-10">
+      
+      <!-- Page Header with Eyebrow & Status Badge -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-[#D9E0E7] dark:border-[#1E2E3E]">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#00843D] dark:text-[#10B981] mb-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            CLAIM OPERATIONS &bull; REGISTRY DESK
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold tracking-tight text-[#071A2B] dark:text-white">
+            Claim Requests
+          </h1>
+          <p class="text-sm sm:text-base text-[#667085] dark:text-[#94A3B8] mt-1.5 max-w-2xl">
+            Review and manage cash and vehicle prize claims submitted by approved users.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-xl bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm flex items-center gap-3">
+            <div class="w-2.5 h-2.5 rounded-full bg-[#00843D] dark:bg-[#10B981] animate-pulse"></div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">FICA / SARB Ledger</div>
+              <div class="text-xs font-bold text-[#071A2B] dark:text-white font-mono">100% Operational</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operational Summary (4 Metrics Cards) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-8">
+        <!-- Total Claims -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm">
+          <div class="flex items-center justify-between text-[#667085] dark:text-[#94A3B8]">
+            <span class="text-xs font-bold uppercase tracking-wider">Total Claims</span>
+            <div class="p-2 rounded-lg bg-[#F5F7FA] dark:bg-[#07131E]">
+              <svg class="w-4 h-4 text-[#071A2B] dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span id="metric-total-claims" class="text-3xl font-heading font-bold text-[#071A2B] dark:text-white">8</span>
+            <span class="text-xs text-[#667085] dark:text-[#94A3B8]">Records logged</span>
+          </div>
+          <div class="mt-2 text-xs font-medium text-[#00843D] dark:text-[#10B981] flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 9.586 14.586 6H12z" clip-rule="evenodd"/></svg>
+            <span>+2 submissions in 24h</span>
+          </div>
+        </div>
+
+        <!-- Under Review -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-[#0B1A28] border-l-4 border-l-[#F2B705] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm">
+          <div class="flex items-center justify-between text-[#667085] dark:text-[#94A3B8]">
+            <span class="text-xs font-bold uppercase tracking-wider">Under Review</span>
+            <div class="p-2 rounded-lg bg-[#F2B705]/10 text-[#F2B705]">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span id="metric-under-review" class="text-3xl font-heading font-bold text-[#071A2B] dark:text-white">2</span>
+            <span class="text-xs text-[#667085] dark:text-[#94A3B8]">Pending triage</span>
+          </div>
+          <div class="mt-2 text-xs font-semibold text-amber-600 dark:text-amber-400">
+            Requires registrar action
+          </div>
+        </div>
+
+        <!-- Approved -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-[#0B1A28] border-l-4 border-l-[#00843D] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm">
+          <div class="flex items-center justify-between text-[#667085] dark:text-[#94A3B8]">
+            <span class="text-xs font-bold uppercase tracking-wider">Approved</span>
+            <div class="p-2 rounded-lg bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981]">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span id="metric-approved" class="text-3xl font-heading font-bold text-[#071A2B] dark:text-white">2</span>
+            <span class="text-xs text-[#667085] dark:text-[#94A3B8]">Ready for disbursement</span>
+          </div>
+          <div class="mt-2 text-xs font-semibold text-[#00843D] dark:text-[#10B981]">
+            R 1,250,000 allocated
+          </div>
+        </div>
+
+        <!-- Requirements Pending -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-[#0B1A28] border-l-4 border-l-rose-500 border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm">
+          <div class="flex items-center justify-between text-[#667085] dark:text-[#94A3B8]">
+            <span class="text-xs font-bold uppercase tracking-wider">Requirements Pending</span>
+            <div class="p-2 rounded-lg bg-rose-500/10 text-rose-500">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span id="metric-pending" class="text-3xl font-heading font-bold text-[#071A2B] dark:text-white">1</span>
+            <span class="text-xs text-[#667085] dark:text-[#94A3B8]">Awaiting compliance</span>
+          </div>
+          <div class="mt-2 text-xs font-semibold text-rose-500">
+            FICA document review
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="p-4 sm:p-6 rounded-2xl bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm mb-8 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4">
+          <!-- Search -->
+          <div class="md:col-span-4 relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#667085] dark:text-[#94A3B8]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input id="search-claims" type="text" oninput="applyFilters()" placeholder="Search user, email, or claim ID..." class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#F2B705]">
+          </div>
+
+          <!-- Claim Type Dropdown -->
+          <div class="md:col-span-3">
+            <select id="filter-type" onchange="applyFilters()" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#F2B705]">
+              <option value="ALL">All Prize Types</option>
+              <option value="Cash Prize">Cash Prize</option>
+              <option value="Vehicle Prize">Vehicle Prize</option>
+            </select>
+          </div>
+
+          <!-- Status Dropdown -->
+          <div class="md:col-span-3">
+            <select id="filter-status" onchange="applyFilters()" class="w-full px-3.5 py-2.5 rounded-xl text-sm bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#F2B705]">
+              <option value="ALL">All Statuses</option>
+              <option value="UNDER REVIEW">Under Review</option>
+              <option value="APPROVED">Approved</option>
+              <option value="REQUIREMENT PENDING">Requirement Pending</option>
+              <option value="MORE INFORMATION REQUIRED">More Info Required</option>
+              <option value="PROCESSING">Processing</option>
+              <option value="FULFILLED">Fulfilled</option>
+              <option value="REJECTED">Rejected</option>
+            </select>
+          </div>
+
+          <!-- Clear Filters -->
+          <div class="md:col-span-2 flex items-center gap-2">
+            <button onclick="clearAllFilters()" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white hover:border-[#071A2B] dark:hover:border-white transition-colors">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 text-xs text-[#667085] dark:text-[#94A3B8] border-t border-[#D9E0E7]/60 dark:border-[#1E2E3E]/60">
+          <span id="filtered-count-text">Showing 8 matching operational records</span>
+          <span class="font-mono text-[11px]">Instant SARB indexing active</span>
+        </div>
+      </div>
+
+      <!-- DESKTOP CLAIMS TABLE (lg:block) -->
+      <div class="hidden lg:block bg-white dark:bg-[#0B1A28] rounded-2xl border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm overflow-hidden mb-12">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[#D9E0E7] dark:border-[#1E2E3E] bg-[#F5F7FA]/60 dark:bg-[#07131E]/60 text-[11px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8]">
+              <th class="py-4 px-6">Claim ID</th>
+              <th class="py-4 px-6">User / Claimant</th>
+              <th class="py-4 px-6">Prize Allocated</th>
+              <th class="py-4 px-6">Type</th>
+              <th class="py-4 px-6">Submitted Date</th>
+              <th class="py-4 px-6">Status</th>
+              <th class="py-4 px-6 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="desktop-claims-tbody" class="divide-y divide-[#D9E0E7] dark:divide-[#1E2E3E] text-sm">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TABLET & MOBILE STACKED CARDS (< lg) -->
+      <div id="mobile-claims-container" class="lg:hidden space-y-4 mb-12">
+        <!-- Dynamically populated cards -->
+      </div>
+
+      <!-- STATUTORY DISCLAIMER FOOTER -->
+      <footer class="pt-8 border-t border-[#D9E0E7] dark:border-[#1E2E3E] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#667085] dark:text-[#94A3B8]">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#00843D]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          <span>POPIA Section 18 & SARB Escrow Audit Ledger Compliant</span>
+        </div>
+        <div class="font-mono text-[11px]">
+          Node: JHB-REG-04 &bull; SSL 256-bit Encrypted
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- INTERACTIVE CLAIM REVIEW MODAL / DOSSIER (/admin/claims/:id) -->
+  <!-- ======================================================== -->
+  <div id="claim-modal-backdrop" class="fixed inset-0 z-50 hidden bg-[#071A2B]/60 backdrop-blur-sm overflow-y-auto p-4 sm:p-6 lg:p-10 flex items-center justify-center">
+    <div class="relative w-full max-w-4xl bg-white dark:bg-[#0B1A28] rounded-3xl border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-2xl overflow-hidden my-8">
+      
+      <!-- Modal Header -->
+      <div class="p-6 sm:p-8 border-b border-[#D9E0E7] dark:border-[#1E2E3E] flex items-center justify-between bg-[#F5F7FA]/70 dark:bg-[#07131E]/70">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modal-claim-id" class="px-2.5 py-1 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-[#F2B705] dark:text-[#071A2B] font-mono text-xs font-bold">CLM-9821</span>
+            <span id="modal-claim-type-badge" class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">Vehicle Prize</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-heading font-extrabold text-[#071A2B] dark:text-white mt-2">
+            Claim Review Dossier
+          </h2>
+          <p class="text-xs sm:text-sm text-[#667085] dark:text-[#94A3B8]">Review submitted verification records and update statutory disbursement status.</p>
+        </div>
+        <button onclick="closeClaimModal()" class="p-2 rounded-xl text-[#667085] dark:text-[#94A3B8] hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 sm:p-8 space-y-8 max-h-[70vh] overflow-y-auto">
+        
+        <!-- Timeline Progress -->
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[#667085] dark:text-[#94A3B8] mb-4">Statutory Claim Lifecycle Timeline</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center text-xs">
+            <div class="p-2 rounded-lg bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981] font-bold border border-[#00843D]/20">1. Available</div>
+            <div class="p-2 rounded-lg bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981] font-bold border border-[#00843D]/20">2. Submitted</div>
+            <div id="step-under-review" class="p-2 rounded-lg font-bold">3. Under Review</div>
+            <div id="step-approved" class="p-2 rounded-lg font-bold">4. Approved</div>
+            <div id="step-pending" class="p-2 rounded-lg font-bold">5. Requirements</div>
+            <div id="step-processing" class="p-2 rounded-lg font-bold">6. Processing</div>
+            <div id="step-fulfilled" class="p-2 rounded-lg font-bold">7. Fulfilled</div>
+          </div>
+        </div>
+
+        <!-- 2-Column Info Grid: Claimant Info & Prize Specs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- User / Claimant Information -->
+          <div class="p-5 rounded-2xl bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[#071A2B] dark:text-white flex items-center gap-2">
+              <svg class="w-4 h-4 text-[#F2B705]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+              Claimant Identification
+            </h4>
+            <div class="divide-y divide-[#D9E0E7] dark:divide-[#1E2E3E] text-xs">
+              <div class="py-2 flex justify-between">
+                <span class="text-[#667085] dark:text-[#94A3B8]">Full Legal Name:</span>
+                <span id="modal-user-name" class="font-bold text-[#071A2B] dark:text-white">Sipho Ndlovu</span>
+              </div>
+              <div class="py-2 flex justify-between">
+                <span class="text-[#667085] dark:text-[#94A3B8]">Email Address:</span>
+                <span id="modal-user-email" class="font-mono text-[#071A2B] dark:text-white">sipho.ndlovu@vodamail.co.za</span>
+              </div>
+              <div class="py-2 flex justify-between">
+                <span class="text-[#667085] dark:text-[#94A3B8]">Contact Number:</span>
+                <span id="modal-user-phone" class="font-mono text-[#071A2B] dark:text-white">+27 82 555 1092</span>
+              </div>
+              <div class="py-2 flex justify-between">
+                <span class="text-[#667085] dark:text-[#94A3B8]">Account KYC / FICA:</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981]">VERIFIED</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reward & Settlement Particulars -->
+          <div class="p-5 rounded-2xl bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[#071A2B] dark:text-white flex items-center gap-2">
+              <svg class="w-4 h-4 text-[#00843D]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/></svg>
+              Reward Settlement Record
+            </h4>
+            <div id="modal-reward-details" class="divide-y divide-[#D9E0E7] dark:divide-[#1E2E3E] text-xs">
+              <!-- Dynamically populated based on Cash vs Vehicle -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Action State Controller -->
+        <div class="p-6 rounded-2xl bg-[#071A2B]/5 dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-sm font-bold text-[#071A2B] dark:text-white">Admin Registrar Actions</h4>
+              <p class="text-xs text-[#667085] dark:text-[#94A3B8]">Current State: <span id="modal-current-status" class="font-bold text-[#071A2B] dark:text-white">UNDER REVIEW</span></p>
+            </div>
+            <div id="modal-status-badge" class="px-3 py-1 rounded-full text-xs font-bold">
+              UNDER REVIEW
+            </div>
+          </div>
+
+          <!-- Action Buttons Group (changes dynamically by state) -->
+          <div id="modal-actions-container" class="flex flex-wrap items-center gap-3 pt-2">
+            <!-- Buttons injected based on status -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 border-t border-[#D9E0E7] dark:border-[#1E2E3E] flex items-center justify-between bg-[#F5F7FA]/70 dark:bg-[#07131E]/70 text-xs text-[#667085] dark:text-[#94A3B8]">
+        <span>Audit Trail Record: CLM-LOG-#9014</span>
+        <button onclick="closeClaimModal()" class="px-5 py-2.5 rounded-xl font-bold bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white hover:border-[#071A2B] dark:hover:border-white transition-colors">
+          Dismiss Dossier
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- CONFIRMATION / ACTION DIALOGS (Approve, Reject, More Info, etc.) -->
+  <!-- ======================================================== -->
+  <div id="confirm-modal-backdrop" class="fixed inset-0 z-50 hidden bg-[#071A2B]/70 backdrop-blur-sm p-4 flex items-center justify-center">
+    <div class="w-full max-w-md bg-white dark:bg-[#0B1A28] rounded-2xl border border-[#D9E0E7] dark:border-[#1E2E3E] p-6 shadow-2xl space-y-4">
+      <div class="flex items-center gap-3">
+        <div id="confirm-icon-box" class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg">
+          !
+        </div>
+        <div>
+          <h3 id="confirm-title" class="font-heading font-bold text-lg text-[#071A2B] dark:text-white">Confirm Action</h3>
+          <p id="confirm-subtitle" class="text-xs text-[#667085] dark:text-[#94A3B8]">Please review before finalizing state mutation.</p>
+        </div>
+      </div>
+
+      <div id="confirm-body-content" class="text-sm text-[#071A2B] dark:text-slate-200">
+        <!-- Message or Prompt input -->
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#D9E0E7] dark:border-[#1E2E3E]">
+        <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-[#667085] dark:text-[#94A3B8] hover:bg-slate-100 dark:hover:bg-slate-800">
+          Cancel
+        </button>
+        <button id="confirm-primary-btn" onclick="executePendingConfirm()" class="px-5 py-2 rounded-xl text-xs font-bold text-white transition-colors">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Route Dispatch Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-4 py-3 rounded-xl bg-[#071A2B] text-white dark:bg-[#F2B705] dark:text-[#071A2B] text-xs font-bold shadow-2xl flex items-center gap-2">
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+    <span id="toast-message">Action executed</span>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT STATE ENGINE & INTERACTIVE CONTROLLERS        -->
+  <!-- ======================================================== -->
+  <script>
+    // --- 1. AUTHORITATIVE PROTOTYPE CLAIMS DATASET ---
+    let claimsData = [
+      {
+        id: "CLM-9821",
+        userName: "Sipho Ndlovu",
+        userEmail: "sipho.ndlovu@vodamail.co.za",
+        userPhone: "+27 82 555 1092",
+        prizeName: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        type: "Vehicle Prize",
+        submittedDate: "2026-09-14 14:22",
+        status: "UNDER REVIEW",
+        vehicleMake: "Toyota",
+        vehicleModel: "Hilux 2.8 GD-6 Legend 4x4 Auto Double-Cab",
+        vehicleYear: "2026",
+        deliveryAddress: "44 Impala Ridge Boulevard, Sandton, Gauteng, 2196",
+        preferredContact: "Self (+27 82 555 1092)"
+      },
+      {
+        id: "CLM-9820",
+        userName: "Lerato Khumalo",
+        userEmail: "lerato.khumalo@gmail.com",
+        userPhone: "+27 71 884 9901",
+        prizeName: "R 250,000 ZAR Cash Disbursement",
+        type: "Cash Prize",
+        submittedDate: "2026-09-14 11:05",
+        status: "APPROVED",
+        bankName: "First National Bank (FNB)",
+        accountNumber: "6289 •••• 4192",
+        accountType: "Private Wealth Cheque Account",
+        branchCode: "250655"
+      },
+      {
+        id: "CLM-9819",
+        userName: "David van der Merwe",
+        userEmail: "d.vandermerwe@capefarm.co.za",
+        userPhone: "+27 83 490 2211",
+        prizeName: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        type: "Vehicle Prize",
+        submittedDate: "2026-09-13 16:40",
+        status: "REQUIREMENT PENDING",
+        vehicleMake: "Toyota",
+        vehicleModel: "Hilux 2.8 GD-6 Legend 4x4 Auto Double-Cab",
+        vehicleYear: "2026",
+        deliveryAddress: "Klipfontein Agricultural Estate, Paarl, Western Cape, 7646",
+        preferredContact: "David (+27 83 490 2211)"
+      },
+      {
+        id: "CLM-9818",
+        userName: "Nomvula Dlamini",
+        userEmail: "nomvula.d@telkomsa.net",
+        userPhone: "+27 79 123 4488",
+        prizeName: "R 500,000 ZAR Cash Disbursement",
+        type: "Cash Prize",
+        submittedDate: "2026-09-12 09:15",
+        status: "PROCESSING",
+        bankName: "Standard Bank South Africa",
+        accountNumber: "1014 •••• 7730",
+        accountType: "Current Account",
+        branchCode: "051001"
+      },
+      {
+        id: "CLM-9817",
+        userName: "Johan Pretorius",
+        userEmail: "johan@pretoriuslaw.co.za",
+        userPhone: "+27 82 771 9002",
+        prizeName: "R 100,000 ZAR Cash Disbursement",
+        type: "Cash Prize",
+        submittedDate: "2026-09-11 18:30",
+        status: "FULFILLED",
+        bankName: "Investec Bank Ltd",
+        accountNumber: "5001 •••• 8821",
+        accountType: "Private Client Checking",
+        branchCode: "580105"
+      },
+      {
+        id: "CLM-9816",
+        userName: "Bongani Sithole",
+        userEmail: "bsithole@umgeni.co.za",
+        userPhone: "+27 73 990 1214",
+        prizeName: "2026 Toyota Hilux 2.8 GD-6 Legend 4x4",
+        type: "Vehicle Prize",
+        submittedDate: "2026-09-10 12:10",
+        status: "UNDER REVIEW",
+        vehicleMake: "Toyota",
+        vehicleModel: "Hilux 2.8 GD-6 Legend 4x4 Auto Double-Cab",
+        vehicleYear: "2026",
+        deliveryAddress: "18 Marine Drive, Umhlanga Rocks, KwaZulu-Natal, 4319",
+        preferredContact: "Bongani (+27 73 990 1214)"
+      },
+      {
+        id: "CLM-9815",
+        userName: "Anesh Pillay",
+        userEmail: "apillay@natalnet.co.za",
+        userPhone: "+27 84 332 9011",
+        prizeName: "R 50,000 ZAR Cash Disbursement",
+        type: "Cash Prize",
+        submittedDate: "2026-09-09 15:45",
+        status: "MORE INFORMATION REQUIRED",
+        bankName: "Nedbank Ltd",
+        accountNumber: "1987 •••• 0042",
+        accountType: "Savings Account",
+        branchCode: "198765"
+      },
+      {
+        id: "CLM-9814",
+        userName: "Fatima Bham",
+        userEmail: "fatima.bham@investec.co.za",
+        userPhone: "+27 82 441 5567",
+        prizeName: "R 1,000,000 ZAR Grand Cash Prize",
+        type: "Cash Prize",
+        submittedDate: "2026-09-08 08:50",
+        status: "APPROVED",
+        bankName: "Absa Bank",
+        accountNumber: "4081 •••• 9923",
+        accountType: "Cheque Account",
+        branchCode: "632005"
+      }
+    ];
+
+    let activeSelectedClaim = null;
+    let pendingConfirmAction = null;
+
+    // --- 2. RESPONSIVE HAMBURGER & ADMIN NAVIGATION STATE MACHINE ---
+    let isAdminMenuOpen = false;
+
+    function toggleAdminMenu() {
+      isAdminMenuOpen = !isAdminMenuOpen;
+      const drawer = document.getElementById('responsive-admin-drawer');
+      const hamburgerBtn = document.getElementById('admin-hamburger-btn');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      if (isAdminMenuOpen) {
+        drawer.classList.remove('hidden');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        hamburgerBtn.setAttribute('aria-label', 'Close admin navigation');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      } else {
+        drawer.classList.add('hidden');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        hamburgerBtn.setAttribute('aria-label', 'Open admin navigation');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      }
+    }
+
+    // Keyboard & Resize listeners for safety
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (isAdminMenuOpen) toggleAdminMenu();
+        closeClaimModal();
+        closeConfirmModal();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && isAdminMenuOpen) {
+        toggleAdminMenu();
+      }
+    });
+
+    // --- 3. THEME SYNCHRONIZATION (Light default, no prefers-color-scheme) ---
+    function initTheme() {
+      const savedTheme = localStorage.getItem('wd_admin_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    function toggleGlobalTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('wd_admin_theme', isDark ? 'dark' : 'light');
+      showToast(isDark ? 'Switched to Console Dark Mode' : 'Switched to Light Mode');
+    }
+
+    // --- 4. DATA RENDERING & FILTERING ---
+    function renderClaims() {
+      const tbody = document.getElementById('desktop-claims-tbody');
+      const mobileContainer = document.getElementById('mobile-claims-container');
+      const searchVal = document.getElementById('search-claims').value.toLowerCase();
+      const typeVal = document.getElementById('filter-type').value;
+      const statusVal = document.getElementById('filter-status').value;
+
+      const filtered = claimsData.filter(claim => {
+        const matchesSearch = claim.id.toLowerCase().includes(searchVal) ||
+                              claim.userName.toLowerCase().includes(searchVal) ||
+                              claim.userEmail.toLowerCase().includes(searchVal);
+        const matchesType = typeVal === 'ALL' || claim.type === typeVal;
+        const matchesStatus = statusVal === 'ALL' || claim.status === statusVal;
+        return matchesSearch && matchesType && matchesStatus;
+      });
+
+      document.getElementById('filtered-count-text').innerText = `Showing ${filtered.length} matching operational records`;
+
+      // Render Desktop Rows
+      tbody.innerHTML = filtered.map(c => `
+        <tr class="hover:bg-[#F5F7FA]/70 dark:hover:bg-[#07131E]/40 transition-colors">
+          <td class="py-4 px-6 font-mono font-bold text-xs text-[#071A2B] dark:text-white">${c.id}</td>
+          <td class="py-4 px-6">
+            <div class="font-bold text-[#071A2B] dark:text-white">${c.userName}</div>
+            <div class="text-xs text-[#667085] dark:text-[#94A3B8] font-mono">${c.userEmail}</div>
+          </td>
+          <td class="py-4 px-6 font-semibold text-[#071A2B] dark:text-white">${c.prizeName}</td>
+          <td class="py-4 px-6">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold ${c.type === 'Vehicle Prize' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981]'}">
+              ${c.type}
+            </span>
+          </td>
+          <td class="py-4 px-6 font-mono text-xs text-[#667085] dark:text-[#94A3B8]">${c.submittedDate}</td>
+          <td class="py-4 px-6">
+            ${getStatusBadge(c.status)}
+          </td>
+          <td class="py-4 px-6 text-right">
+            <button onclick="openClaimModal('${c.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] hover:opacity-90 transition-opacity">
+              Review Claim
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Render Mobile Cards
+      mobileContainer.innerHTML = filtered.map(c => `
+        <div class="p-5 rounded-2xl bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-[#071A2B] dark:text-white px-2 py-0.5 rounded bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E]">${c.id}</span>
+            ${getStatusBadge(c.status)}
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-[#071A2B] dark:text-white">${c.userName}</h3>
+            <p class="text-xs text-[#667085] dark:text-[#94A3B8] font-mono">${c.userEmail}</p>
+          </div>
+          <div class="p-3 rounded-xl bg-[#F5F7FA] dark:bg-[#07131E] text-xs space-y-1">
+            <div class="text-[#667085] dark:text-[#94A3B8]">Prize Allocated:</div>
+            <div class="font-bold text-[#071A2B] dark:text-white">${c.prizeName}</div>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t border-[#D9E0E7] dark:border-[#1E2E3E]">
+            <span class="text-xs text-[#667085] dark:text-[#94A3B8] font-mono">${c.submittedDate}</span>
+            <button onclick="openClaimModal('${c.id}')" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B]">
+              Review Claim
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      updateMetrics();
+    }
+
+    function getStatusBadge(status) {
+      switch (status) {
+        case 'UNDER REVIEW':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Under Review</span>`;
+        case 'APPROVED':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#00843D]/10 text-[#00843D] dark:text-[#10B981] border border-[#00843D]/20"><span class="w-1.5 h-1.5 rounded-full bg-[#00843D] dark:bg-[#10B981]"></span>Approved</span>`;
+        case 'REQUIREMENT PENDING':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Req. Pending</span>`;
+        case 'MORE INFORMATION REQUIRED':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>More Info Req.</span>`;
+        case 'PROCESSING':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>Processing</span>`;
+        case 'FULFILLED':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">&#x2713; Fulfilled</span>`;
+        case 'REJECTED':
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20">&times; Rejected</span>`;
+        default:
+          return `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">${status}</span>`;
+      }
+    }
+
+    function updateMetrics() {
+      document.getElementById('metric-total-claims').innerText = claimsData.length;
+      document.getElementById('metric-under-review').innerText = claimsData.filter(c => c.status === 'UNDER REVIEW').length;
+      document.getElementById('metric-approved').innerText = claimsData.filter(c => c.status === 'APPROVED').length;
+      document.getElementById('metric-pending').innerText = claimsData.filter(c => c.status === 'REQUIREMENT PENDING').length;
+    }
+
+    function applyFilters() {
+      renderClaims();
+    }
+
+    function clearAllFilters() {
+      document.getElementById('search-claims').value = '';
+      document.getElementById('filter-type').value = 'ALL';
+      document.getElementById('filter-status').value = 'ALL';
+      renderClaims();
+      showToast('Filters cleared');
+    }
+
+    // --- 5. CLAIM REVIEW DOSSIER MODAL (/admin/claims/:id) ---
+    function openClaimModal(claimId) {
+      activeSelectedClaim = claimsData.find(c => c.id === claimId);
+      if (!activeSelectedClaim) return;
+
+      document.getElementById('modal-claim-id').innerText = activeSelectedClaim.id;
+      document.getElementById('modal-claim-type-badge').innerText = activeSelectedClaim.type;
+      document.getElementById('modal-user-name').innerText = activeSelectedClaim.userName;
+      document.getElementById('modal-user-email').innerText = activeSelectedClaim.userEmail;
+      document.getElementById('modal-user-phone').innerText = activeSelectedClaim.userPhone;
+      document.getElementById('modal-current-status').innerText = activeSelectedClaim.status;
+      document.getElementById('modal-status-badge').innerHTML = getStatusBadge(activeSelectedClaim.status);
+
+      // Populate Reward Section
+      const rewardBox = document.getElementById('modal-reward-details');
+      if (activeSelectedClaim.type === 'Vehicle Prize') {
+        rewardBox.innerHTML = `
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Vehicle Allocated:</span><span class="font-bold text-[#071A2B] dark:text-white">${activeSelectedClaim.prizeName}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Model Year:</span><span class="font-mono text-[#071A2B] dark:text-white">${activeSelectedClaim.vehicleYear}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Delivery Location:</span><span class="text-right text-[#071A2B] dark:text-white max-w-xs font-semibold">${activeSelectedClaim.deliveryAddress}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Preferred Contact:</span><span class="text-[#071A2B] dark:text-white">${activeSelectedClaim.preferredContact}</span></div>
+        `;
+      } else {
+        rewardBox.innerHTML = `
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Cash Disbursement:</span><span class="font-bold text-[#00843D] dark:text-[#10B981]">${activeSelectedClaim.prizeName}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Banking Institution:</span><span class="font-semibold text-[#071A2B] dark:text-white">${activeSelectedClaim.bankName}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Settlement Account:</span><span class="font-mono font-bold text-[#071A2B] dark:text-white">${activeSelectedClaim.accountNumber}</span></div>
+          <div class="py-2 flex justify-between"><span class="text-[#667085] dark:text-[#94A3B8]">Account & Branch:</span><span class="text-[#071A2B] dark:text-white">${activeSelectedClaim.accountType} (${activeSelectedClaim.branchCode})</span></div>
+        `;
+      }
+
+      // Update Timeline step highlights
+      updateTimelineHighlights(activeSelectedClaim.status);
+
+      // Render contextual action buttons based on status
+      renderModalActions(activeSelectedClaim.status);
+
+      document.getElementById('claim-modal-backdrop').classList.remove('hidden');
+    }
+
+    function closeClaimModal() {
+      document.getElementById('claim-modal-backdrop').classList.add('hidden');
+    }
+
+    function updateTimelineHighlights(status) {
+      const resetClass = 'p-2 rounded-lg font-bold bg-[#F5F7FA] dark:bg-[#07131E] text-[#667085] dark:text-[#94A3B8] border border-[#D9E0E7] dark:border-[#1E2E3E]';
+      const activeClass = 'p-2 rounded-lg font-bold bg-[#071A2B] text-[#F2B705] dark:bg-[#F2B705] dark:text-[#071A2B] border border-[#F2B705] shadow-sm';
+      
+      document.getElementById('step-under-review').className = status === 'UNDER REVIEW' ? activeClass : resetClass;
+      document.getElementById('step-approved').className = status === 'APPROVED' ? activeClass : resetClass;
+      document.getElementById('step-pending').className = status === 'REQUIREMENT PENDING' ? activeClass : resetClass;
+      document.getElementById('step-processing').className = status === 'PROCESSING' ? activeClass : resetClass;
+      document.getElementById('step-fulfilled').className = status === 'FULFILLED' ? activeClass : resetClass;
+    }
+
+    function renderModalActions(status) {
+      const actionsBox = document.getElementById('modal-actions-container');
+      let html = '';
+
+      if (status === 'UNDER REVIEW') {
+        html = `
+          <button onclick="promptApproveClaim()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#00843D] text-white hover:bg-[#00843D]/90 transition-colors shadow-sm">
+            &#x2713; Approve Claim
+          </button>
+          <button onclick="promptRejectClaim()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 transition-colors">
+            &times; Reject Claim
+          </button>
+          <button onclick="promptMoreInfo()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white hover:border-[#071A2B] dark:hover:border-white">
+            Request More Information
+          </button>
+        `;
+      } else if (status === 'APPROVED') {
+        html = `
+          <button onclick="promptMoveToProcessing()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] transition-colors shadow-sm">
+            Move to Processing &rarr;
+          </button>
+          <button onclick="showApplicableChargeNotice()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white">
+            View Applicable Charge
+          </button>
+        `;
+      } else if (status === 'MORE INFORMATION REQUIRED') {
+        html = `
+          <button onclick="mutateClaimStatus('UNDER REVIEW')" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F2B705] text-[#071A2B] hover:opacity-95">
+            Return to Under Review
+          </button>
+        `;
+      } else if (status === 'REQUIREMENT PENDING') {
+        html = `
+          <button onclick="promptApproveClaim()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#00843D] text-white">
+            FICA Verified &bull; Clear & Approve
+          </button>
+          <button onclick="promptMoreInfo()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white dark:bg-[#0B1A28] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white">
+            Re-request Documentation
+          </button>
+        `;
+      } else if (status === 'PROCESSING') {
+        html = `
+          <button onclick="promptMarkFulfilled()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#00843D] text-white shadow-sm">
+            &#x2713; Mark Claim as Fulfilled
+          </button>
+        `;
+      } else if (status === 'FULFILLED') {
+        html = `
+          <div class="text-xs font-bold text-[#00843D] dark:text-[#10B981] flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Disbursement finalized. Ledger immutable.
+          </div>
+        `;
+      } else if (status === 'REJECTED') {
+        html = `
+          <button onclick="mutateClaimStatus('UNDER REVIEW')" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white">
+            Reopen for Review
+          </button>
+        `;
+      }
+
+      actionsBox.innerHTML = html;
+    }
+
+    // --- 6. CONFIRMATION MODAL MUTATIONS ---
+    function promptApproveClaim() {
+      openConfirmModal({
+        title: "Approve Claim?",
+        subtitle: `You are approving claim ${activeSelectedClaim.id} for ${activeSelectedClaim.userName}.`,
+        content: `<p class="text-xs text-[#667085] dark:text-[#94A3B8]">Confirming will update the claim state to <strong class="text-[#00843D]">APPROVED</strong> and notify the logistics and disbursement teams.</p>`,
+        confirmBtnText: "Approve Claim",
+        confirmBtnClass: "bg-[#00843D] hover:bg-[#00843D]/90",
+        action: () => mutateClaimStatus('APPROVED')
+      });
+    }
+
+    function promptRejectClaim() {
+      openConfirmModal({
+        title: "Reject Claim?",
+        subtitle: `Rejecting claim ${activeSelectedClaim.id}`,
+        content: `
+          <label class="block text-xs font-bold text-[#071A2B] dark:text-white mb-1">Rejection Reason</label>
+          <textarea id="rejection-reason" rows="3" placeholder="State the statutory or verification basis for rejection..." class="w-full p-2.5 text-xs rounded-xl bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white focus:outline-none focus:ring-2 focus:ring-rose-500"></textarea>
+        `,
+        confirmBtnText: "Reject Claim",
+        confirmBtnClass: "bg-rose-600 hover:bg-rose-700",
+        action: () => mutateClaimStatus('REJECTED')
+      });
+    }
+
+    function promptMoreInfo() {
+      openConfirmModal({
+        title: "Request More Information",
+        subtitle: `Request additional documentation from ${activeSelectedClaim.userName}`,
+        content: `
+          <label class="block text-xs font-bold text-[#071A2B] dark:text-white mb-1">Message to User</label>
+          <textarea id="more-info-msg" rows="3" placeholder="Please clarify your residential address or provide updated bank confirmation..." class="w-full p-2.5 text-xs rounded-xl bg-[#F5F7FA] dark:bg-[#07131E] border border-[#D9E0E7] dark:border-[#1E2E3E] text-[#071A2B] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#F2B705]"></textarea>
+        `,
+        confirmBtnText: "Send Request",
+        confirmBtnClass: "bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B]",
+        action: () => mutateClaimStatus('MORE INFORMATION REQUIRED')
+      });
+    }
+
+    function promptMoveToProcessing() {
+      openConfirmModal({
+        title: "Move Claim to Processing?",
+        subtitle: `Transitioning claim ${activeSelectedClaim.id} to disbursement pipeline`,
+        content: `<p class="text-xs text-[#667085] dark:text-[#94A3B8]">This flags the claim as actively being wired or vehicle shipping schedule locked in.</p>`,
+        confirmBtnText: "Move to Processing",
+        confirmBtnClass: "bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B]",
+        action: () => mutateClaimStatus('PROCESSING')
+      });
+    }
+
+    function promptMarkFulfilled() {
+      openConfirmModal({
+        title: "Mark Claim as Fulfilled?",
+        subtitle: `Finalize claim ${activeSelectedClaim.id}`,
+        content: `<p class="text-xs text-[#667085] dark:text-[#94A3B8]">Confirming verifies that vehicle handover or bank electronic fund transfer has concluded successfully.</p>`,
+        confirmBtnText: "Mark as Fulfilled",
+        confirmBtnClass: "bg-[#00843D] hover:bg-[#00843D]/90",
+        action: () => mutateClaimStatus('FULFILLED')
+      });
+    }
+
+    function showApplicableChargeNotice() {
+      openConfirmModal({
+        title: "Applicable Charge Notice",
+        subtitle: `Fiduciary statutory fee schedule`,
+        content: `
+          <div class="p-3 rounded-xl bg-[#F5F7FA] dark:bg-[#07131E] text-xs space-y-2 text-[#667085] dark:text-[#94A3B8]">
+            <p><strong>Applicable Charge:</strong> R 0.00 (Standard Prize Disbursement)</p>
+            <p><strong>Description:</strong> Zero statutory charges applicable for standard domestic retail bank settlement under SARB Escrow rules.</p>
+          </div>
+        `,
+        confirmBtnText: "Acknowledge",
+        confirmBtnClass: "bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B]",
+        action: () => closeConfirmModal()
+      });
+    }
+
+    function openConfirmModal(cfg) {
+      document.getElementById('confirm-title').innerText = cfg.title;
+      document.getElementById('confirm-subtitle').innerText = cfg.subtitle;
+      document.getElementById('confirm-body-content').innerHTML = cfg.content;
+      const btn = document.getElementById('confirm-primary-btn');
+      btn.innerText = cfg.confirmBtnText;
+      btn.className = `px-5 py-2 rounded-xl text-xs font-bold text-white transition-colors ${cfg.confirmBtnClass}`;
+      pendingConfirmAction = cfg.action;
+      document.getElementById('confirm-modal-backdrop').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirm-modal-backdrop').classList.add('hidden');
+      pendingConfirmAction = null;
+    }
+
+    function executePendingConfirm() {
+      if (typeof pendingConfirmAction === 'function') {
+        pendingConfirmAction();
+      }
+      closeConfirmModal();
+    }
+
+    function mutateClaimStatus(newStatus) {
+      if (!activeSelectedClaim) return;
+      activeSelectedClaim.status = newStatus;
+      renderClaims();
+      openClaimModal(activeSelectedClaim.id);
+      showToast(`Status updated to ${newStatus}`);
+    }
+
+    // Toast feedback & simulated nav
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    function mockNav(route, event) {
+      if (event) event.preventDefault();
+      showToast(`Routing to ${route}`);
+      if (isAdminMenuOpen) toggleAdminMenu();
+    }
+
+    function handleLogout() {
+      showToast('Admin session terminated');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderClaims();
+    });
+  </script>
+</body>
+</html>

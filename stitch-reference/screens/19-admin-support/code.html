@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinDriveSA - Operations Support Desk</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: "#F2B705",
+              navy: "#071A2B",
+              emerald: "#00843D"
+            }
+          },
+          fontFamily: {
+            sora: ["Sora", "sans-serif"],
+            manrope: ["Manrope", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 4px;
+    }
+    .table-tabular {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F7FA] dark:bg-[#060E17] text-[#071A2B] dark:text-[#EDF4FF] font-manrope antialiased transition-colors duration-200">
+<!-- Authenticated Admin Root Frame -->
+<div class="w-full min-h-screen flex flex-col lg:flex-row" id="admin-root">
+<!-- Tablet & Mobile Compact Admin Header (Normal Flow, No Overlap) -->
+<header class="lg:hidden w-full bg-white dark:bg-[#0B1E30] border-b border-[#D9E0E7] dark:border-[#1E344A] px-4 py-3.5 flex items-center justify-between shadow-xs shrink-0 transition-colors duration-200">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Brand" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbeVx66NdA97atljWlf_vJw2OeAci4atOZ1vUCi1nYNDuq-Yb5XLL7XUVDzLXbAWMjVe4cwWcyWGB2lSAgAo6pKtrSpBm640SmLKYUGpS4FCsCRKpgAKGlJ5FdtVn97C20UveSY6p0ArV-JY8sLmXA2BQ5NPJXISHSu-s2YaUmWQZftsvC5NMv2Kf93I1laPE6iqOjpTRGGQKtGFhzX6kCQyE1fcyPoIdSdCxVaWbcWNUP2L3gersaWlIY9C5FytqPees"/>
+<span class="px-2 py-0.5 rounded text-[10px] font-sora font-bold tracking-wider uppercase bg-[#F2B705] text-[#071A2B]">Ops Desk</span>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Toggle Theme" class="theme-toggle w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#15273C] dark:hover:bg-[#1E344A] text-[#071A2B] dark:text-[#F2B705] transition-colors" type="button">
+<span class="material-symbols-outlined text-[19px]">dark_mode</span>
+</button>
+<button aria-label="Open Admin Menu" class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#15273C] dark:hover:bg-[#1E344A] text-[#071A2B] dark:text-[#EDF4FF] active:scale-95 transition-all" id="mobile-drawer-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</div>
+</header>
+<!-- Mobile Drawer Overlay / Backdrop -->
+<div class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-xs transition-opacity lg:hidden" id="drawer-backdrop"></div>
+<!-- Desktop Sticky Sidebar & Mobile Slide Drawer -->
+<aside class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0B1E30] border-r border-[#D9E0E7] dark:border-[#1E344A] flex flex-col justify-between shrink-0 transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 lg:h-[100dvh] transition-all duration-300 ease-in-out shadow-xl lg:shadow-none" id="admin-sidebar">
+<!-- Top Branding & Operator Profile -->
+<div class="flex flex-col">
+<div class="p-5 border-b border-[#D9E0E7] dark:border-[#1E344A] flex items-center justify-between">
+<div class="flex flex-col gap-1">
+<img alt="WinDriveSA Master" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXCMOTnbEGH11Cajidmoinq1Cw02htCrHMLf8JeQ7hJ7dunjnuWrOz5ZTZUD1DRA6Oig9wc7Fp7PK4ynYmeHraZjLvMFjYgeRZRbzImZM434TnF4eEOakm25C_CpO3CGFaaAtV5DA6fGBejHJLrN01gMGNM6QRMYKJO70JECm7jeq6zBMawz0O_kDLdZNpfCbjVSJ-xa100XkRd1wqth0biiVHi_QXaWE7ufM-UX7Xb258a9odN7jpqWnPBuWn8VFu24w"/>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-[#00843D] animate-pulse"></span>
+<span class="text-[10px] tracking-widest font-bold uppercase font-sora text-[#00843D] dark:text-[#F2B705]">CUSTOMER OPERATIONS</span>
+</div>
+</div>
+<button aria-label="Close navigation" class="lg:hidden p-1.5 text-slate-500 hover:text-[#071A2B] dark:text-slate-400 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-[#15273C]" id="drawer-close-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Authenticated Operator Badge -->
+<div class="mx-4 my-3.5 p-3 rounded-lg bg-slate-50 dark:bg-[#071524] border border-[#D9E0E7] dark:border-[#1E344A] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-[#F2B705] dark:text-[#071A2B] font-sora font-bold text-xs flex items-center justify-center tracking-tight shadow-xs">
+              AC04
+            </div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-[#071A2B] dark:text-white truncate">Admin Controller 04</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#00843D]"></span> Level 4 Fiduciary
+              </span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-[#00843D] dark:text-[#F2B705]">verified_user</span>
+</div>
+<!-- 11 Administrative Routes Navigation -->
+<nav aria-label="Admin Navigation" class="px-3 flex flex-col gap-1 overflow-y-auto max-h-[calc(100dvh-290px)]">
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#dashboard">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#users">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#rewards">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">military_tech</span>
+<span>Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#cash-prizes">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">payments</span>
+<span>Cash Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#vehicle-prizes">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">directions_car</span>
+<span>Vehicle Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#claim-requests">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">assignment_turned_in</span>
+<span>Claim Requests</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#claim-requirements">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">fact_check</span>
+<span>Claim Requirements</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#winners">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">emoji_events</span>
+<span>Winners</span>
+</a>
+<!-- ACTIVE ROUTE: Support -->
+<a class="flex items-center justify-between px-3 py-2 rounded-md text-xs font-bold bg-[#071A2B] text-white dark:bg-[#F2B705] dark:text-[#071A2B] shadow-sm transition-all" href="#support">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[19px]" style="font-variation-settings: 'FILL' 1;">headset_mic</span>
+<span class="font-sora tracking-tight">Support</span>
+</div>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#F2B705] text-[#071A2B] dark:bg-[#071A2B] dark:text-white font-mono font-bold">4 OPEN</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#audit-logs">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">receipt_long</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#15273C] hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#settings">
+<span class="material-symbols-outlined text-[19px] text-slate-500 dark:text-slate-400">tune</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Session & Theme Controls -->
+<div class="p-4 border-t border-[#D9E0E7] dark:border-[#1E344A] flex flex-col gap-2">
+<div class="flex items-center justify-between px-2 py-1">
+<span class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-[16px]">contrast</span> Console Theme
+          </span>
+<button aria-label="Toggle Theme" class="theme-toggle w-8 h-8 rounded-md flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-[#15273C] dark:hover:bg-[#1E344A] text-[#071A2B] dark:text-[#F2B705] transition-colors" type="button">
+<span class="material-symbols-outlined text-[17px]">dark_mode</span>
+</button>
+</div>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Terminate Session (Logout)</span>
+</button>
+</div>
+</aside>
+<!-- Main Operational Workspace -->
+<main class="flex-1 flex flex-col min-w-0 p-4 sm:p-6 lg:p-8" id="main-content-canvas">
+<!-- VIEW A: Support Requests Queue -->
+<div class="flex flex-col gap-6 w-full max-w-7xl mx-auto" id="queue-view">
+<!-- Header & Top Metadata -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[11px] font-bold font-sora tracking-widest text-[#00843D] uppercase">CUSTOMER OPERATIONS DESK</span>
+<span class="text-slate-400">•</span>
+<span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TICKETING &amp; FICA FIDUCIARY DISPATCH</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-extrabold font-sora tracking-tight text-[#071A2B] dark:text-[#EDF4FF]">Support</h1>
+<p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Review, assign, and manage regulatory support requests from WinDriveSA participants.</p>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#071A2B] text-white text-xs rounded-md font-medium shadow-xs">
+<span class="w-2 h-2 rounded-full bg-[#00843D]"></span>
+              ZAR Secure Dispatch Active
+            </span>
+</div>
+</div>
+<!-- 4 Operational Summary Metric Cards -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+<!-- Open Metric -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+<span class="font-bold uppercase tracking-wider font-sora">OPEN</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]">mark_email_unread</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] table-tabular">4</span>
+<span class="text-[11px] text-amber-600 font-semibold">Immediate Action</span>
+</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Requires First Response</div>
+</div>
+<!-- In Progress Metric -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+<span class="font-bold uppercase tracking-wider font-sora">IN PROGRESS</span>
+<span class="material-symbols-outlined text-blue-500 text-[18px]">sync</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] table-tabular">2</span>
+<span class="text-[11px] text-blue-600 font-semibold">Under Audit</span>
+</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Active Investigation</div>
+</div>
+<!-- Waiting for User -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+<span class="font-bold uppercase tracking-wider font-sora">WAITING FOR USER</span>
+<span class="material-symbols-outlined text-purple-500 text-[18px]">hourglass_top</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] table-tabular">1</span>
+<span class="text-[11px] text-purple-600 font-semibold">Pending Document</span>
+</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Awaiting Claimant Response</div>
+</div>
+<!-- Resolved Metric -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+<span class="font-bold uppercase tracking-wider font-sora">RESOLVED</span>
+<span class="material-symbols-outlined text-[#00843D] text-[18px]">check_circle</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] table-tabular">9</span>
+<span class="text-[11px] text-[#00843D] font-semibold">100% Verified</span>
+</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Fulfilled &amp; Closed Dossiers</div>
+</div>
+</div>
+<!-- WhatsApp Support Integration Bar -->
+<div class="p-4 rounded-lg bg-[#071A2B] text-white border border-[#1E344A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+<div class="flex items-start sm:items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-[#00843D]/20 text-[#00843D] flex items-center justify-center shrink-0 border border-[#00843D]/40">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">chat</span>
+</div>
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-sora text-sm font-bold tracking-tight text-white">Direct WhatsApp Assistance Desk</span>
+<span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-white/10 text-[#F2B705]">+27 (0) 11 884 9200</span>
+</div>
+<p class="text-xs text-slate-300 mt-0.5">
+                Support Channel Only • WinDriveSA never processes payments or collects banking credentials / OTPs via WhatsApp.
+              </p>
+</div>
+</div>
+<a class="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#00843D] hover:bg-[#007034] text-white font-sora text-xs font-bold tracking-wide transition-all shadow-xs" href="https://wa.me/27118849200" rel="noopener noreferrer" target="_blank">
+<span>Open WhatsApp</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</div>
+<!-- Filter Presets & Search Toolbar -->
+<div class="flex flex-col gap-3 bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs">
+<!-- Sandbox Preset Chips -->
+<div class="flex flex-wrap items-center gap-2 text-xs">
+<span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-1">Filter Presets:</span>
+<button class="preset-pill px-3 py-1 rounded-md bg-[#071A2B] text-white dark:bg-[#F2B705] dark:text-[#071A2B] font-semibold hover:opacity-90 transition-all text-xs" onclick="applyPreset('all')" type="button">
+              1. All Requests (4 Demo)
+            </button>
+<button class="preset-pill px-3 py-1 rounded-md bg-slate-100 dark:bg-[#15273C] text-[#071A2B] dark:text-[#EDF4FF] font-medium hover:bg-slate-200 dark:hover:bg-[#1E344A] transition-all text-xs" onclick="applyPreset('open')" type="button">
+              2. Open Only (1)
+            </button>
+<button class="preset-pill px-3 py-1 rounded-md bg-slate-100 dark:bg-[#15273C] text-[#071A2B] dark:text-[#EDF4FF] font-medium hover:bg-slate-200 dark:hover:bg-[#1E344A] transition-all text-xs" onclick="applyPreset('claims')" type="button">
+              3. Claims Inquiries (2)
+            </button>
+<button class="text-xs text-slate-500 hover:text-[#071A2B] dark:text-slate-400 dark:hover:text-white underline ml-auto" onclick="resetFilters()" type="button">
+              Reset Filters
+            </button>
+</div>
+<!-- Filter Toolbar Inputs -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2 border-t border-[#D9E0E7] dark:border-[#1E344A]">
+<div class="lg:col-span-2 relative">
+<span class="material-symbols-outlined text-slate-400 absolute left-3 top-2.5 text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-2 text-xs rounded-md border border-[#D9E0E7] dark:border-[#1E344A] bg-white dark:bg-[#071524] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-[#071A2B] dark:focus:ring-[#F2B705]" id="search-input" oninput="filterTable()" placeholder="Search by user, email, subject, or ticket..." type="text"/>
+</div>
+<div>
+<select class="w-full py-2 px-3 text-xs rounded-md border border-[#D9E0E7] dark:border-[#1E344A] bg-white dark:bg-[#071524] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-[#071A2B] dark:focus:ring-[#F2B705]" id="status-filter" onchange="filterTable()">
+<option value="ALL">All Statuses</option>
+<option value="OPEN">OPEN</option>
+<option value="IN PROGRESS">IN PROGRESS</option>
+<option value="WAITING FOR USER">WAITING FOR USER</option>
+<option value="RESOLVED">RESOLVED</option>
+</select>
+</div>
+<div>
+<select class="w-full py-2 px-3 text-xs rounded-md border border-[#D9E0E7] dark:border-[#1E344A] bg-white dark:bg-[#071524] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-[#071A2B] dark:focus:ring-[#F2B705]" id="category-filter" onchange="filterTable()">
+<option value="ALL">All Categories</option>
+<option value="Account">Account</option>
+<option value="Cash Prize">Cash Prize</option>
+<option value="Vehicle Prize">Vehicle Prize</option>
+<option value="General Support">General Support</option>
+</select>
+</div>
+<div>
+<select class="w-full py-2 px-3 text-xs rounded-md border border-[#D9E0E7] dark:border-[#1E344A] bg-white dark:bg-[#071524] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-[#071A2B] dark:focus:ring-[#F2B705]" id="date-filter" onchange="filterTable()">
+<option value="ALL">All Time</option>
+<option value="TODAY">Today</option>
+<option value="7DAYS">Last 7 Days</option>
+<option value="30DAYS">Last 30 Days</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Desktop Support Requests Queue (Table) -->
+<div class="hidden md:block bg-white dark:bg-[#0B1E30] rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs" id="support-table">
+<thead>
+<tr class="bg-slate-50 dark:bg-[#071524] text-slate-500 dark:text-slate-400 border-b border-[#D9E0E7] dark:border-[#1E344A] uppercase tracking-wider font-semibold font-sora">
+<th class="py-3.5 px-4">Request / Subject</th>
+<th class="py-3.5 px-4">User Profile</th>
+<th class="py-3.5 px-4">Category</th>
+<th class="py-3.5 px-4">Last Updated</th>
+<th class="py-3.5 px-4">Status</th>
+<th class="py-3.5 px-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#D9E0E7] dark:divide-[#1E344A]" id="table-body">
+<!-- Ticket 1 -->
+<tr class="hover:bg-slate-50/80 dark:hover:bg-[#15273C]/50 transition-colors ticket-row" data-category="Account" data-id="1" data-status="OPEN">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora text-sm">Account Review Question</span>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#15273C] text-slate-600 dark:text-slate-400">#WD-SUP-1082</span>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-xs mt-0.5">"Hello, I submitted my account credentials for review..."</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Michael Dlamini</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">m.dlamini@telkomsa.net</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-[#15273C] text-[#071A2B] dark:text-[#EDF4FF]">
+                      Account
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 table-tabular">
+                    14 Sep 2026, 11:20 SAST
+                  </td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                      OPEN
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] font-sora font-semibold text-xs tracking-tight transition-all shadow-xs" onclick="openDetailView(1)">
+<span>View Request</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Ticket 2 -->
+<tr class="hover:bg-slate-50/80 dark:hover:bg-[#15273C]/50 transition-colors ticket-row" data-category="Cash Prize" data-id="2" data-status="IN PROGRESS">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora text-sm">Cash Claim Banking Verification</span>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#15273C] text-slate-600 dark:text-slate-400">#WD-SUP-1079</span>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-xs mt-0.5">"Checking status on my FNB account confirmation letter..."</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Thandi Mokoena</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">thandi.mokoena@vodamail.co.za</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 text-[#00843D] dark:text-emerald-400">
+                      Cash Prize
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 table-tabular">
+                    13 Sep 2026, 15:45 SAST
+                  </td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                      IN PROGRESS
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] font-sora font-semibold text-xs tracking-tight transition-all shadow-xs" onclick="openDetailView(2)">
+<span>View Request</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Ticket 3 -->
+<tr class="hover:bg-slate-50/80 dark:hover:bg-[#15273C]/50 transition-colors ticket-row" data-category="Vehicle Prize" data-id="3" data-status="WAITING FOR USER">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora text-sm">Vehicle Delivery Logistics Schedule</span>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#15273C] text-slate-600 dark:text-slate-400">#WD-SUP-1065</span>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-xs mt-0.5">"Requested preferred dealership location handover in Sandton..."</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Sipho Ndlovu</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">sipho.ndlovu@nashua.co.za</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-700 dark:text-amber-400">
+                      Vehicle Prize
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 table-tabular">
+                    12 Sep 2026, 09:30 SAST
+                  </td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                      WAITING FOR USER
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] font-sora font-semibold text-xs tracking-tight transition-all shadow-xs" onclick="openDetailView(3)">
+<span>View Request</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- Ticket 4 -->
+<tr class="hover:bg-slate-50/80 dark:hover:bg-[#15273C]/50 transition-colors ticket-row" data-category="General Support" data-id="4" data-status="RESOLVED">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora text-sm">General Account Assistance</span>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-[#15273C] text-slate-600 dark:text-slate-400">#WD-SUP-1051</span>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-xs mt-0.5">"Guidance on updating national ID document copy."</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Naledi Khumalo</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">naledi.k@investec.co.za</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-[#15273C] text-[#071A2B] dark:text-[#EDF4FF]">
+                      General Support
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 table-tabular">
+                    10 Sep 2026, 16:15 SAST
+                  </td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#00843D]/10 text-[#00843D] dark:text-emerald-400 border border-[#00843D]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00843D]"></span>
+                      RESOLVED
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] font-sora font-semibold text-xs tracking-tight transition-all shadow-xs" onclick="openDetailView(4)">
+<span>View Request</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Mobile Stacked Card View (< 768px) -->
+<div class="md:hidden flex flex-col gap-3" id="mobile-cards-container">
+<!-- Mobile Card 1 -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-3 mobile-ticket-card" data-category="Account" data-id="1" data-status="OPEN">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">#WD-SUP-1082 • Account</span>
+<h2 class="font-sora font-bold text-sm text-[#071A2B] dark:text-[#EDF4FF]">Account Review Question</h2>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                OPEN
+              </span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">"Hello, I submitted my account credentials for review and wanted to check whether there is anything else required regarding my FICA proof of address."</p>
+<div class="flex items-center justify-between pt-2 border-t border-[#D9E0E7] dark:border-[#1E344A] text-xs">
+<div>
+<div class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Michael Dlamini</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400">14 Sep, 11:20 SAST</div>
+</div>
+<button class="px-3 py-1.5 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora text-xs font-semibold shadow-xs" onclick="openDetailView(1)">
+                View Request
+              </button>
+</div>
+</div>
+<!-- Mobile Card 2 -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-3 mobile-ticket-card" data-category="Cash Prize" data-id="2" data-status="IN PROGRESS">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">#WD-SUP-1079 • Cash Prize</span>
+<h2 class="font-sora font-bold text-sm text-[#071A2B] dark:text-[#EDF4FF]">Cash Claim Banking Verification</h2>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                IN PROGRESS
+              </span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">"Checking status on my FNB account confirmation letter. Verification stamped by branch manager."</p>
+<div class="flex items-center justify-between pt-2 border-t border-[#D9E0E7] dark:border-[#1E344A] text-xs">
+<div>
+<div class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Thandi Mokoena</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400">13 Sep, 15:45 SAST</div>
+</div>
+<button class="px-3 py-1.5 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora text-xs font-semibold shadow-xs" onclick="openDetailView(2)">
+                View Request
+              </button>
+</div>
+</div>
+<!-- Mobile Card 3 -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-3 mobile-ticket-card" data-category="Vehicle Prize" data-id="3" data-status="WAITING FOR USER">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">#WD-SUP-1065 • Vehicle Prize</span>
+<h2 class="font-sora font-bold text-sm text-[#071A2B] dark:text-[#EDF4FF]">Vehicle Delivery Logistics Schedule</h2>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                WAITING FOR USER
+              </span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">"Requested preferred dealership location handover in Sandton or Pretoria East."</p>
+<div class="flex items-center justify-between pt-2 border-t border-[#D9E0E7] dark:border-[#1E344A] text-xs">
+<div>
+<div class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Sipho Ndlovu</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400">12 Sep, 09:30 SAST</div>
+</div>
+<button class="px-3 py-1.5 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora text-xs font-semibold shadow-xs" onclick="openDetailView(3)">
+                View Request
+              </button>
+</div>
+</div>
+<!-- Mobile Card 4 -->
+<div class="bg-white dark:bg-[#0B1E30] p-4 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-3 mobile-ticket-card" data-category="General Support" data-id="4" data-status="RESOLVED">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">#WD-SUP-1051 • General Support</span>
+<h2 class="font-sora font-bold text-sm text-[#071A2B] dark:text-[#EDF4FF]">General Account Assistance</h2>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00843D]/10 text-[#00843D] dark:text-emerald-400">
+                RESOLVED
+              </span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">"Guidance on updating national ID document copy. Dossier closed successfully."</p>
+<div class="flex items-center justify-between pt-2 border-t border-[#D9E0E7] dark:border-[#1E344A] text-xs">
+<div>
+<div class="font-semibold text-[#071A2B] dark:text-[#EDF4FF]">Naledi Khumalo</div>
+<div class="text-[11px] text-slate-500 dark:text-slate-400">10 Sep, 16:15 SAST</div>
+</div>
+<button class="px-3 py-1.5 rounded-md bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora text-xs font-semibold shadow-xs" onclick="openDetailView(4)">
+                View Request
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- VIEW B: Dedicated Support Request Detail Dossier (/admin/support/:id) -->
+<div class="hidden flex-col gap-6 w-full max-w-7xl mx-auto" id="detail-view">
+<!-- Top Back Navigation -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<button class="inline-flex items-center gap-2 text-xs font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] hover:text-[#00843D] dark:hover:text-[#F2B705] transition-colors" onclick="backToQueue()">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Support Queue</span>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Dossier Access Token: WD-SUP-SEC-8902</span>
+</div>
+</div>
+<!-- Header Dossier Title Bar -->
+<div class="bg-white dark:bg-[#0B1E30] p-5 sm:p-6 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex flex-wrap items-center gap-2 mb-1.5">
+<span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-[#15273C] text-[#071A2B] dark:text-[#EDF4FF]" id="detail-ticket-id">#WD-SUP-1082</span>
+<span class="text-xs font-bold px-2.5 py-0.5 rounded bg-slate-200 dark:bg-[#1E344A] text-[#071A2B] dark:text-[#EDF4FF]" id="detail-category-badge">Account</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" id="detail-status-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+<span id="detail-status-text">OPEN</span>
+</span>
+</div>
+<h2 class="text-xl sm:text-2xl font-bold font-sora tracking-tight text-[#071A2B] dark:text-[#EDF4FF]" id="detail-subject">Account Review Question</h2>
+<div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-1">
+<span>Created: 14 Sep 2026, 11:20 SAST</span>
+<span>•</span>
+<span>Assigned: Admin Controller 04</span>
+</div>
+</div>
+<!-- Dynamic Action Buttons -->
+<div class="flex flex-wrap items-center gap-2" id="detail-action-bar"></div>
+</div>
+</div>
+<!-- Two-Column Operational Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT COLUMN: Conversation Thread & Composers (8 Columns) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<div class="bg-white dark:bg-[#0B1E30] p-5 sm:p-6 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-6">
+<div class="flex items-center justify-between border-b border-[#D9E0E7] dark:border-[#1E344A] pb-3">
+<span class="text-xs font-bold uppercase tracking-wider font-sora text-[#071A2B] dark:text-[#EDF4FF]">Regulatory Communications Thread</span>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1 font-mono">
+<span class="material-symbols-outlined text-[14px]">lock</span> Encrypted Audit Log
+                </span>
+</div>
+<!-- Message History -->
+<div class="flex flex-col gap-4" id="thread-container">
+<!-- Inbound Message -->
+<div class="p-4 rounded-lg bg-slate-50 dark:bg-[#071524] border border-[#D9E0E7] dark:border-[#1E344A] flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] flex items-center justify-center font-bold text-xs font-sora">MD</span>
+<div class="flex flex-col">
+<span class="font-bold text-xs text-[#071A2B] dark:text-[#EDF4FF]" id="thread-user-name">Michael Dlamini (Claimant)</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Inbound Support Ticket</span>
+</div>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 table-tabular">14 Sep 2026, 11:20 SAST</span>
+</div>
+<div class="text-xs text-[#071A2B] dark:text-slate-200 leading-relaxed mt-1 font-normal" id="thread-inbound-body">
+                    "Hello, I submitted my account credentials for review and wanted to check whether there is anything else required regarding my FICA proof of address. I live in a municipal area where utility accounts are shared."
+                  </div>
+</div>
+<!-- Internal Admin Private Note -->
+<div class="p-4 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-700/40 flex flex-col gap-2">
+<div class="flex items-center justify-between text-amber-900 dark:text-amber-300">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lock_person</span>
+<span class="text-xs font-bold uppercase tracking-wider font-sora">Internal Confidential Note (Admin Only)</span>
+</div>
+<span class="text-[11px] font-mono opacity-80">14 Sep 2026, 11:28 SAST</span>
+</div>
+<div class="text-xs text-amber-950 dark:text-amber-200 leading-relaxed font-medium">
+                    "Admin Only: FICA document verified in natis database. Municipal co-habitation affidavit acceptable under SARB Circular 4. Awaiting final supervisor sign-off before releasing cash allocation."
+                  </div>
+<div class="text-[10px] text-amber-800 dark:text-amber-400 font-bold uppercase tracking-wider">
+                    Author: Admin Controller 04 • Level 4 Audit Flag
+                  </div>
+</div>
+<!-- Official Outbound Dispatch -->
+<div class="p-4 rounded-lg bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 flex flex-col gap-2 ml-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-md bg-[#071A2B] text-[#F2B705] flex items-center justify-center font-bold text-xs font-sora">
+                        AC
+                      </div>
+<div class="flex flex-col">
+<span class="font-bold text-xs text-[#071A2B] dark:text-[#EDF4FF]">Admin Controller 04 (WinDriveSA Fiduciary Desk)</span>
+<span class="text-[10px] text-[#00843D] dark:text-emerald-400 font-semibold">Official Dispatch</span>
+</div>
+</div>
+<span class="text-[11px] text-slate-500 dark:text-slate-400 table-tabular">14 Sep 2026, 11:35 SAST</span>
+</div>
+<div class="text-xs text-[#071A2B] dark:text-slate-200 leading-relaxed mt-1">
+                    "Good day Michael, thank you for reaching out to WinDriveSA. We have received your query regarding municipal co-habitation. A certified co-habitation declaration signed at any SAPS station or commissioner of oaths is fully recognized under our statutory draw compliance."
+                  </div>
+</div>
+</div>
+<!-- Composers Section -->
+<div class="flex flex-col gap-4 pt-4 border-t border-[#D9E0E7] dark:border-[#1E344A]">
+<!-- Reply to User Composer -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px]">reply</span>
+                      Reply to User
+                    </span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">Direct email &amp; in-app notification to claimant</span>
+</div>
+<textarea class="w-full p-3 text-xs rounded-md border border-[#D9E0E7] dark:border-[#1E344A] bg-white dark:bg-[#071524] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-[#071A2B] dark:focus:ring-[#F2B705]" id="reply-textarea" placeholder="Compose official response to user... (Strict compliance: Never request banking PINs, OTPs, or passwords)" rows="3"></textarea>
+<div class="flex items-center justify-between">
+<span class="text-[11px] text-slate-500 dark:text-slate-400">POPIA Compliant Dispatch</span>
+<button class="px-4 py-2 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] font-sora font-semibold text-xs transition-all shadow-xs flex items-center gap-1.5" onclick="sendReply()" type="button">
+<span>Send Official Reply</span>
+<span class="material-symbols-outlined text-[16px]">send</span>
+</button>
+</div>
+</div>
+<!-- Add Internal Note Composer -->
+<div class="flex flex-col gap-2 pt-3 border-t border-dashed border-[#D9E0E7] dark:border-[#1E344A]">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold font-sora text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px]">lock</span>
+                      Add Internal Note (Not visible to user)
+                    </span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">Restricted to Level 4 Controllers</span>
+</div>
+<textarea class="w-full p-3 text-xs rounded-md border border-amber-300 dark:border-amber-700/50 bg-amber-50/50 dark:bg-[#151D29] text-[#071A2B] dark:text-[#EDF4FF] focus:outline-none focus:ring-1 focus:ring-amber-500" id="internal-note-textarea" placeholder="Record internal audit notes, verified Natis or banking cross-references..." rows="2"></textarea>
+<div class="flex justify-end">
+<button class="px-3 py-1.5 rounded-md bg-amber-600 hover:bg-amber-700 text-white font-sora font-semibold text-xs transition-all shadow-xs flex items-center gap-1" onclick="addInternalNote()" type="button">
+<span>Add Confidential Note</span>
+<span class="material-symbols-outlined text-[15px]">add_circle</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Claimant Context & Associated Claim (4 Columns) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- User Context Dossier -->
+<div class="bg-white dark:bg-[#0B1E30] p-5 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-[#D9E0E7] dark:border-[#1E344A] pb-2.5">
+<span class="text-xs font-bold uppercase tracking-wider font-sora text-[#071A2B] dark:text-[#EDF4FF]">Claimant Identity Dossier</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400">PENDING REVIEW</span>
+</div>
+<div class="flex flex-col gap-3 text-xs">
+<div>
+<span class="text-slate-500 dark:text-slate-400 block text-[11px]">Legal Identity</span>
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora" id="context-user-name">Michael Dlamini</span>
+</div>
+<div>
+<span class="text-slate-500 dark:text-slate-400 block text-[11px]">Verified Email</span>
+<span class="font-mono text-[#071A2B] dark:text-[#EDF4FF]" id="context-user-email">m.dlamini@telkomsa.net</span>
+</div>
+<div>
+<span class="text-slate-500 dark:text-slate-400 block text-[11px]">Mobile Telecom MSISDN</span>
+<span class="font-mono text-[#071A2B] dark:text-[#EDF4FF]">+27 82 459 9120 (Vodacom SA)</span>
+</div>
+<div>
+<span class="text-slate-500 dark:text-slate-400 block text-[11px]">National Registration Date</span>
+<span class="font-mono text-[#071A2B] dark:text-[#EDF4FF]">01 Sep 2026, 08:14 SAST</span>
+</div>
+</div>
+<div class="p-2.5 rounded-md bg-slate-50 dark:bg-[#071524] border border-[#D9E0E7] dark:border-[#1E344A] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-[#00843D]">fingerprint</span>
+<span class="text-[11px] font-semibold text-[#071A2B] dark:text-[#EDF4FF]">FICA Tier 2 Verification</span>
+</div>
+<span class="text-[10px] font-bold text-[#00843D] dark:text-emerald-400">MATCHED</span>
+</div>
+</div>
+<!-- Related Claim Context Card -->
+<div class="bg-white dark:bg-[#0B1E30] p-5 rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-xs flex flex-col gap-4" id="related-claim-card">
+<div class="flex items-center justify-between border-b border-[#D9E0E7] dark:border-[#1E344A] pb-2.5">
+<span class="text-xs font-bold uppercase tracking-wider font-sora text-[#071A2B] dark:text-[#EDF4FF]">Associated Claim</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-700 dark:text-blue-400" id="context-claim-status">UNDER REVIEW</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-sora font-bold text-sm text-[#071A2B] dark:text-[#EDF4FF]" id="context-claim-title">R250,000 ZAR Cash Prize</span>
+<div class="text-xs text-slate-500 dark:text-slate-400">
+                  Ref: <span class="font-mono font-semibold">CLM-ZA-2026-881</span>
+</div>
+<div class="mt-2 p-3 rounded-md bg-slate-50 dark:bg-[#071524] border border-[#D9E0E7] dark:border-[#1E344A]">
+<div class="text-[11px] text-slate-500 dark:text-slate-400">Guaranteed Institutional Value</div>
+<div class="text-lg font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF] table-tabular" id="context-claim-value">R 250,000.00 ZAR</div>
+</div>
+</div>
+<a class="w-full py-2 px-3 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] text-xs font-sora font-semibold text-center transition-all flex items-center justify-center gap-1" href="#claim-requests">
+<span>View Full Claim Dossier</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+<!-- POPIA & Compliance Box -->
+<div class="p-4 rounded-lg bg-[#071A2B] text-white border border-[#1E344A] flex flex-col gap-2 shadow-xs">
+<div class="flex items-center gap-2 text-[#F2B705]">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="text-xs font-bold uppercase tracking-wide font-sora">POPIA Section 18 Compliance</span>
+</div>
+<p class="text-[11px] text-slate-300 leading-relaxed">
+                WinDriveSA Support is restricted to operational verification. Agents must strictly never collect, solicit, or log claimant full credit card numbers, ATM PIN codes, or one-time verification passwords (OTPs).
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Statutory POPIA Section 18 & SARB Escrow Audit Footer -->
+<footer class="w-full mt-12 pt-6 border-t border-[#D9E0E7] dark:border-[#1E344A] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+<div class="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
+<span class="font-bold text-[#071A2B] dark:text-[#EDF4FF] font-sora">WinDriveSA Customer Operations Desk</span>
+<span class="hidden sm:inline">•</span>
+<span>POPIA Section 18 &amp; SARB Escrow Audit Ledger Compliant</span>
+</div>
+<div class="flex items-center gap-3 font-mono text-[11px]">
+<span>Node: JHB-FID-04</span>
+<span>•</span>
+<span class="text-[#00843D] dark:text-emerald-400 font-semibold">SSL 256-bit Encrypted</span>
+</div>
+</footer>
+</main>
+</div>
+<!-- Resolution Confirmation Modal -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4" id="resolve-modal">
+<div class="bg-white dark:bg-[#0B1E30] w-full max-w-md rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-2xl p-6 flex flex-col gap-4">
+<div class="w-12 h-12 rounded-full bg-[#00843D]/10 text-[#00843D] flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">verified</span>
+</div>
+<div>
+<h2 class="text-base font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF]">Resolve Support Request?</h2>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+          This will officially flag ticket <span class="font-mono font-bold text-[#071A2B] dark:text-white" id="resolve-ticket-number">#WD-SUP-1082</span> as RESOLVED. An audit notice will be transmitted to the claimant and archived in the institutional ledger.
+        </p>
+</div>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#071A2B] dark:hover:text-white" onclick="closeResolveModal()" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-md bg-[#00843D] hover:bg-[#007034] text-white text-xs font-sora font-bold transition-all shadow-xs" onclick="confirmResolveTicket()" type="button">
+          Confirm Resolution
+        </button>
+</div>
+</div>
+</div>
+<!-- Reopen Confirmation Modal -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4" id="reopen-modal">
+<div class="bg-white dark:bg-[#0B1E30] w-full max-w-md rounded-lg border border-[#D9E0E7] dark:border-[#1E344A] shadow-2xl p-6 flex flex-col gap-4">
+<div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">restart_alt</span>
+</div>
+<div>
+<h2 class="text-base font-bold font-sora text-[#071A2B] dark:text-[#EDF4FF]">Reopen Support Request?</h2>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+          This will move the request back into OPEN status and alert the Operations Desk for immediate first response follow-up.
+        </p>
+</div>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#071A2B] dark:hover:text-white" onclick="closeReopenModal()" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] text-xs font-sora font-bold transition-all shadow-xs" onclick="confirmReopenTicket()" type="button">
+          Reopen Request
+        </button>
+</div>
+</div>
+</div>
+<!-- Application Logic & Single Global Theme State Synchronization -->
+<script>
+    // Demo Database
+    const supportTickets = {
+      1: {
+        id: "#WD-SUP-1082",
+        subject: "Account Review Question",
+        userName: "Michael Dlamini",
+        userEmail: "m.dlamini@telkomsa.net",
+        userPhone: "+27 82 459 9120",
+        category: "Account",
+        status: "OPEN",
+        timestamp: "14 Sep 2026, 11:20 SAST",
+        message: "Hello, I submitted my account credentials for review and wanted to check whether there is anything else required regarding my FICA proof of address. I live in a municipal area where utility accounts are shared.",
+        claimTitle: "Cash Prize Claim: Allocation R250,000",
+        claimStatus: "UNDER REVIEW",
+        claimValue: "R 250,000.00 ZAR"
+      },
+      2: {
+        id: "#WD-SUP-1079",
+        subject: "Cash Claim Banking Verification",
+        userName: "Thandi Mokoena",
+        userEmail: "thandi.mokoena@vodamail.co.za",
+        userPhone: "+27 83 912 3401",
+        category: "Cash Prize",
+        status: "IN PROGRESS",
+        timestamp: "13 Sep 2026, 15:45 SAST",
+        message: "Checking status on my FNB account confirmation letter. Verification stamped by branch manager has been uploaded via the claimant portal.",
+        claimTitle: "Cash Prize Claim: R100,000 Instant Payout",
+        claimStatus: "PENDING BANK MATCH",
+        claimValue: "R 100,000.00 ZAR"
+      },
+      3: {
+        id: "#WD-SUP-1065",
+        subject: "Vehicle Delivery Logistics Schedule",
+        userName: "Sipho Ndlovu",
+        userEmail: "sipho.ndlovu@nashua.co.za",
+        userPhone: "+27 71 554 9901",
+        category: "Vehicle Prize",
+        status: "WAITING FOR USER",
+        timestamp: "12 Sep 2026, 09:30 SAST",
+        message: "Requested preferred dealership location handover in Sandton or Pretoria East. Waiting to confirm my nominated insurance broker before final registration.",
+        claimTitle: "Vehicle Prize Claim: 2026 Toyota Hilux 2.8 GD-6",
+        claimStatus: "APPROVED",
+        claimValue: "R 890,000.00 ZAR"
+      },
+      4: {
+        id: "#WD-SUP-1051",
+        subject: "General Account Assistance",
+        userName: "Naledi Khumalo",
+        userEmail: "naledi.k@investec.co.za",
+        userPhone: "+27 84 300 7821",
+        category: "General Support",
+        status: "RESOLVED",
+        timestamp: "10 Sep 2026, 16:15 SAST",
+        message: "Guidance on updating national ID document copy. Everything has been successfully received and validated.",
+        claimTitle: "Institutional Account Verification",
+        claimStatus: "COMPLETED",
+        claimValue: "N/A - General Service"
+      }
+    };
+
+    let currentActiveTicketId = 1;
+
+    // THEME INITIALIZATION: Default to LIGHT MODE unless explicitly set to 'dark'
+    function initTheme() {
+      const savedTheme = localStorage.getItem('windrive_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        updateToggleIcons(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateToggleIcons(false);
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('windrive_theme', isDark ? 'dark' : 'light');
+      updateToggleIcons(isDark);
+    }
+
+    function updateToggleIcons(isDark) {
+      document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.innerHTML = isDark
+          ? '<span class="material-symbols-outlined text-[18px]">light_mode</span>'
+          : '<span class="material-symbols-outlined text-[18px]">dark_mode</span>';
+      });
+    }
+
+    // Attach theme toggle listeners
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+      btn.addEventListener('click', toggleTheme);
+    });
+
+    // Run theme setup on load
+    initTheme();
+
+    // Mobile Navigation Drawer Toggle
+    const mobileDrawerBtn = document.getElementById('mobile-drawer-btn');
+    const drawerCloseBtn = document.getElementById('drawer-close-btn');
+    const drawerBackdrop = document.getElementById('drawer-backdrop');
+    const adminSidebar = document.getElementById('admin-sidebar');
+
+    function toggleDrawer(open) {
+      if (open) {
+        adminSidebar.classList.remove('-translate-x-full');
+        drawerBackdrop.classList.remove('hidden');
+      } else {
+        adminSidebar.classList.add('-translate-x-full');
+        drawerBackdrop.classList.add('hidden');
+      }
+    }
+
+    if (mobileDrawerBtn) mobileDrawerBtn.addEventListener('click', () => toggleDrawer(true));
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
+    if (drawerBackdrop) drawerBackdrop.addEventListener('click', () => toggleDrawer(false));
+
+    // Detail View Switcher
+    function openDetailView(ticketId) {
+      currentActiveTicketId = ticketId;
+      const data = supportTickets[ticketId];
+      if (!data) return;
+
+      document.getElementById('detail-ticket-id').textContent = data.id;
+      document.getElementById('detail-subject').textContent = data.subject;
+      document.getElementById('detail-category-badge').textContent = data.category;
+      document.getElementById('thread-user-name').textContent = data.userName + " (Claimant)";
+      document.getElementById('thread-inbound-body').textContent = `"${data.message}"`;
+      document.getElementById('context-user-name').textContent = data.userName;
+      document.getElementById('context-user-email').textContent = data.userEmail;
+      document.getElementById('context-claim-title').textContent = data.claimTitle;
+      document.getElementById('context-claim-value').textContent = data.claimValue;
+      document.getElementById('context-claim-status').textContent = data.claimStatus;
+
+      updateDetailStatusBadge(data.status);
+      renderDetailActionButtons(data.status);
+
+      document.getElementById('queue-view').classList.add('hidden');
+      const detail = document.getElementById('detail-view');
+      detail.classList.remove('hidden');
+      detail.classList.add('flex');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToQueue() {
+      document.getElementById('detail-view').classList.add('hidden');
+      document.getElementById('detail-view').classList.remove('flex');
+      document.getElementById('queue-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateDetailStatusBadge(status) {
+      const badge = document.getElementById('detail-status-badge');
+      const text = document.getElementById('detail-status-text');
+      text.textContent = status;
+
+      badge.className = "inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase border";
+
+      if (status === 'OPEN') {
+        badge.classList.add('bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400', 'border-amber-500/20');
+      } else if (status === 'IN PROGRESS') {
+        badge.classList.add('bg-blue-500/10', 'text-blue-600', 'dark:text-blue-400', 'border-blue-500/20');
+      } else if (status === 'WAITING FOR USER') {
+        badge.classList.add('bg-purple-500/10', 'text-purple-600', 'dark:text-purple-400', 'border-purple-500/20');
+      } else if (status === 'RESOLVED') {
+        badge.classList.add('bg-[#00843D]/10', 'text-[#00843D]', 'dark:text-emerald-400', 'border-[#00843D]/20');
+      }
+    }
+
+    function renderDetailActionButtons(status) {
+      const container = document.getElementById('detail-action-bar');
+      container.innerHTML = '';
+
+      if (status === 'OPEN') {
+        container.innerHTML = `
+          <button onclick="setTicketStatus('IN PROGRESS')" class="px-3.5 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] text-xs font-sora font-semibold transition-all">
+            Mark In Progress
+          </button>
+          <button onclick="openResolveModal()" class="px-3.5 py-1.5 rounded-md bg-[#00843D] hover:bg-[#007034] text-white text-xs font-sora font-bold transition-all shadow-xs">
+            Resolve Request
+          </button>
+        `;
+      } else if (status === 'IN PROGRESS') {
+        container.innerHTML = `
+          <button onclick="setTicketStatus('WAITING FOR USER')" class="px-3.5 py-1.5 rounded-md bg-purple-600 hover:bg-purple-700 text-white text-xs font-sora font-semibold transition-all">
+            Waiting for User
+          </button>
+          <button onclick="openResolveModal()" class="px-3.5 py-1.5 rounded-md bg-[#00843D] hover:bg-[#007034] text-white text-xs font-sora font-bold transition-all shadow-xs">
+            Resolve Request
+          </button>
+        `;
+      } else if (status === 'WAITING FOR USER') {
+        container.innerHTML = `
+          <button onclick="setTicketStatus('IN PROGRESS')" class="px-3.5 py-1.5 rounded-md bg-[#071A2B] hover:bg-slate-800 dark:bg-[#F2B705] dark:hover:bg-amber-400 text-white dark:text-[#071A2B] text-xs font-sora font-semibold transition-all">
+            Mark In Progress
+          </button>
+          <button onclick="openResolveModal()" class="px-3.5 py-1.5 rounded-md bg-[#00843D] hover:bg-[#007034] text-white text-xs font-sora font-bold transition-all shadow-xs">
+            Resolve Request
+          </button>
+        `;
+      } else if (status === 'RESOLVED') {
+        container.innerHTML = `
+          <button onclick="openReopenModal()" class="px-3.5 py-1.5 rounded-md bg-amber-600 hover:bg-amber-700 text-white text-xs font-sora font-bold transition-all shadow-xs">
+            Reopen Request
+          </button>
+        `;
+      }
+    }
+
+    function setTicketStatus(newStatus) {
+      if (supportTickets[currentActiveTicketId]) {
+        supportTickets[currentActiveTicketId].status = newStatus;
+        updateDetailStatusBadge(newStatus);
+        renderDetailActionButtons(newStatus);
+
+        const tableRow = document.querySelector(`.ticket-row[data-id="${currentActiveTicketId}"]`);
+        if (tableRow) {
+          tableRow.setAttribute('data-status', newStatus);
+        }
+        const mobileCard = document.querySelector(`.mobile-ticket-card[data-id="${currentActiveTicketId}"]`);
+        if (mobileCard) {
+          mobileCard.setAttribute('data-status', newStatus);
+        }
+      }
+    }
+
+    // Modal controls
+    function openResolveModal() {
+      document.getElementById('resolve-ticket-number').textContent = supportTickets[currentActiveTicketId].id;
+      document.getElementById('resolve-modal').classList.remove('hidden');
+    }
+    function closeResolveModal() {
+      document.getElementById('resolve-modal').classList.add('hidden');
+    }
+    function confirmResolveTicket() {
+      setTicketStatus('RESOLVED');
+      closeResolveModal();
+    }
+
+    function openReopenModal() {
+      document.getElementById('reopen-modal').classList.remove('hidden');
+    }
+    function closeReopenModal() {
+      document.getElementById('reopen-modal').classList.add('hidden');
+    }
+    function confirmReopenTicket() {
+      setTicketStatus('OPEN');
+      closeReopenModal();
+    }
+
+    // Interactive Reply & Notes
+    function sendReply() {
+      const textarea = document.getElementById('reply-textarea');
+      const text = textarea.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('thread-container');
+      const replyDiv = document.createElement('div');
+      replyDiv.className = "p-4 rounded-lg bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 flex flex-col gap-2 ml-4 transition-all";
+      replyDiv.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-md bg-[#071A2B] text-[#F2B705] flex items-center justify-center font-bold text-xs font-sora">
+              AC
+            </div>
+            <div class="flex flex-col">
+              <span class="font-bold text-xs text-[#071A2B] dark:text-[#EDF4FF]">Admin Controller 04 (WinDriveSA Fiduciary Desk)</span>
+              <span class="text-[10px] text-[#00843D] dark:text-emerald-400 font-semibold">Just Dispatched</span>
+            </div>
+          </div>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 table-tabular">Just now</span>
+        </div>
+        <div class="text-xs text-[#071A2B] dark:text-slate-200 leading-relaxed mt-1">
+          "${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}"
+        </div>
+      `;
+      container.appendChild(replyDiv);
+      textarea.value = '';
+    }
+
+    function addInternalNote() {
+      const textarea = document.getElementById('internal-note-textarea');
+      const text = textarea.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('thread-container');
+      const noteDiv = document.createElement('div');
+      noteDiv.className = "p-4 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-700/40 flex flex-col gap-2 transition-all";
+      noteDiv.innerHTML = `
+        <div class="flex items-center justify-between text-amber-900 dark:text-amber-300">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">lock_person</span>
+            <span class="text-xs font-bold uppercase tracking-wider font-sora">Internal Confidential Note (Admin Only)</span>
+          </div>
+          <span class="text-[11px] font-mono opacity-80">Just now</span>
+        </div>
+        <div class="text-xs text-amber-950 dark:text-amber-200 leading-relaxed font-medium">
+          "${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}"
+        </div>
+        <div class="text-[10px] text-amber-800 dark:text-amber-400 font-bold uppercase tracking-wider">
+          Author: Admin Controller 04 • Level 4 Audit Stamp
+        </div>
+      `;
+      container.appendChild(noteDiv);
+      textarea.value = '';
+    }
+
+    // Filter Logic
+    function filterTable() {
+      const searchVal = document.getElementById('search-input').value.toLowerCase();
+      const statusVal = document.getElementById('status-filter').value;
+      const categoryVal = document.getElementById('category-filter').value;
+
+      const rows = document.querySelectorAll('.ticket-row');
+      const mobileCards = document.querySelectorAll('.mobile-ticket-card');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const status = row.getAttribute('data-status');
+        const category = row.getAttribute('data-category');
+
+        const matchesSearch = text.includes(searchVal);
+        const matchesStatus = (statusVal === 'ALL' || status === statusVal);
+        const matchesCategory = (categoryVal === 'ALL' || category === categoryVal);
+
+        row.style.display = (matchesSearch && matchesStatus && matchesCategory) ? '' : 'none';
+      });
+
+      mobileCards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const status = card.getAttribute('data-status');
+        const category = card.getAttribute('data-category');
+
+        const matchesSearch = text.includes(searchVal);
+        const matchesStatus = (statusVal === 'ALL' || status === statusVal);
+        const matchesCategory = (categoryVal === 'ALL' || category === categoryVal);
+
+        card.style.display = (matchesSearch && matchesStatus && matchesCategory) ? '' : 'none';
+      });
+    }
+
+    function applyPreset(type) {
+      const statusSelect = document.getElementById('status-filter');
+      const categorySelect = document.getElementById('category-filter');
+      const searchInput = document.getElementById('search-input');
+
+      searchInput.value = '';
+
+      if (type === 'all') {
+        statusSelect.value = 'ALL';
+        categorySelect.value = 'ALL';
+      } else if (type === 'open') {
+        statusSelect.value = 'OPEN';
+        categorySelect.value = 'ALL';
+      } else if (type === 'claims') {
+        statusSelect.value = 'ALL';
+        categorySelect.value = 'ALL';
+        searchInput.value = 'claim';
+      }
+      filterTable();
+    }
+
+    function resetFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('status-filter').value = 'ALL';
+      document.getElementById('category-filter').value = 'ALL';
+      document.getElementById('date-filter').value = 'ALL';
+      filterTable();
+    }
+  </script>
+</body></html>

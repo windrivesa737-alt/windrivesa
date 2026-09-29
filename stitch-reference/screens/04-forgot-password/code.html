@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="min-h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinDriveSA — Reset Password</title>
+<!-- Google Fonts: Sora for Headings, Manrope for Body & UI -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              navyDeep: '#04101D',
+              surfaceDark: '#0D2438',
+              gold: '#F2B705',
+              emerald: '#00843D',
+              charcoal: '#17212B',
+              muted: '#667085',
+              border: '#D9E0E7',
+              borderDark: '#1E3A56',
+              bgLight: '#F5F7FA'
+            }
+          },
+          fontFamily: {
+            heading: ['Sora', 'sans-serif'],
+            sans: ['Manrope', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-typography">
+    body {
+      font-family: 'Manrope', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Sora', sans-serif;
+    }
+  </style>
+<style data-purpose="visual-vignettes">
+    .scenic-vignette {
+      background: linear-gradient(180deg, rgba(7, 26, 43, 0.72) 0%, rgba(7, 26, 43, 0.18) 40%, rgba(7, 26, 43, 0.6) 75%, rgba(7, 26, 43, 0.95) 100%);
+    }
+    .custom-loader {
+      border: 2.5px solid rgba(255, 255, 255, 0.25);
+      border-top-color: #FFFFFF;
+      border-radius: 50%;
+      width: 1.125rem;
+      height: 1.125rem;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white dark:bg-brand-navy text-slate-800 dark:text-slate-100 flex flex-col transition-colors duration-200 overflow-x-hidden">
+<!-- BEGIN: ReviewerBar -->
+<!-- Interactive Bar for QA and Design Reviewer audit of constitutional lifecycle states -->
+<aside class="bg-[#05111D] border-b border-slate-800 text-slate-300 text-xs px-4 py-2 flex flex-wrap items-center justify-between gap-2.5 shrink-0 z-50" data-purpose="reviewer-toolbar">
+<div class="flex items-center space-x-2 font-medium">
+<span class="inline-block w-2 h-2 rounded-full bg-brand-gold"></span>
+<span class="text-slate-200 font-semibold tracking-wide uppercase text-[11px]">Screen 04 Reviewer Bar:</span>
+<span class="text-slate-400">Password Recovery Lifecycle States</span>
+</div>
+<div aria-label="Reviewer Lifecycle States" class="flex items-center flex-wrap gap-1.5" role="group">
+<button class="px-2.5 py-1 rounded text-[11px] font-semibold bg-brand-gold text-brand-navy border border-brand-gold transition-colors" id="btn-state-default" onclick="setReviewerState('default')" type="button">
+        State A: Default Form
+      </button>
+<button class="px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition-colors" id="btn-state-loading" onclick="setReviewerState('loading')" type="button">
+        State B: Submitting
+      </button>
+<button class="px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition-colors" id="btn-state-success" onclick="setReviewerState('success')" type="button">
+        State C: Link Sent (Success)
+      </button>
+<button class="px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition-colors" id="btn-state-validation-error" onclick="setReviewerState('validation-error')" type="button">
+        State D: Validation Error
+      </button>
+<button class="px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition-colors" id="btn-state-system-error" onclick="setReviewerState('system-error')" type="button">
+        State E: System Error
+      </button>
+</div>
+</aside>
+<!-- END: ReviewerBar -->
+<!-- Top Header for Mobile & Tablet (strictly visible below lg) -->
+<header class="flex lg:hidden items-center justify-between px-6 py-4 border-b border-brand-border dark:border-brand-borderDark bg-white dark:bg-brand-navy shrink-0">
+<a aria-label="WinDriveSA Home" class="block focus:outline-none focus:ring-2 focus:ring-brand-gold rounded" href="#">
+<img alt="WinDriveSA Logo" class="h-8 sm:h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4-0TkwB-qZrKLLYfY5NaCeoY3JSQ_iGyXdFFLFpQvvzU4sPDCIg367J8cnTvTxG7NuizfqyZweccTWZ3jhFwib79RXqVbTq1AMMbVdge5k3m6L4XO5dtX_NtHdZqDK8UwL6LbPU26jnioPYL6JeVvU2t2hzGDDvoF71qV1sFOnvZysXEoliqpEZqss04952TcyI-9iAFL59QmWUm6ClkV3o-kdK1UlExci11J8X8aGA6K_0A_oC9TXzRHsaGwxB9EMtA"/>
+</a>
+<button aria-label="Toggle visual theme" class="p-2 rounded-lg border border-brand-border dark:border-brand-borderDark bg-slate-50 dark:bg-brand-surfaceDark text-slate-600 dark:text-slate-300 hover:text-brand-navy dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-gold" onclick="toggleTheme()" type="button">
+<!-- Moon Icon (for Light Mode) -->
+<svg class="w-4 h-4 theme-moon-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<!-- Sun Icon (for Dark Mode) -->
+<svg class="w-4 h-4 hidden theme-sun-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- BEGIN: MainContainer -->
+<main class="flex-1 flex flex-col lg:flex-row w-full min-h-0">
+<!-- BEGIN: Automotive Image Section -->
+<!-- Mobile: Clean natural document flow above form (h-48 sm:h-56 md:h-64, w-full, no overlaying). Desktop: Full-height 58% visual hero -->
+<section aria-label="WinDriveSA Brand Overlook" class="relative w-full lg:w-[58%] h-48 sm:h-56 md:h-64 lg:h-auto lg:min-h-full overflow-hidden bg-brand-navy select-none shrink-0 flex flex-col justify-between">
+<!-- Automotive Photography -->
+<img alt="Ultra-high-resolution commercial editorial automotive photography of a luxury dark metallic graphite modern double-cab 4x4 pickup truck parked on an elevated scenic mountain pass overlook in South Africa" class="absolute inset-0 w-full h-full object-cover object-center transform scale-[1.02] filter saturate-[1.05]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf9P8__QEDYY4ssRBlbVkVzc7syCUtHlNz1eIH6lOc8_aeXkHb_RNIZlnsaL-T6W5aOOjXgO82_B-WMWg5IhzZM6BkSq7Yie2m4xhE8pxjLE8a__8jWuCpmsrCzSy5YHRArt2dxpNZfAeSCsA62GAP7CbW_utk6VXRi4hvGM_-dNugxXZiuRfIINmsNuus0KHGTYkRj6lkTmAMa97yIiqpS98NRRPPQM92iGHlLkzMDEt1Tsdk5uC6PA"/>
+<!-- Atmospheric Vignette Layer -->
+<div class="absolute inset-0 scenic-vignette"></div>
+<!-- Mobile Subtle Overlay Pill -->
+<div class="relative z-10 p-4 lg:p-12 block lg:hidden">
+<div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/70 border border-white/15 backdrop-blur-md text-[11px] font-semibold tracking-wider text-slate-200">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-gold shrink-0"></span>
+<span>ACCOUNT RECOVERY</span>
+</div>
+</div>
+<!-- Desktop Top Overlay Content -->
+<div class="relative z-10 p-6 lg:p-12 hidden lg:block">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/70 border border-white/15 backdrop-blur-md text-xs font-semibold tracking-wider text-slate-200">
+<span class="w-2 h-2 rounded-full bg-brand-gold shrink-0"></span>
+<span>ACCOUNT RECOVERY</span>
+</div>
+</div>
+<!-- Desktop Center & Bottom Editorial Content -->
+<div class="relative z-10 p-6 lg:p-12 mt-auto hidden lg:block">
+<div class="max-w-xl">
+<h2 class="font-heading text-2xl lg:text-[44px] font-extrabold text-white leading-tight lg:leading-[1.15] tracking-tight">
+      Restore Your Account Access.
+    </h2>
+<p class="mt-3 text-slate-300 text-sm lg:text-base leading-relaxed max-w-lg font-normal">
+      Enter your verified email to receive secure instructions and resume your WinDriveSA reward journey.
+    </p>
+</div>
+<!-- Verified Institutional Credentials Strip -->
+<div class="mt-8 pt-6 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<span class="text-xs font-bold tracking-widest text-brand-gold uppercase block">WIN BIG. DRIVE AWAY.</span>
+<span class="text-[13px] text-slate-300 font-normal">Institutional Customer Rewards Platform</span>
+</div>
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded bg-black/45 border border-white/15 text-slate-200 text-xs font-medium">
+<svg class="w-3.5 h-3.5 text-brand-gold" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Encrypted Recovery Channel</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: LeftVisualHero -->
+<!-- BEGIN: RightInteractivePanel -->
+<!-- Form Surface Area: Natural document flow below car image on mobile, right column on desktop -->
+<section aria-label="Password Reset Area" class="w-full lg:w-[42%] flex flex-col justify-between bg-white dark:bg-brand-navy px-6 sm:px-12 lg:px-16 pt-6 pb-12 lg:py-10">
+<!-- Desktop-only Header: Logo & Theme Switcher -->
+<header class="hidden lg:flex items-center justify-between w-full pb-6 border-b border-brand-border dark:border-brand-borderDark shrink-0">
+<!-- Logo Image Only - No adjacent text -->
+<a aria-label="WinDriveSA Home" class="block focus:outline-none focus:ring-2 focus:ring-brand-gold rounded" href="#">
+<img alt="WinDriveSA Logo" class="h-9 sm:h-11 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2ZtRs2Ipwn88MUno1NRHwgf1ho2B-5BlkhyLeVAZtW8CwcAIbN2Hd724aBFxLJUuYpY03QypQa2vnV5Bsw-hkjo4iv0yqM9BJvk8ZdYvg3OXjDeaH1SfJVLGBJnB9QoDuYbPM9Qvl5IknWwTZRe278slhth7olFyOpUzjwYz7JCduEqYdqyWhN4U4Pwo2_kk58WgDCzL7y8rnd9uI4Ns4Dxn-y2iZghyg2ZlZJrna3k_e1UJtpZLieDMJntAXAzX4fnw"/>
+</a>
+<!-- Dark/Light Mode Toggle Button -->
+<button aria-label="Toggle visual theme" class="p-2.5 rounded-lg border border-brand-border dark:border-brand-borderDark bg-slate-50 dark:bg-brand-surfaceDark text-slate-600 dark:text-slate-300 hover:text-brand-navy dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-gold" onclick="toggleTheme()" type="button">
+<!-- Moon Icon (for Light Mode) -->
+<svg class="w-4 h-4 theme-moon-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<!-- Sun Icon (for Dark Mode) -->
+<svg class="w-4 h-4 hidden theme-sun-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- Center Container for Form or Success States -->
+<div class="lg:my-auto py-2 sm:py-6 lg:py-8 max-w-md w-full mx-auto">
+<!-- STATE A, B, D, E: Request Form View -->
+<div class="space-y-6" id="view-form-container">
+<div>
+<span class="text-xs font-extrabold tracking-wider text-amber-500 dark:text-brand-gold uppercase block">PASSWORD RECOVERY</span>
+<h1 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-navy dark:text-white mt-1.5 tracking-tight">
+              Reset Your Password
+            </h1>
+<p class="text-sm text-brand-muted dark:text-slate-400 mt-2 font-normal leading-relaxed">
+              Enter the email address linked to your account and we’ll send you a password reset link.
+            </p>
+</div>
+<!-- Alert Container for System Errors -->
+<div class="hidden rounded-lg p-3.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-200 text-xs font-medium flex items-start gap-2.5" id="system-error-banner">
+<svg class="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span id="system-error-text">We couldn't process your request right now. Please try again.</span>
+</div>
+<!-- Recovery Form -->
+<form class="space-y-4" id="recovery-form" novalidate="" onsubmit="handleFormSubmit(event)">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="block text-[11px] font-bold tracking-wider text-slate-700 dark:text-slate-200 uppercase" for="email-field">
+                  EMAIL ADDRESS <span class="text-amber-500">*</span>
+</label>
+</div>
+<div class="relative">
+<input autocomplete="email" class="w-full px-3.5 py-3 rounded-lg border text-sm text-brand-navy dark:text-white bg-white dark:bg-brand-surfaceDark transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-navy dark:focus:border-brand-gold border-brand-border dark:border-brand-borderDark" id="email-field" name="email" placeholder="member.access@windrivesa.co.za" required="" type="email" value="member.access@windrivesa.co.za"/>
+</div>
+<!-- Validation error message -->
+<p class="hidden mt-1.5 text-xs text-rose-600 dark:text-rose-400 font-medium flex items-center gap-1" id="field-error-text">
+<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Please enter a valid email address.</span>
+</p>
+</div>
+<!-- Submit Primary Button -->
+<button class="w-full py-3.5 px-5 rounded-lg bg-brand-navy dark:bg-brand-gold text-white dark:text-brand-navy font-semibold text-sm tracking-wide shadow-sm hover:bg-brand-navyDeep dark:hover:bg-amber-400 active:scale-[0.99] transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-navy dark:focus:ring-brand-gold" id="submit-button" type="submit">
+<span id="btn-text">Send Reset Link</span>
+<span class="hidden custom-loader" id="btn-spinner"></span>
+</button>
+</form>
+<!-- Navigation Dividers & Secondary Redirection Links -->
+<div class="pt-4 border-t border-brand-border dark:border-brand-borderDark space-y-3 text-center text-xs">
+<p class="text-slate-600 dark:text-slate-400 font-normal">
+              Remember your password? 
+              <a class="font-bold text-brand-navy dark:text-brand-gold hover:underline ml-1" href="#">Back to Sign In</a>
+</p>
+<p class="text-slate-600 dark:text-slate-400 font-normal">
+              Don't have an account? 
+              <a class="font-bold text-brand-navy dark:text-brand-gold hover:underline ml-1" href="#">Create Account</a>
+</p>
+</div>
+</div>
+<!-- STATE C: Success Confirmation View (Hidden by default) -->
+<div class="hidden space-y-6" id="view-success-container">
+<div class="space-y-3">
+<!-- Approved Status Chip -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-brand-emerald dark:text-emerald-300 text-xs font-bold tracking-wider uppercase">
+<span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+<span>RESET LINK SENT</span>
+</div>
+<h1 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-navy dark:text-white tracking-tight">
+              Check Your Email
+            </h1>
+<p class="text-sm text-brand-muted dark:text-slate-300 leading-relaxed font-normal">
+              If an account exists for <span class="font-semibold text-brand-navy dark:text-white" id="confirmed-email-address">member.access@windrivesa.co.za</span>, we’ve sent instructions to reset your password.
+            </p>
+</div>
+<!-- Security Callout Box -->
+<div class="p-4 rounded-xl bg-slate-50 dark:bg-brand-surfaceDark border border-brand-border dark:border-brand-borderDark space-y-2">
+<div class="flex items-center gap-2 text-xs font-bold text-brand-navy dark:text-slate-100 uppercase tracking-wide">
+<svg class="w-4 h-4 text-brand-gold shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Security &amp; Delivery Notice</span>
+</div>
+<p class="text-xs text-brand-muted dark:text-slate-300 leading-relaxed">
+              Please check your inbox and spam folder. For your privacy and security, the recovery link will automatically expire in <strong class="font-semibold text-brand-navy dark:text-white">30 minutes</strong>.
+            </p>
+</div>
+<!-- Action Buttons -->
+<div class="space-y-3 pt-2">
+<a class="w-full py-3.5 px-5 rounded-lg bg-brand-navy dark:bg-brand-gold text-white dark:text-brand-navy font-semibold text-sm tracking-wide shadow-sm hover:bg-brand-navyDeep dark:hover:bg-amber-400 transition-colors flex items-center justify-center text-center" href="#">
+              Back to Sign In
+            </a>
+<button class="w-full py-2.5 px-4 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-brand-navy dark:hover:text-white transition-colors text-center" onclick="setReviewerState('default')" type="button">
+              Try Another Email
+            </button>
+</div>
+</div>
+</div>
+<!-- Legal Compliance & Protection Footer -->
+<footer class="pt-6 mt-6 lg:mt-0 border-t border-brand-border dark:border-brand-borderDark text-[11px] sm:text-xs text-brand-muted dark:text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2 shrink-0">
+<div>
+          © 2026 WinDriveSA (Pty) Ltd. All rights reserved.
+        </div>
+<div class="flex items-center space-x-3">
+<a class="hover:underline" href="#">Terms</a>
+<span>•</span>
+<a class="hover:underline" href="#">Privacy</a>
+<span>•</span>
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+            POPIA Compliant
+          </span>
+</div>
+</footer>
+</section>
+<!-- END: RightInteractivePanel -->
+</main>
+<!-- END: MainContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="theme-management">
+    function toggleTheme() {
+      const html = document.documentElement;
+      const moonIcons = document.querySelectorAll('.theme-moon-icon');
+      const sunIcons = document.querySelectorAll('.theme-sun-icon');
+      
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        moonIcons.forEach(el => el.classList.remove('hidden'));
+        sunIcons.forEach(el => el.classList.add('hidden'));
+      } else {
+        html.classList.add('dark');
+        moonIcons.forEach(el => el.classList.add('hidden'));
+        sunIcons.forEach(el => el.classList.remove('hidden'));
+      }
+    }
+  </script>
+<script data-purpose="lifecycle-state-machine">
+    const viewForm = document.getElementById('view-form-container');
+    const viewSuccess = document.getElementById('view-success-container');
+    const emailField = document.getElementById('email-field');
+    const fieldErrorText = document.getElementById('field-error-text');
+    const systemErrorBanner = document.getElementById('system-error-banner');
+    const submitBtn = document.getElementById('submit-button');
+    const btnText = document.getElementById('btn-text');
+    const btnSpinner = document.getElementById('btn-spinner');
+    const confirmedEmail = document.getElementById('confirmed-email-address');
+
+    // Reviewer toolbar buttons
+    const stateButtons = {
+      'default': document.getElementById('btn-state-default'),
+      'loading': document.getElementById('btn-state-loading'),
+      'success': document.getElementById('btn-state-success'),
+      'validation-error': document.getElementById('btn-state-validation-error'),
+      'system-error': document.getElementById('btn-state-system-error')
+    };
+
+    function updateToolbarPill(activeKey) {
+      Object.keys(stateButtons).forEach(key => {
+        const btn = stateButtons[key];
+        if (key === activeKey) {
+          btn.className = "px-2.5 py-1 rounded text-[11px] font-semibold bg-brand-gold text-brand-navy border border-brand-gold transition-colors";
+        } else {
+          btn.className = "px-2.5 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition-colors";
+        }
+      });
+    }
+
+    function setReviewerState(state) {
+      updateToolbarPill(state);
+
+      // Reset base view styles
+      viewForm.classList.remove('hidden');
+      viewSuccess.classList.add('hidden');
+      fieldErrorText.classList.add('hidden');
+      systemErrorBanner.classList.add('hidden');
+      emailField.classList.remove('border-rose-500', 'focus:ring-rose-400');
+      emailField.classList.add('border-brand-border', 'dark:border-brand-borderDark');
+      
+      // Reset button loader
+      submitBtn.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnText.textContent = "Send Reset Link";
+
+      switch (state) {
+        case 'default':
+          emailField.value = "member.access@windrivesa.co.za";
+          break;
+
+        case 'loading':
+          submitBtn.disabled = true;
+          btnSpinner.classList.remove('hidden');
+          btnText.textContent = "Sending Reset Link...";
+          break;
+
+        case 'success':
+          viewForm.classList.add('hidden');
+          viewSuccess.classList.remove('hidden');
+          confirmedEmail.textContent = emailField.value.trim() || "member.access@windrivesa.co.za";
+          break;
+
+        case 'validation-error':
+          emailField.value = "invalid-email@";
+          emailField.classList.remove('border-brand-border', 'dark:border-brand-borderDark');
+          emailField.classList.add('border-rose-500', 'focus:ring-rose-400');
+          fieldErrorText.classList.remove('hidden');
+          emailField.focus();
+          break;
+
+        case 'system-error':
+          systemErrorBanner.classList.remove('hidden');
+          break;
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const emailVal = emailField.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(emailVal)) {
+        setReviewerState('validation-error');
+        return;
+      }
+
+      // Enter loading state then succeed
+      setReviewerState('loading');
+      setTimeout(() => {
+        setReviewerState('success');
+      }, 1000);
+    }
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

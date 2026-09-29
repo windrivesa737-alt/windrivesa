@@ -1,0 +1,1645 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Admin Vehicle Prizes | WinDriveSA Escrow Console</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#121c26",
+            "secondary-fixed-dim": "#f9bd14",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#fcc019",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#37485b",
+            "primary": "#000000",
+            "inverse-surface": "#27313c",
+            "tertiary-container": "#00210a",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed-variant": "#005324",
+            "tertiary-fixed-dim": "#71dc8a",
+            "error": "#ba1a1a",
+            "surface-variant": "#d9e3f1",
+            "surface-bright": "#f7f9ff",
+            "on-tertiary-fixed": "#00210a",
+            "on-surface": "#121c26",
+            "surface-container-high": "#dfe9f7",
+            "surface-container": "#e4effd",
+            "primary-container": "#071a2b",
+            "inverse-on-surface": "#e8f2ff",
+            "tertiary-fixed": "#8ef9a4",
+            "on-secondary-container": "#6c5000",
+            "primary-fixed-dim": "#b6c8df",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#000000",
+            "surface": "#f5f7fa",
+            "surface-dim": "#d1dbe9",
+            "background": "#f5f7fa",
+            "outline": "#74777d",
+            "on-surface-variant": "#44474c",
+            "surface-container-low": "#edf4ff",
+            "on-secondary": "#ffffff",
+            "secondary": "#785900",
+            "secondary-fixed": "#ffdf9d",
+            "on-tertiary-container": "#166534",
+            "primary-fixed": "#d2e4fc",
+            "on-primary": "#ffffff",
+            "outline-variant": "#d9e0e7",
+            "on-secondary-fixed": "#251a00",
+            "on-primary-fixed": "#071a2b",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#5b4300",
+            "on-primary-container": "#74859b",
+            "inverse-primary": "#b6c8df",
+            "surface-container-highest": "#d9e3f1",
+            "surface-tint": "#4f6074"
+          },
+          fontFamily: {
+            "tabular-stat": ["Manrope", "sans-serif"],
+            "body-sm": ["Manrope", "sans-serif"],
+            "headline-md": ["Sora", "sans-serif"],
+            "body-lg": ["Manrope", "sans-serif"],
+            "label-caps": ["Manrope", "sans-serif"],
+            "body-md": ["Manrope", "sans-serif"],
+            "title-zar-val": ["Sora", "sans-serif"],
+            "headline-sm": ["Sora", "sans-serif"],
+            "headline-xl": ["Sora", "sans-serif"],
+            "headline-lg": ["Sora", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(100, 116, 139, 0.25);
+        border-radius: 9999px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#f5f7fa] dark:bg-[#071a2b] font-body-md text-[#121c26] dark:text-slate-100 antialiased transition-colors duration-200 selection:bg-secondary-container selection:text-primary-container">
+<!-- ================= TOP QA SANDBOX PRESET BAR ================= -->
+<aside aria-label="QA Test Sandbox" class="w-full bg-[#051320] text-on-primary border-b border-[#0f2d48] px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-body-sm text-[12px] z-50 sticky top-0">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary-container font-label-caps tracking-wider text-[10px] uppercase font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+        QA Sandbox Mode
+      </span>
+<span class="text-slate-400 hidden sm:inline">SARB Regulatory Escrow Engine Simulator • v2.4-RSA</span>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-slate-400 text-[11px] font-medium mr-1">Presets:</span>
+<button class="px-2.5 py-1 rounded bg-[#0e273f] hover:bg-[#163a5d] text-slate-200 font-semibold text-[11px] transition-colors" onclick="applyPreset('all')" type="button">1. All (8)</button>
+<button class="px-2.5 py-1 rounded bg-[#0e273f] hover:bg-[#163a5d] text-slate-200 font-semibold text-[11px] transition-colors" onclick="applyPreset('active')" type="button">2. Active Only</button>
+<button class="px-2.5 py-1 rounded bg-[#0e273f] hover:bg-[#163a5d] text-slate-200 font-semibold text-[11px] transition-colors" onclick="applyPreset('empty')" type="button">3. Zero Records</button>
+<button class="px-2.5 py-1 rounded bg-secondary-container text-[#071a2b] font-bold text-[11px] hover:bg-secondary-fixed-dim transition-colors" onclick="applyPreset('reset')" type="button">Reset Data</button>
+</div>
+</aside>
+<!-- ================= STRICT ADMIN WORKSPACE LAYOUT (FULL 100dvh SHELL) ================= -->
+<div class="flex flex-col lg:flex-row w-full min-h-[calc(100vh-2.5rem)] lg:min-h-[calc(100dvh-2.5rem)] bg-[#f5f7fa] dark:bg-[#071a2b]" id="admin-root-viewport">
+<!-- ================= DESKTOP FULL-HEIGHT ADMIN SIDEBAR (w-64 = 256px, lg:flex, 100dvh) ================= -->
+<aside class="hidden lg:flex flex-col w-64 shrink-0 min-h-[calc(100vh-2.5rem)] lg:h-[calc(100dvh-2.5rem)] lg:sticky lg:top-[2.5rem] bg-white dark:bg-[#0b1e30] text-[#121c26] dark:text-on-primary justify-between select-none z-40 border-r border-[#d9e0e7] dark:border-[#1e344a] shadow-sm transition-colors duration-200" id="desktop-sidebar">
+<div class="flex flex-col flex-1 min-h-0 overflow-y-auto px-4 py-5 gap-5">
+<!-- Logo & Admin Console Badge -->
+<div class="flex flex-col gap-2.5 pb-4 border-b border-[#d9e0e7] dark:border-white/10">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Brand" class="h-9 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs1NPMjf_nLBZC6oyR-XJjo9XaF4_E0jPCEChpUIysKf7rRkfbtYxOHzHjy0EASpVfRiW7ydd1NgmVafd-JhrSJWimu2RjZ70QQnu1jDerauKHRglSKuAHyYjIL5viXvNxvSSEMHnlkWu-b6jLENEZ3SOxlnnAPjDnKn6YJI9iTaeTX6EBcbCwaxJePqiOeib6-_Pdhu0hyCa11SyeT1Ibs9BBWLZ6EYjLERhEK2vX2ZgWu4lGJmXYuSGMT_u3se-qBWs">
+</div>
+<div class="flex items-center justify-between mt-1">
+<span class="font-headline-sm text-[#071a2b] dark:text-white text-[15px] tracking-tight font-bold">WinDriveSA</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-label-caps font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300 dark:border-transparent dark:bg-secondary-container/20 dark:text-secondary-container">
+              Console v2.4 RSA
+            </span>
+</div>
+</div>
+<!-- Strict 11 Admin Navigation Links -->
+<nav aria-label="Admin Navigation" class="flex flex-col gap-1.5 text-body-sm font-medium"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Dashboard'); return false;"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Users'); return false;"><span class="material-symbols-outlined text-[20px]">group</span><span class="">Users</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Rewards'); return false;"><span class="material-symbols-outlined text-[20px]">card_giftcard</span><span class="">Rewards</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#cash-prizes" onclick="showActionToast('Navigating to Cash Prizes'); return false;"><span class="material-symbols-outlined text-[20px]">payments</span><span class="">Cash Prizes</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#071a2b] text-white dark:bg-[#0e273f] dark:text-white font-semibold relative shadow-sm border-l-4 border-secondary-container" href="#vehicle-prizes"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary-container text-[20px]">directions_car</span><span class="text-white font-bold">Vehicle Prizes</span></div><span class="text-[10px] font-label-caps bg-secondary-container text-primary-container font-bold px-1.5 py-0.5 rounded">FLEET</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Claim Requests'); return false;"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="">Claim Requests</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Claim Requirements'); return false;"><span class="material-symbols-outlined text-[20px]">rule</span><span class="">Claim Requirements</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Audited Winners'); return false;"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">emoji_events</span><span class="">Winners</span></div><span class="text-[9px] font-label-caps tracking-wider uppercase px-1.5 py-0.5 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50 font-bold rounded">INTERNAL</span></a><div class="my-2 border-t border-[#d9e0e7] dark:border-white/10"></div><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Support Desk'); return false;"><span class="material-symbols-outlined text-[20px]">headset_mic</span><span class="">Support Desk</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Audit Logs'); return false;"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="">Audit Logs</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white transition-colors" href="#" onclick="showActionToast('Navigating to Settings'); return false;"><span class="material-symbols-outlined text-[20px]">tune</span><span class="">Settings</span></a></nav>
+</div>
+<!-- Bottom Profile, Theme Toggle & Logout -->
+<div class="p-4 border-t border-[#d9e0e7] dark:border-white/10 flex flex-col gap-2.5 bg-[#f8fafc] dark:bg-[#071a2b]/80 shrink-0">
+<!-- Theme Toggle Button -->
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-white dark:bg-white/5 border border-[#d9e0e7] dark:border-transparent hover:bg-[#edf2f7] dark:hover:bg-white/10 text-[#121c26] dark:text-slate-200 text-xs transition-colors" onclick="toggleThemeMode()" type="button">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-amber-600 dark:text-secondary-container" id="theme-icon-desktop">dark_mode</span>
+<span class="font-semibold" id="theme-label-desktop">Switch to Console Dark</span>
+</div>
+<span class="text-[9px] font-mono px-1 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400">CTRL+M</span>
+</button>
+<!-- Admin Profile -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-white/5 border border-[#d9e0e7] dark:border-transparent">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-primary-container flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+              AD
+            </div>
+<div class="flex flex-col min-w-0">
+<span class="text-[#071a2b] dark:text-white font-bold text-xs truncate">Admin Controller 04</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate">escrow-ops@windrivesa.co.za</span>
+</div>
+</div>
+<!-- Logout -->
+<button class="text-slate-400 hover:text-error transition-colors p-1" onclick="showActionToast('Admin session logged out safely.')" title="Logout">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT WRAPPER ================= -->
+<div class="flex-1 min-w-0 min-h-[calc(100vh-2.5rem)] lg:min-h-[calc(100dvh-2.5rem)] flex flex-col bg-[#f5f7fa] dark:bg-[#071a2b] overflow-x-hidden">
+<!-- ================= COMPACT ADMIN HEADER (MOBILE/TABLET ONLY: < 1024px) ================= -->
+<header class="relative flex lg:hidden w-full shrink-0 bg-white dark:bg-[#0b1e30] text-[#071a2b] dark:text-on-primary px-4 py-3 items-center justify-between shadow-sm z-40 border-b border-[#d9e0e7] dark:border-[#1e344a] transition-colors duration-200">
+<div class="flex items-center gap-2.5">
+<img alt="WinDriveSA Brand" class="h-8 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVsnk123AGeu0F25YDR1JKyXn-JuBpVc58lEwlS9b7PPvYJ2-pJdOkezXYa89XlMaZqPcUU15RC8NKJ9biQSxhCv3Y7zcGChrsEOCy_vyGdVqRRXMakVVMO5LiBcLhnJ3KXQbQ25rZlRHTY7hDgSJZhCMs9wMi5-Wishq5cq_jfcXN8bsyE174h7EfenIwS5DaTUkUrMmLvCtLjS1RWBHUfSBLUbXymwSGoDw7rRcuaWhv2zIsoVzLWMyW_mTBjjsZAgE">
+<div class="flex flex-col">
+<span class="font-headline-sm text-[#071a2b] dark:text-white text-sm font-bold leading-none">WinDriveSA</span>
+<span class="text-[10px] text-amber-700 dark:text-secondary-container font-mono font-bold">Console v2.4 RSA</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Mobile Theme Toggle -->
+<button aria-label="Toggle theme" class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 text-[#071a2b] dark:text-white hover:bg-slate-200 dark:hover:bg-white/20 active:scale-95 transition-all border border-[#d9e0e7] dark:border-transparent" onclick="toggleThemeMode()" type="button">
+<span class="material-symbols-outlined text-[20px] text-amber-600 dark:text-secondary-container" id="theme-icon-mobile">dark_mode</span>
+</button>
+<!-- 44x44px Touch Target Hamburger -->
+<button aria-label="Open admin navigation drawer" class="w-11 h-11 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 text-[#071a2b] dark:text-white hover:bg-slate-200 dark:hover:bg-white/20 active:scale-95 transition-all border border-[#d9e0e7] dark:border-transparent" onclick="toggleMobileDrawer(true)" type="button">
+<svg class="w-6 h-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</header>
+<!-- ================= ADMIN MOBILE/TABLET DRAWER OVERLAY ================= -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity duration-300 lg:hidden" id="mobile-drawer-backdrop" onclick="toggleMobileDrawer(false)"></div>
+<aside aria-label="Mobile Admin Navigation Drawer" class="fixed top-0 right-0 bottom-0 w-[280px] bg-white dark:bg-[#0b1e30] text-[#121c26] dark:text-on-primary z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between lg:hidden shadow-2xl border-l border-[#d9e0e7] dark:border-[#1e344a]" id="mobile-drawer">
+<div class="flex flex-col overflow-y-auto px-4 py-5 gap-4">
+<div class="flex items-center justify-between pb-3 border-b border-[#d9e0e7] dark:border-white/10">
+<div class="flex items-center gap-2">
+<img alt="WinDriveSA" class="h-7 w-auto object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbPvcuYRQgdEMOzeR7IyF9r-71Xg4s7egkjOJOI-iAi6_l5Xjium-629GdcpwUrOIg9KyysvKbRx0NY0uT3LaNtrcevbkrcg8a-W5ZvQE2DBDVIItffI9rF3oMFmxp9LS2OHNG0cCQS7hblXEYQV6QYUwxW_9ZJ4oCMTuic5hjSra5mYw9fN2pgmy2QStMfT8w39cOWsUm6jLuW36YnIyLvgpvPo3rLUuQLqtpMgaQn2-FpEAIoYuQAQ9-nlV5RBLzG1A">
+<span class="font-headline-sm text-[#071a2b] dark:text-white font-bold text-sm">Admin Console</span>
+</div>
+<button aria-label="Close drawer" class="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-white/20" onclick="toggleMobileDrawer(false)">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Strict 11 Admin Routes Only -->
+<nav class="flex flex-col gap-1 text-body-sm font-medium"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Dashboard'); return false;"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Users'); return false;"><span class="material-symbols-outlined text-[20px]">group</span><span class="">Users</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Rewards'); return false;"><span class="material-symbols-outlined text-[20px]">card_giftcard</span><span class="">Rewards</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#cash-prizes" onclick="toggleMobileDrawer(false); showActionToast('Cash Prizes'); return false;"><span class="material-symbols-outlined text-[20px]">payments</span><span class="">Cash Prizes</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#071a2b] text-white dark:bg-[#0e273f] font-bold border-l-4 border-secondary-container" href="#vehicle-prizes" onclick="toggleMobileDrawer(false)"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary-container text-[20px]">directions_car</span><span class="">Vehicle Prizes</span></div><span class="text-[10px] bg-secondary-container text-primary-container font-bold px-1.5 py-0.5 rounded">FLEET</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Claim Requests'); return false;"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="">Claim Requests</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Claim Requirements'); return false;"><span class="material-symbols-outlined text-[20px]">rule</span><span class="">Claim Requirements</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Winners'); return false;"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">emoji_events</span><span class="">Winners</span></div><span class="text-[9px] px-1.5 py-0.5 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold rounded">INTERNAL</span></a><div class="my-1 border-t border-[#d9e0e7] dark:border-white/10"></div><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Support Desk'); return false;"><span class="material-symbols-outlined text-[20px]">headset_mic</span><span class="">Support Desk</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Audit Logs'); return false;"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="">Audit Logs</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#55697d] dark:text-slate-300 hover:bg-[#f0f4f9] dark:hover:bg-white/10 hover:text-[#071a2b] dark:hover:text-white" href="#" onclick="toggleMobileDrawer(false); showActionToast('Settings'); return false;"><span class="material-symbols-outlined text-[20px]">tune</span><span class="">Settings</span></a></nav>
+</div>
+<div class="p-4 border-t border-[#d9e0e7] dark:border-white/10 flex flex-col gap-2 bg-[#f8fafc] dark:bg-[#071a2b]/80">
+<button class="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-red-600/10 text-red-600 dark:bg-red-600/20 dark:text-red-400 hover:bg-red-600/20 text-xs font-semibold" onclick="toggleMobileDrawer(false); showActionToast('Logged out.');">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span class="">Logout Session</span>
+</button>
+</div>
+</aside>
+<!-- ================= MAIN ADMIN WORKSPACE VIEW ================= -->
+<main class="flex-1 w-full p-4 sm:p-6 lg:p-8 flex flex-col gap-6 max-w-7xl mx-auto" id="admin-main-pane">
+<!-- Header Row with Eyebrow, Heading & Primary CTA -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4"><div class="flex flex-col gap-1"><div class="flex items-center gap-2"><span class="font-label-caps text-[11px] font-bold text-amber-800 dark:text-secondary-container bg-amber-100 dark:bg-[#0e273f] px-2.5 py-1 rounded tracking-wider uppercase border border-amber-300 dark:border-[#1d4168]">VEHICLE PRIZE MANAGEMENT • FLEET DISBURSEMENT ENGINE</span></div><h1 class="font-headline-xl text-3xl sm:text-4xl text-on-surface dark:text-white font-bold tracking-tight">Vehicle Prizes</h1><p class="font-body-md text-sm sm:text-base text-on-surface-variant dark:text-slate-300 max-w-2xl">Manage, configure, and monitor vehicle prize allocations assigned to approved South African participant accounts.</p></div><div class="flex items-center gap-3 shrink-0"><button class="px-5 py-3 rounded-lg bg-secondary-container hover:bg-secondary-fixed-dim text-[#071a2b] font-headline-sm text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2" onclick="openCreateModal()" type="button"><span class="material-symbols-outlined text-[20px]">add_circle</span><span class="">+ Create Vehicle Prize</span></button></div></header>
+<!-- 4 Operational Metric Cards -->
+<section aria-label="Escrow Summary Metrics" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"><div class="p-5 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant dark:text-slate-400"><span class="font-label-caps text-xs uppercase tracking-wider font-bold">TOTAL FLEET ALLOCATED</span><span class="material-symbols-outlined text-[20px]">directions_car</span></div><div class="my-3"><div class="font-title-zar-val text-3xl font-bold text-on-surface dark:text-white tracking-tight" id="metric-total-allocated">R2&nbsp;150&nbsp;000</div><span class="text-[11px] text-on-surface-variant dark:text-slate-400 uppercase font-semibold">NATIONAL REGISTRATION POOL</span></div><div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-300"><span class="inline-block w-2 h-2 rounded-full bg-secondary-container"></span><span id="metric-total-count" class="">8 cataloged allocations</span></div></div><div class="p-5 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant dark:text-slate-400"><span class="font-label-caps text-xs uppercase tracking-wider font-bold">ACTIVE POOL</span><span class="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400">verified</span></div><div class="my-3"><div class="font-title-zar-val text-3xl font-bold text-emerald-700 dark:text-emerald-400 tracking-tight" id="metric-active-pool">R250&nbsp;000</div><span class="text-[11px] text-on-surface-variant dark:text-slate-400 uppercase font-semibold">READY FOR CLAIM / HANDOVER</span></div><div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-300"><span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span><span id="metric-active-count" class="">1 accounts ready for claim</span></div></div><div class="p-5 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant dark:text-slate-400"><span class="font-label-caps text-xs uppercase tracking-wider font-bold">UNDER REVIEW / LOGISTICS</span><span class="material-symbols-outlined text-[20px] text-amber-600 dark:text-amber-400">local_shipping</span></div><div class="my-3"><div class="font-title-zar-val text-3xl font-bold text-on-surface dark:text-white tracking-tight" id="metric-processing-pool">R750&nbsp;000</div><span class="text-[11px] text-on-surface-variant dark:text-slate-400 uppercase font-semibold">VERIFICATION &amp; TRANSIT AUDIT</span></div><div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-300"><span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span><span id="metric-proc-count" class="">2 claims in verification audit</span></div></div><div class="p-5 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant dark:text-slate-400"><span class="font-label-caps text-xs uppercase tracking-wider font-bold">FULFILLED / DELIVERED</span><span class="material-symbols-outlined text-[20px] text-slate-600 dark:text-slate-300">task_alt</span></div><div class="my-3"><div class="font-title-zar-val text-3xl font-bold text-on-surface dark:text-white tracking-tight" id="metric-fulfilled-pool">R500&nbsp;000</div><span class="text-[11px] text-on-surface-variant dark:text-slate-400 uppercase font-semibold">REGISTRATION &amp; NATIS CLEARED</span></div><div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-300"><span class="inline-block w-2 h-2 rounded-full bg-[#071a2b] dark:bg-slate-400"></span><span id="metric-fulf-count" class="">2 settlements cleared via Escrow</span></div></div></section>
+<!-- Operational Toolbar (Search, Status Filter, Claim Status Filter) -->
+<section aria-label="Table Filter Tools" class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4"><div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1"><div class="relative flex-1 min-w-[240px]"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-slate-400 text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-sm text-on-surface dark:text-white bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-container" id="filter-search-input" oninput="renderTable()" placeholder="Search by user, vehicle or email…" type="text"></div><div class="flex items-center gap-2"><label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant dark:text-slate-400 font-label-caps shrink-0" for="filter-prize-status">STATUS:</label><select class="px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-medium text-on-surface dark:text-white focus:outline-none cursor-pointer" id="filter-prize-status" onchange="renderTable()"><option value="ALL">All Statuses</option><option value="NOT ASSIGNED">NOT ASSIGNED</option><option value="ASSIGNED">ASSIGNED</option><option value="ACTIVE">ACTIVE</option><option value="COMPLETED">COMPLETED</option></select></div><div class="flex items-center gap-2"><label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant dark:text-slate-400 font-label-caps shrink-0" for="filter-claim-status">CLAIM:</label><select class="px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-medium text-on-surface dark:text-white focus:outline-none cursor-pointer" id="filter-claim-status" onchange="renderTable()"><option value="ALL">All Claims</option><option value="CLAIM AVAILABLE">CLAIM AVAILABLE</option><option value="NOT CLAIMED">NOT CLAIMED</option><option value="SUBMITTED">SUBMITTED</option><option value="UNDER REVIEW">UNDER REVIEW</option><option value="APPROVED">APPROVED</option><option value="REQUIREMENT PENDING">REQUIREMENT PENDING</option><option value="PROCESSING">PROCESSING</option><option value="FULFILLED">FULFILLED</option></select></div></div><div class="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-outline-variant/40 dark:border-white/10"><span class="text-xs text-on-surface-variant dark:text-slate-400 font-medium" id="filter-count-indicator">Showing 8 of 8 allocation records</span><button class="px-3 py-1.5 rounded bg-surface-container-high dark:bg-[#163a5d] text-on-surface dark:text-slate-200 text-xs font-semibold transition-colors flex items-center gap-1" onclick="resetFilters()" type="button"><span class="material-symbols-outlined text-[16px]">restart_alt</span><span class="">Reset</span></button></div></section>
+<!-- Cash Prize Directory: Desktop Table & Mobile Cards -->
+<section aria-label="Cash Prize Directory Ledger" class="w-full flex flex-col gap-4">
+<!-- Desktop Table (> 768px) with horizontal scroll safety -->
+<div class="hidden md:block w-full bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[780px]">
+<thead><tr class="bg-surface dark:bg-[#071a2b] border-b border-outline-variant/60 dark:border-white/10 text-on-surface-variant dark:text-slate-400 font-label-caps text-xs uppercase tracking-wider"><th class="py-3 px-5 font-bold">VEHICLE</th><th class="py-3 px-4 font-bold">USER ACCOUNT</th><th class="py-3 px-3 font-bold text-center">YEAR</th><th class="py-3 px-4 font-bold text-center">PRIZE STATUS</th><th class="py-3 px-4 font-bold text-center">CLAIM STATUS</th><th class="py-3 px-4 font-bold text-center">LAST UPDATED (SAST)</th><th class="py-3 px-5 font-bold text-right">ACTIONS</th></tr></thead>
+<tbody class="divide-y divide-outline-variant/40 dark:divide-white/5 text-sm text-on-surface dark:text-slate-200" id="prizes-table-body">
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  TM
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Thabo Mokoena</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9941</span>
+                    <span class="">•</span>
+                    <span class="truncate">t.mokoena@vodamail.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R250&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                    CLAIM AVAILABLE
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              18 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(1)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(1)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(1)" title="Deactivate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-emerald-600 dark:text-emerald-400">toggle_off</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  LD
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Lerato Dlamini</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9942</span>
+                    <span class="">•</span>
+                    <span class="truncate">lerato.d@joburg.gov.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R150&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    ASSIGNED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              20 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(2)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(2)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(2)" title="Activate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-slate-400">toggle_on</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  SN
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Sipho Naidoo</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9943</span>
+                    <span class="">•</span>
+                    <span class="truncate">sipho.naidoo@standardbank.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R300&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-[13px]">done_all</span>
+                    COMPLETED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                    FULFILLED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              15 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(3)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(3)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(3)" title="Activate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-slate-400">toggle_on</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  ZS
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Zanele Sithole</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9944</span>
+                    <span class="">•</span>
+                    <span class="truncate">z.sithole@durban.org.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R250&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-700">
+                    UNDER REVIEW
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              19 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(4)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(4)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(4)" title="Deactivate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-emerald-600 dark:text-emerald-400">toggle_off</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  PM
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Pieter van der Merwe</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9945</span>
+                    <span class="">•</span>
+                    <span class="truncate">pieter@vdm-agri.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R500&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                    PROCESSING
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              17 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(5)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(5)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(5)" title="Deactivate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-emerald-600 dark:text-emerald-400">toggle_off</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  AB
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Annelize Botha</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9946</span>
+                    <span class="">•</span>
+                    <span class="truncate">annelize@capelegal.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R250&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    ASSIGNED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              16 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(6)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(6)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(6)" title="Activate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-slate-400">toggle_on</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  KN
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Kagiso Ndlovu</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9947</span>
+                    <span class="">•</span>
+                    <span class="truncate">kndlovu@investec.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R200&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-[13px]">done_all</span>
+                    COMPLETED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                    FULFILLED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              04 Jan 2026
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(7)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(7)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(7)" title="Activate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-slate-400">toggle_on</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  DG
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">Devan Govender</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">WD-RSA-9948</span>
+                    <span class="">•</span>
+                    <span class="truncate">devan.govender@mtn.co.za</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">R250&nbsp;000</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                    NOT ASSIGNED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              28 Dec 2025
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(8)" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span class="">View</span>
+                </button>
+                <button type="button" onclick="openEditModal(8)" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span class="">Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(8)" title="Activate Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] text-slate-400">toggle_on</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+</table>
+</div>
+<!-- Empty Indicator -->
+<div class="hidden p-12 text-center flex-col items-center justify-center gap-3" id="table-empty-indicator"><span class="material-symbols-outlined text-[48px] text-slate-400">directions_car</span><p class="font-headline-sm text-base font-semibold text-on-surface dark:text-white">No Vehicle Prizes Yet</p><p class="text-xs text-on-surface-variant dark:text-slate-400 max-w-sm">No records match your active search or filters. You can reset filters or assign a new vehicle prize.</p><button class="mt-2 px-4 py-2 rounded-lg bg-primary-container dark:bg-secondary-container text-white dark:text-primary-container font-bold text-xs" onclick="resetFilters()" type="button">Reset All Filters</button></div>
+</div>
+<!-- Mobile Cards Deck (<= 768px) -->
+<div class="md:hidden flex flex-col gap-3" id="mobile-cards-deck">
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  TM
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Thabo Mokoena</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9941</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R250&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                    CLAIM AVAILABLE
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 18 Jan 2026</span>
+              <span class="">Hash: 0x89D2...44F1</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(1)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(1)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(1)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Deactivate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  LD
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Lerato Dlamini</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9942</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R150&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    ASSIGNED
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 20 Jan 2026</span>
+              <span class="">Hash: 0x77E1...09B2</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(2)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(2)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(2)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Activate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  SN
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Sipho Naidoo</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9943</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R300&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-[13px]">done_all</span>
+                    COMPLETED
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                    FULFILLED
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 15 Jan 2026</span>
+              <span class="">Hash: 0x33C9...AA14</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(3)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(3)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(3)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Activate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  ZS
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Zanele Sithole</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9944</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R250&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-700">
+                    UNDER REVIEW
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 19 Jan 2026</span>
+              <span class="">Hash: 0x19F0...98D1</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(4)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(4)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(4)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Deactivate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  PM
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Pieter van der Merwe</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9945</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R500&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                    PROCESSING
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 17 Jan 2026</span>
+              <span class="">Hash: 0x55B8...22C7</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(5)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(5)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(5)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Deactivate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  AB
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Annelize Botha</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9946</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R250&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    ASSIGNED
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 16 Jan 2026</span>
+              <span class="">Hash: 0x44A1...77E0</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(6)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(6)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(6)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Activate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  KN
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Kagiso Ndlovu</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9947</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R200&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-[13px]">done_all</span>
+                    COMPLETED
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                    FULFILLED
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 04 Jan 2026</span>
+              <span class="">Hash: 0x22D4...66E5</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(7)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(7)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(7)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Activate</span>
+              </button>
+            </div>
+          </div>
+        
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  DG
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">Devan Govender</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">WD-RSA-9948</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">R250&nbsp;000</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                    NOT ASSIGNED
+                  </span></div>
+              <div><span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span class="">Updated: 28 Dec 2025</span>
+              <span class="">Hash: 0x99A0...11B3</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(8)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span class="">View</span>
+              </button>
+              <button type="button" onclick="openEditModal(8)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span class="">Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(8)" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span class="">Activate</span>
+              </button>
+            </div>
+          </div>
+        </div>
+</section>
+<!-- Baseline Legal Governance Bar (Strict Administrative Compliance) -->
+<footer class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-on-surface-variant dark:text-slate-400 mt-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-[18px]">verified_user</span>
+<span class="">POPIA Section 18 Compliance &amp; SARB Escrow Verification Enabled</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-[11px] text-slate-500 dark:text-slate-400">
+<span class="">Ledger: 0x7F9B...88D2</span>
+<span class="">•</span>
+<span class="">RSA Gazette Ref #4412-26</span>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- ================= MODAL: CREATE CASH PRIZE ================= -->
+<dialog class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 w-full h-full flex items-center justify-center hidden" id="modal-create"><div class="bg-white dark:bg-[#0c2238] border border-outline-variant dark:border-white/10 rounded-xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4 text-on-surface dark:text-white"><div class="flex items-center justify-between pb-3 border-b border-outline-variant/60 dark:border-white/10"><div class="flex items-center gap-2.5"><span class="w-8 h-8 rounded-lg bg-secondary-container/20 text-secondary-container flex items-center justify-center font-bold"><span class="material-symbols-outlined text-[20px]">add_circle</span></span><div><h3 class="font-headline-sm text-base font-bold text-on-surface dark:text-white">Create Vehicle Prize</h3><p class="text-xs text-on-surface-variant dark:text-slate-400">Allocate fleet vehicle award to approved participant account</p></div></div><button class="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white" onclick="closeModal('modal-create')"><span class="material-symbols-outlined text-[20px]">close</span></button></div><form class="flex flex-col gap-4" id="create-prize-form" onsubmit="handleCreateSubmit(event)"><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Assign Recipient Account *</label><select class="px-3 py-2.5 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs text-on-surface dark:text-white focus:outline-none" id="create-user-select" required=""><option value="">Select an Approved South African Account...</option><option value="Nompumelelo Khumalo (WD-RSA-9950)|n.khumalo@icloud.co.za">Nompumelelo Khumalo — WD-RSA-9950 (Gauteng)</option><option value="Brandon Van Wyk (WD-RSA-9951)|b.vanwyk@workmail.co.za">Brandon Van Wyk — WD-RSA-9951 (Western Cape)</option><option value="Mandla Zulu (WD-RSA-9952)|m.zulu@durbanbiz.org.za">Mandla Zulu — WD-RSA-9952 (KwaZulu-Natal)</option><option value="Fatima Moosa (WD-RSA-9953)|fatima.m@moosagroup.co.za">Fatima Moosa — WD-RSA-9953 (Eastern Cape)</option></select></div><div class="grid grid-cols-2 gap-3"><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Make *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="create-make-input" required="" type="text" value="Toyota"></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Year *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="create-year-input" max="2027" min="2020" required="" type="number" value="2026"></div></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Model &amp; Trim *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="create-model-input" required="" type="text" value="Hilux 2.8 GD-6 Legend 4x4"></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Initial Prize Status</label><select class="px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs text-on-surface dark:text-white focus:outline-none" id="create-status-select"><option selected="" value="ASSIGNED">ASSIGNED</option><option value="ACTIVE">ACTIVE</option></select></div><div class="p-3 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant/60 dark:border-white/5 flex items-start gap-2.5 text-xs text-on-surface-variant dark:text-slate-300"><span class="material-symbols-outlined text-amber-500 text-[18px] shrink-0 mt-0.5">info</span><span class="">Creating this vehicle allocation schedules dealer handover documentation and initiates SARB logistics escrow audit.</span></div><div class="flex items-center justify-end gap-3 pt-3 border-t border-outline-variant/60 dark:border-white/10"><button class="px-4 py-2 rounded-lg bg-surface-container-high dark:bg-white/10 text-on-surface dark:text-slate-200 font-semibold text-xs" onclick="closeModal('modal-create')" type="button">Cancel</button><button class="px-5 py-2 rounded-lg bg-secondary-container text-primary-container font-bold text-xs shadow-md hover:bg-secondary-fixed-dim transition-all" type="submit">Confirm &amp; Issue Vehicle Prize</button></div></form></div></dialog>
+<!-- ================= MODAL: EDIT CASH PRIZE ================= -->
+<dialog class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 w-full h-full flex items-center justify-center hidden" id="modal-edit"><div class="bg-white dark:bg-[#0c2238] border border-outline-variant dark:border-white/10 rounded-xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4 text-on-surface dark:text-white"><div class="flex items-center justify-between pb-3 border-b border-outline-variant/60 dark:border-white/10"><div class="flex items-center gap-2.5"><span class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-bold"><span class="material-symbols-outlined text-[20px]">edit</span></span><div><h3 class="font-headline-sm text-base font-bold text-on-surface dark:text-white">Edit Vehicle Prize</h3><p class="text-xs text-on-surface-variant dark:text-slate-400">Update vehicle parameters and registration state</p></div></div><button class="p-1 rounded text-slate-400 hover:text-white" onclick="closeModal('modal-edit')"><span class="material-symbols-outlined text-[20px]">close</span></button></div><form class="flex flex-col gap-4" id="edit-prize-form" onsubmit="handleEditSubmit(event)"><input id="edit-record-id" type="hidden"><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface-variant dark:text-slate-400">Assigned Recipient (Immutable)</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white opacity-80 cursor-not-allowed" id="edit-user-display" readonly="" type="text"></div><div class="grid grid-cols-2 gap-3"><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Make *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="edit-make-input" required="" type="text"></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Year *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="edit-year-input" max="2027" min="2020" required="" type="number"></div></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Vehicle Model &amp; Trim *</label><input class="w-full px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs font-semibold text-on-surface dark:text-white focus:outline-none" id="edit-model-input" required="" type="text"></div><div class="grid grid-cols-2 gap-3"><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Prize Status</label><select class="px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs text-on-surface dark:text-white focus:outline-none" id="edit-status-select"><option value="ACTIVE">ACTIVE</option><option value="ASSIGNED">ASSIGNED</option><option value="COMPLETED">COMPLETED</option><option value="NOT ASSIGNED">NOT ASSIGNED</option></select></div><div class="flex flex-col gap-1.5"><label class="font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface dark:text-slate-200">Claim Status</label><select class="px-3 py-2 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant dark:border-white/10 text-xs text-on-surface dark:text-white focus:outline-none" id="edit-claim-select"><option value="CLAIM AVAILABLE">CLAIM AVAILABLE</option><option value="NOT CLAIMED">NOT CLAIMED</option><option value="SUBMITTED">SUBMITTED</option><option value="UNDER REVIEW">UNDER REVIEW</option><option value="APPROVED">APPROVED</option><option value="REQUIREMENT PENDING">REQUIREMENT PENDING</option><option value="PROCESSING">PROCESSING</option><option value="FULFILLED">FULFILLED</option></select></div></div><div class="flex items-center justify-end gap-3 pt-3 border-t border-outline-variant/60 dark:border-white/10"><button class="px-4 py-2 rounded-lg bg-surface-container-high dark:bg-white/10 text-on-surface dark:text-slate-200 font-semibold text-xs" onclick="closeModal('modal-edit')" type="button">Cancel</button><button class="px-5 py-2 rounded-lg bg-primary-container text-white dark:bg-secondary-container dark:text-primary-container font-bold text-xs shadow-md" type="submit">Save Modifications</button></div></form></div></dialog>
+<!-- ================= MODAL: VIEW DOSSIER SLIDE-OVER ================= -->
+<dialog class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 w-full h-full flex items-center justify-center hidden" id="modal-view"><div class="bg-white dark:bg-[#0c2238] border border-outline-variant dark:border-white/10 rounded-xl max-w-xl w-full p-6 shadow-2xl flex flex-col gap-4 text-on-surface dark:text-white"><div class="flex items-center justify-between pb-3 border-b border-outline-variant/60 dark:border-white/10"><div class="flex items-center gap-2.5"><span class="w-8 h-8 rounded-lg bg-surface-container dark:bg-white/10 text-on-surface dark:text-white flex items-center justify-center font-bold"><span class="material-symbols-outlined text-[20px]">directions_car</span></span><div><h3 class="font-headline-sm text-base font-bold text-on-surface dark:text-white">Vehicle Prize Allocation Dossier</h3><p class="text-xs text-on-surface-variant dark:text-slate-400 font-mono" id="view-allocation-ref">WD-RSA-9941-VEH-ALLOC</p></div></div><button class="p-1 rounded text-slate-400 hover:text-white" onclick="closeModal('modal-view')"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="flex flex-col gap-3 text-xs"><div class="relative w-full h-44 rounded-xl overflow-hidden border border-outline-variant/60 dark:border-white/10 bg-slate-900"><img alt="Vehicle Award Preview" class="w-full h-full object-cover" id="view-vehicle-img" src="https://lh3.googleusercontent.com/aida/AEtjO1XG1tU2dwj0NuRZlpARd_53gKx9tHv6As274NSfv4x0S1A67lcKYhFWixl28Ft-b4O2MImxBQc7FZLoXQWAi4BQ6rGlRHtgCZwD0xLHIw-mt-9356M3dxlRFcZ9_kDO7wtmbEcWyKqSVkDQvbjJUIkiuiv5T3yxJdkFYAD6n7ICBPUW81lYXG9C5o4YcVkL_t2ekkwMw_LD5iR89TSlhK8vYpEiOBe-NnHxHOANQXy_Vgy6WJmq7EMWG1jg"><div class="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-black/70 backdrop-blur-sm text-white text-[11px] font-mono font-semibold" id="view-vin-badge">VIN: AHT-FR22G-89941</div></div><div class="p-4 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant/60 dark:border-white/10 flex items-center justify-between"><div class="flex flex-col"><span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-slate-400 font-bold">Allocated Vehicle Model</span><span class="font-headline-sm text-lg font-bold text-on-surface dark:text-white" id="view-vehicle-name">2026 Toyota Hilux 2.8 GD-6 Legend 4x4</span><span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">South African NATIS Dealer Allocated Unit</span></div><div class="flex flex-col items-end gap-1.5"><span class="px-2 py-0.5 rounded text-[11px] font-bold" id="view-prize-status-badge">ACTIVE</span><span class="px-2 py-0.5 rounded text-[11px] font-bold" id="view-claim-status-badge">CLAIM AVAILABLE</span></div></div><div class="grid grid-cols-2 gap-3"><div class="p-3 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant/60 dark:border-white/5"><span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant dark:text-slate-400">Recipient Full Name</span><p class="font-bold text-on-surface dark:text-white text-sm mt-0.5" id="view-user-name">Thabo Mokoena</p><p class="text-on-surface-variant dark:text-slate-400 text-[11px]" id="view-user-email">t.mokoena@vodamail.co.za</p></div><div class="p-3 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant/60 dark:border-white/5"><span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant dark:text-slate-400">Dealer / NATIS Clearance ID</span><p class="font-mono text-on-surface dark:text-white text-sm mt-0.5" id="view-escrow-hash">0x89D2...44F1</p><p class="text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold">Clearance Certificate Stamped</p></div></div><div class="p-3 rounded-lg bg-surface dark:bg-[#071a2b] border border-outline-variant/60 dark:border-white/5 flex flex-col gap-1.5"><div class="flex items-center justify-between"><span class="text-on-surface-variant dark:text-slate-400">Draw Ref / SAST Timestamp:</span><span class="font-mono text-on-surface dark:text-white font-semibold" id="view-timestamp">18 Jan 2026, 14:32 SAST</span></div><div class="flex items-center justify-between"><span class="text-on-surface-variant dark:text-slate-400">Logistics Handover Depot:</span><span class="text-on-surface dark:text-white font-semibold" id="view-depot">Midrand Central Distribution Hub</span></div><div class="flex items-center justify-between"><span class="text-on-surface-variant dark:text-slate-400">FICA &amp; Escrow Verification:</span><span class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Compliant &amp; Active Escrow</span></div></div></div><div class="flex items-center justify-end gap-2.5 pt-3 border-t border-outline-variant/60 dark:border-white/10"><button class="px-4 py-2 rounded-lg bg-primary-container text-white dark:bg-secondary-container dark:text-primary-container font-bold text-xs" onclick="closeModal('modal-view')" type="button">Dismiss Dossier</button></div></div></dialog>
+<!-- ================= CONFIRMATION MODAL: ACTIVATE / DEACTIVATE ================= -->
+<dialog class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 w-full h-full flex items-center justify-center hidden" id="modal-confirm-toggle">
+<div class="bg-white dark:bg-[#0c2238] border border-outline-variant dark:border-white/10 rounded-xl max-w-md w-full p-6 shadow-2xl flex flex-col gap-4 text-on-surface dark:text-white">
+<div class="flex items-center gap-3">
+<span class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" id="confirm-icon-wrapper">
+<span class="material-symbols-outlined text-[22px]" id="confirm-icon">toggle_on</span>
+</span>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-base font-bold text-on-surface dark:text-white" id="confirm-title">Toggle Status</h3>
+<span class="text-xs text-on-surface-variant dark:text-slate-400 font-mono" id="confirm-user-ref"></span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant dark:text-slate-300" id="confirm-message">
+        Are you sure you want to adjust the state of this cash prize?
+      </p>
+<div class="flex items-center justify-end gap-2.5 pt-3 border-t border-outline-variant/60 dark:border-white/10">
+<button class="px-4 py-2 rounded-lg bg-surface-container-high dark:bg-white/10 text-on-surface dark:text-slate-200 font-semibold text-xs" onclick="closeModal('modal-confirm-toggle')" type="button">Cancel</button>
+<button class="px-4 py-2 rounded-lg text-white font-bold text-xs shadow" id="confirm-action-btn" onclick="executeToggleAction()" type="button">Confirm Change</button>
+</div>
+</div>
+</dialog>
+<!-- ================= GLOBAL TOAST NOTIFICATION ================= -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl bg-primary-container text-white border border-[#0e273f] max-w-md" id="toast-notification">
+<span class="material-symbols-outlined text-secondary-container text-[20px]" id="toast-icon">check_circle</span>
+<span class="text-xs font-semibold" id="toast-text">Action completed successfully</span>
+</div>
+<!-- ================= STRICT VANILLA JS LOGIC ENGINE ================= -->
+<script>
+    // Initial 8 Demo Allocations matching Screen 15 Specifications
+    const INITIAL_PRIZES = [
+      { id: 1, name: "Thabo Mokoena", ref: "WD-RSA-9941", email: "t.mokoena@vodamail.co.za", amount: 250000, currency: "ZAR", status: "ACTIVE", claim: "CLAIM AVAILABLE", updated: "18 Jan 2026", hash: "0x89D2...44F1" },
+      { id: 2, name: "Lerato Dlamini", ref: "WD-RSA-9942", email: "lerato.d@joburg.gov.za", amount: 150000, currency: "ZAR", status: "ASSIGNED", claim: "NOT CLAIMED", updated: "20 Jan 2026", hash: "0x77E1...09B2" },
+      { id: 3, name: "Sipho Naidoo", ref: "WD-RSA-9943", email: "sipho.naidoo@standardbank.co.za", amount: 300000, currency: "ZAR", status: "COMPLETED", claim: "FULFILLED", updated: "15 Jan 2026", hash: "0x33C9...AA14" },
+      { id: 4, name: "Zanele Sithole", ref: "WD-RSA-9944", email: "z.sithole@durban.org.za", amount: 250000, currency: "ZAR", status: "ACTIVE", claim: "UNDER REVIEW", updated: "19 Jan 2026", hash: "0x19F0...98D1" },
+      { id: 5, name: "Pieter van der Merwe", ref: "WD-RSA-9945", email: "pieter@vdm-agri.co.za", amount: 500000, currency: "ZAR", status: "ACTIVE", claim: "PROCESSING", updated: "17 Jan 2026", hash: "0x55B8...22C7" },
+      { id: 6, name: "Annelize Botha", ref: "WD-RSA-9946", email: "annelize@capelegal.co.za", amount: 250000, currency: "ZAR", status: "ASSIGNED", claim: "NOT CLAIMED", updated: "16 Jan 2026", hash: "0x44A1...77E0" },
+      { id: 7, name: "Kagiso Ndlovu", ref: "WD-RSA-9947", email: "kndlovu@investec.co.za", amount: 200000, currency: "ZAR", status: "COMPLETED", claim: "FULFILLED", updated: "04 Jan 2026", hash: "0x22D4...66E5" },
+      { id: 8, name: "Devan Govender", ref: "WD-RSA-9948", email: "devan.govender@mtn.co.za", amount: 250000, currency: "ZAR", status: "NOT ASSIGNED", claim: "NOT CLAIMED", updated: "28 Dec 2025", hash: "0x99A0...11B3" }
+    ];
+
+    let prizesData = JSON.parse(JSON.stringify(INITIAL_PRIZES));
+    let pendingToggleRecord = null;
+    let isConsoleDarkMode = false; // Strictly defaults to Light Mode
+
+    function formatZAR(val) {
+      return 'R' + Number(val).toLocaleString('en-ZA');
+    }
+
+    function getInitials(name) {
+      if (!name) return "WD";
+      const parts = name.trim().split(" ");
+      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function getPrizeStatusBadge(status) {
+      switch (status) {
+        case "ACTIVE":
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                    ACTIVE
+                  </span>`;
+        case "ASSIGNED":
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    ASSIGNED
+                  </span>`;
+        case "COMPLETED":
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-[13px]">done_all</span>
+                    COMPLETED
+                  </span>`;
+        case "NOT ASSIGNED":
+        default:
+          return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                    NOT ASSIGNED
+                  </span>`;
+      }
+    }
+
+    function getClaimStatusPill(claim) {
+      switch (claim) {
+        case "CLAIM AVAILABLE":
+          return `<span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                    CLAIM AVAILABLE
+                  </span>`;
+        case "UNDER REVIEW":
+          return `<span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-700">
+                    UNDER REVIEW
+                  </span>`;
+        case "PROCESSING":
+          return `<span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                    PROCESSING
+                  </span>`;
+        case "FULFILLED":
+          return `<span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                    FULFILLED
+                  </span>`;
+        case "NOT CLAIMED":
+        default:
+          return `<span class="px-2.5 py-1 rounded-full text-[11px] font-label-caps uppercase font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
+                    NOT CLAIMED
+                  </span>`;
+      }
+    }
+
+    function renderTable() {
+      const searchVal = (document.getElementById('filter-search-input')?.value || '').toLowerCase();
+      const statusVal = document.getElementById('filter-prize-status')?.value || 'ALL';
+      const claimVal = document.getElementById('filter-claim-status')?.value || 'ALL';
+
+      const filtered = prizesData.filter(item => {
+        const matchSearch = item.name.toLowerCase().includes(searchVal) ||
+                            item.email.toLowerCase().includes(searchVal) ||
+                            item.ref.toLowerCase().includes(searchVal);
+        const matchStatus = (statusVal === 'ALL') || (item.status === statusVal);
+        const matchClaim = (claimVal === 'ALL') || (item.claim === claimVal);
+        return matchSearch && matchStatus && matchClaim;
+      });
+
+      const tbody = document.getElementById('prizes-table-body');
+      const mobileDeck = document.getElementById('mobile-cards-deck');
+      const emptyIndicator = document.getElementById('table-empty-indicator');
+      const countIndicator = document.getElementById('filter-count-indicator');
+
+      if (!tbody || !mobileDeck) return;
+
+      if (countIndicator) {
+        countIndicator.textContent = `Showing ${filtered.length} of ${prizesData.length} allocation records`;
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        mobileDeck.innerHTML = '';
+        if (emptyIndicator) emptyIndicator.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyIndicator) emptyIndicator.classList.add('hidden');
+
+      // Render Desktop Rows
+      tbody.innerHTML = filtered.map(row => {
+        const isToggleActive = row.status === 'ACTIVE';
+        const toggleLabel = isToggleActive ? 'Deactivate' : 'Activate';
+        const toggleIcon = isToggleActive ? 'toggle_off' : 'toggle_on';
+
+        return `
+          <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-5 align-middle">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-outline-variant/30">
+                  ${getInitials(row.name)}
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white truncate">${row.name}</span>
+                  <div class="flex items-center gap-1.5 text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+                    <span class="text-amber-700 dark:text-secondary-container font-semibold">${row.ref}</span>
+                    <span>•</span>
+                    <span class="truncate">${row.email}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3.5 px-4 text-right align-middle font-tabular-stat">
+              <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white tracking-tight">${formatZAR(row.amount)}</span>
+              <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono uppercase">ZAR ESCROW</span>
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              ${getPrizeStatusBadge(row.status)}
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle">
+              ${getClaimStatusPill(row.claim)}
+            </td>
+
+            <td class="py-3.5 px-4 text-center align-middle text-xs text-on-surface-variant dark:text-slate-400 font-mono">
+              ${row.updated}
+            </td>
+
+            <td class="py-3.5 px-5 text-right align-middle">
+              <div class="flex items-center justify-end gap-1.5">
+                <button type="button" onclick="openViewModal(${row.id})" title="View Dossier" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">visibility</span>
+                  <span>View</span>
+                </button>
+                <button type="button" onclick="openEditModal(${row.id})" title="Edit Cash Prize" class="px-2.5 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface dark:text-white text-xs font-semibold transition-colors flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                  <span>Edit</span>
+                </button>
+                <button type="button" onclick="triggerToggleDialog(${row.id})" title="${toggleLabel} Prize" class="px-2 py-1.5 rounded-md bg-surface-container hover:bg-surface-container-high dark:bg-white/10 dark:hover:bg-white/20 text-on-surface-variant dark:text-slate-300 text-xs font-semibold transition-colors flex items-center">
+                  <span class="material-symbols-outlined text-[18px] ${isToggleActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}">${toggleIcon}</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Render Mobile Cards
+      mobileDeck.innerHTML = filtered.map(row => {
+        const isToggleActive = row.status === 'ACTIVE';
+        const toggleLabel = isToggleActive ? 'Deactivate' : 'Activate';
+
+        return `
+          <div class="p-4 rounded-xl bg-surface-container-lowest dark:bg-[#0c2238] border border-outline-variant/60 dark:border-white/10 shadow-sm flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-[#071a2b] dark:bg-[#163a5d] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  ${getInitials(row.name)}
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-sm font-bold text-on-surface dark:text-white">${row.name}</span>
+                  <span class="text-xs text-amber-700 dark:text-secondary-container font-mono font-semibold">${row.ref}</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">${formatZAR(row.amount)}</span>
+                <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-mono">ZAR ESCROW</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between py-2 border-y border-outline-variant/40 dark:border-white/5 text-xs">
+              <div>${getPrizeStatusBadge(row.status)}</div>
+              <div>${getClaimStatusPill(row.claim)}</div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <span>Updated: ${row.updated}</span>
+              <span>Hash: ${row.hash}</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button type="button" onclick="openViewModal(${row.id})" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                <span>View</span>
+              </button>
+              <button type="button" onclick="openEditModal(${row.id})" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center gap-1 border border-outline-variant/40 dark:border-transparent">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+                <span>Edit</span>
+              </button>
+              <button type="button" onclick="triggerToggleDialog(${row.id})" class="py-2 rounded-lg bg-surface dark:bg-white/10 text-on-surface dark:text-white font-semibold text-xs flex items-center justify-center border border-outline-variant/40 dark:border-transparent">
+                <span>${toggleLabel}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateSummaryMetrics();
+    }
+
+    function updateSummaryMetrics() {
+      const totalAllocated = prizesData.reduce((acc, curr) => acc + curr.amount, 0);
+      const activeItems = prizesData.filter(i => i.status === 'ACTIVE' && i.claim === 'CLAIM AVAILABLE');
+      const activePool = activeItems.reduce((acc, curr) => acc + curr.amount, 0);
+      const processingItems = prizesData.filter(i => i.claim === 'UNDER REVIEW' || i.claim === 'PROCESSING');
+      const processingPool = processingItems.reduce((acc, curr) => acc + curr.amount, 0);
+      const fulfilledItems = prizesData.filter(i => i.status === 'COMPLETED' || i.claim === 'FULFILLED');
+      const fulfilledPool = fulfilledItems.reduce((acc, curr) => acc + curr.amount, 0);
+
+      const mTotal = document.getElementById('metric-total-allocated');
+      const mActive = document.getElementById('metric-active-pool');
+      const mProc = document.getElementById('metric-processing-pool');
+      const mFulf = document.getElementById('metric-fulfilled-pool');
+      const mCount = document.getElementById('metric-total-count');
+      const mActiveCount = document.getElementById('metric-active-count');
+      const mProcCount = document.getElementById('metric-proc-count');
+      const mFulfCount = document.getElementById('metric-fulf-count');
+
+      if (mTotal) mTotal.textContent = formatZAR(totalAllocated);
+      if (mActive) mActive.textContent = formatZAR(activePool);
+      if (mProc) mProc.textContent = formatZAR(processingPool);
+      if (mFulf) mFulf.textContent = formatZAR(fulfilledPool);
+      if (mCount) mCount.textContent = `${prizesData.length} cataloged allocations`;
+      if (mActiveCount) mActiveCount.textContent = `${activeItems.length} accounts ready for claim`;
+      if (mProcCount) mProcCount.textContent = `${processingItems.length} claims in verification audit`;
+      if (mFulfCount) mFulfCount.textContent = `${fulfilledItems.length} settlements cleared via Escrow`;
+    }
+
+    function resetFilters() {
+      const sInput = document.getElementById('filter-search-input');
+      const pSelect = document.getElementById('filter-prize-status');
+      const cSelect = document.getElementById('filter-claim-status');
+      if (sInput) sInput.value = '';
+      if (pSelect) pSelect.value = 'ALL';
+      if (cSelect) cSelect.value = 'ALL';
+      renderTable();
+      showActionToast('Filters have been reset.');
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    function openCreateModal() {
+      const form = document.getElementById('create-prize-form');
+      if (form) form.reset();
+      const amountInput = document.getElementById('create-amount-input');
+      if (amountInput) amountInput.value = "250000";
+      openModal('modal-create');
+    }
+
+    function handleCreateSubmit(e) {
+      e.preventDefault();
+      const userRaw = document.getElementById('create-user-select')?.value;
+      const amount = Number(document.getElementById('create-amount-input')?.value || 250000);
+      const currency = document.getElementById('create-currency-select')?.value || 'ZAR';
+      const status = document.getElementById('create-status-select')?.value || 'ACTIVE';
+
+      if (!userRaw || amount <= 0) {
+        showActionToast('Please select a valid user and positive amount.', true);
+        return;
+      }
+
+      const [userCombined, email] = userRaw.split('|');
+      const [name, refPart] = userCombined.split(' (');
+      const ref = refPart ? refPart.replace(')', '') : `WD-RSA-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const newRecord = {
+        id: Date.now(),
+        name: name.trim(),
+        ref: ref,
+        email: email,
+        amount: amount,
+        currency: currency,
+        status: status,
+        claim: status === 'ACTIVE' ? 'CLAIM AVAILABLE' : 'NOT CLAIMED',
+        updated: 'Today, Just Now',
+        hash: '0x' + Math.random().toString(16).substring(2, 6).toUpperCase() + '...ESC1'
+      };
+
+      prizesData.unshift(newRecord);
+      closeModal('modal-create');
+      renderTable();
+      showActionToast(`Cash Prize Created: ${formatZAR(amount)} assigned to ${newRecord.name}`);
+    }
+
+    function openEditModal(recordId) {
+      const record = prizesData.find(r => r.id === recordId);
+      if (!record) return;
+
+      document.getElementById('edit-record-id').value = record.id;
+      document.getElementById('edit-user-display').value = `${record.name} (${record.ref})`;
+      document.getElementById('edit-amount-input').value = record.amount;
+      document.getElementById('edit-status-select').value = record.status;
+      document.getElementById('edit-claim-select').value = record.claim;
+
+      openModal('modal-edit');
+    }
+
+    function handleEditSubmit(e) {
+      e.preventDefault();
+      const id = Number(document.getElementById('edit-record-id')?.value);
+      const amount = Number(document.getElementById('edit-amount-input')?.value);
+      const status = document.getElementById('edit-status-select')?.value;
+      const claim = document.getElementById('edit-claim-select')?.value;
+
+      const record = prizesData.find(r => r.id === id);
+      if (record) {
+        record.amount = amount;
+        record.status = status;
+        record.claim = claim;
+        record.updated = 'Today, Modified';
+        closeModal('modal-edit');
+        renderTable();
+        showActionToast(`Cash Prize Updated: ${record.ref} saved successfully.`);
+      }
+    }
+
+    function openViewModal(recordId) {
+      const record = prizesData.find(r => r.id === recordId);
+      if (!record) return;
+
+      document.getElementById('view-allocation-ref').textContent = `${record.ref}-ESCROW-ALLOCATION`;
+      document.getElementById('view-amount').textContent = formatZAR(record.amount);
+      document.getElementById('view-user-name').textContent = record.name;
+      document.getElementById('view-user-email').textContent = record.email;
+      document.getElementById('view-escrow-hash').textContent = record.hash;
+      document.getElementById('view-timestamp').textContent = `${record.updated} (SAST)`;
+
+      const pBadge = document.getElementById('view-prize-status-badge');
+      if (pBadge) {
+        pBadge.textContent = record.status;
+        pBadge.className = record.status === 'ACTIVE'
+          ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'
+          : 'px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800';
+      }
+
+      const cBadge = document.getElementById('view-claim-status-badge');
+      if (cBadge) {
+        cBadge.textContent = record.claim;
+        cBadge.className = record.claim === 'CLAIM AVAILABLE'
+          ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-secondary-container text-primary-container'
+          : 'px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700';
+      }
+
+      openModal('modal-view');
+    }
+
+    function triggerToggleDialog(recordId) {
+      const record = prizesData.find(r => r.id === recordId);
+      if (!record) return;
+
+      pendingToggleRecord = record;
+      const isActivating = record.status !== 'ACTIVE';
+
+      const titleEl = document.getElementById('confirm-title');
+      const msgEl = document.getElementById('confirm-message');
+      const refEl = document.getElementById('confirm-user-ref');
+      const btnEl = document.getElementById('confirm-action-btn');
+      const iconWrapper = document.getElementById('confirm-icon-wrapper');
+      const iconEl = document.getElementById('confirm-icon');
+
+      if (isActivating) {
+        titleEl.textContent = 'Activate Cash Prize?';
+        msgEl.textContent = 'Activating this prize will make the assigned cash reward available according to the account and reward workflow.';
+        btnEl.textContent = 'Activate Prize';
+        btnEl.className = 'px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow';
+        iconWrapper.className = 'w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0';
+        iconEl.textContent = 'check_circle';
+      } else {
+        titleEl.textContent = 'Deactivate Cash Prize?';
+        msgEl.textContent = 'Deactivating this prize will remove the prize from the active reward state and freeze escrow draw disbursements.';
+        btnEl.textContent = 'Deactivate Prize';
+        btnEl.className = 'px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow';
+        iconWrapper.className = 'w-10 h-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center shrink-0';
+        iconEl.textContent = 'warning';
+      }
+
+      refEl.textContent = `${record.name} • ${record.ref}`;
+      openModal('modal-confirm-toggle');
+    }
+
+    function executeToggleAction() {
+      if (!pendingToggleRecord) return;
+      const isActivating = pendingToggleRecord.status !== 'ACTIVE';
+
+      if (isActivating) {
+        pendingToggleRecord.status = 'ACTIVE';
+        pendingToggleRecord.claim = 'CLAIM AVAILABLE';
+        showActionToast(`Activated: Cash prize for ${pendingToggleRecord.name} is now ACTIVE.`);
+      } else {
+        pendingToggleRecord.status = 'ASSIGNED';
+        pendingToggleRecord.claim = 'NOT CLAIMED';
+        showActionToast(`Deactivated: Cash prize for ${pendingToggleRecord.name} shifted to ASSIGNED.`);
+      }
+
+      pendingToggleRecord.updated = 'Today, Status Toggle';
+      closeModal('modal-confirm-toggle');
+      pendingToggleRecord = null;
+      renderTable();
+    }
+
+    function applyPreset(presetType) {
+      if (presetType === 'all') {
+        prizesData = JSON.parse(JSON.stringify(INITIAL_PRIZES));
+        resetFilters();
+        showActionToast('Preset Loaded: All 8 Cataloged Allocations');
+      } else if (presetType === 'active') {
+        prizesData = JSON.parse(JSON.stringify(INITIAL_PRIZES)).filter(i => i.status === 'ACTIVE');
+        resetFilters();
+        showActionToast('Preset Loaded: Active Allocations Only');
+      } else if (presetType === 'empty') {
+        prizesData = [];
+        renderTable();
+        showActionToast('Preset Loaded: Zero Records Empty State');
+      } else if (presetType === 'reset') {
+        prizesData = JSON.parse(JSON.stringify(INITIAL_PRIZES));
+        resetFilters();
+        showActionToast('Data reset to default administrative state.');
+      }
+    }
+
+    function toggleMobileDrawer(open) {
+      const drawer = document.getElementById('mobile-drawer');
+      const backdrop = document.getElementById('mobile-drawer-backdrop');
+      if (!drawer || !backdrop) return;
+
+      if (open) {
+        backdrop.classList.remove('hidden');
+        setTimeout(() => {
+          drawer.classList.remove('translate-x-full');
+        }, 10);
+      } else {
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => {
+          backdrop.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    function toggleThemeMode() {
+      isConsoleDarkMode = !isConsoleDarkMode;
+      const htmlEl = document.documentElement;
+      const iconD = document.getElementById('theme-icon-desktop');
+      const iconM = document.getElementById('theme-icon-mobile');
+      const labelD = document.getElementById('theme-label-desktop');
+
+      if (isConsoleDarkMode) {
+        htmlEl.classList.add('dark');
+        if (iconD) iconD.textContent = 'light_mode';
+        if (iconM) iconM.textContent = 'light_mode';
+        if (labelD) labelD.textContent = 'Switch to Light Console';
+        showActionToast('Console Dark Mode activated.');
+      } else {
+        htmlEl.classList.remove('dark');
+        if (iconD) iconD.textContent = 'dark_mode';
+        if (iconM) iconM.textContent = 'dark_mode';
+        if (labelD) labelD.textContent = 'Switch to Console Dark';
+        showActionToast('Light Mode restored.');
+      }
+    }
+
+    // Keyboard shortcut CTRL+M / CMD+M
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'm') {
+        e.preventDefault();
+        toggleThemeMode();
+      }
+    });
+
+    let toastTimeout;
+    function showActionToast(msg, isError = false) {
+      const toast = document.getElementById('toast-notification');
+      const text = document.getElementById('toast-text');
+      const icon = document.getElementById('toast-icon');
+      if (!toast || !text) return;
+
+      clearTimeout(toastTimeout);
+      text.textContent = msg;
+      if (icon) {
+        icon.textContent = isError ? 'error' : 'check_circle';
+        icon.className = isError ? 'material-symbols-outlined text-red-400 text-[20px]' : 'material-symbols-outlined text-secondary-container text-[20px]';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Mandatory Light Mode initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      document.documentElement.classList.remove('dark');
+      renderTable();
+    });
+    renderTable();
+  </script>
+
+
+</body></html>

@@ -1,0 +1,29 @@
+{
+  "source_archive": "stitch_windrivesa_reward_platform.zip",
+  "approved_screen_count": 22,
+  "approved_screens": {
+    "01-homepage": "windrivesa_public_homepage_refined",
+    "02-register": "windrivesa_create_account",
+    "03-login": "windrivesa_member_login",
+    "04-forgot-password": "windrivesa_forgot_password_responsive_fixed",
+    "05-user-dashboard": "windrivesa_authenticated_user_dashboard",
+    "06-cash-prize-claim": "windrivesa_cash_prize_claim",
+    "07-vehicle-prize-claim": "windrivesa_vehicle_prize_claim_fully_interactive_prototype",
+    "08-claim-requests": "windrivesa_claim_requests",
+    "09-account-profile": "windrivesa_account_profile",
+    "10-user-support": "windrivesa_support_desk",
+    "11-admin-dashboard": "windrivesa_operations_overview_admin_dashboard",
+    "12-admin-users": "windrivesa_admin_users_strict_nav_fully_interactive",
+    "13-admin-rewards": "windrivesa_admin_rewards_strict_architecture",
+    "14-admin-cash-prizes": "windrivesa_admin_cash_prizes_strict_admin_layout",
+    "15-admin-vehicle-prizes": "windrivesa_admin_vehicle_prizes",
+    "16-admin-claim-requests": "windrivesa_admin_claim_requests_scratch_rebuild_functional",
+    "17-admin-claim-requirements": "windrivesa_admin_claim_requirements",
+    "18-admin-winners": "windrivesa_admin_winners_fulfilled_prize_records",
+    "19-admin-support": "windrivesa_admin_support_strict_nav_synchronized_theme",
+    "20-admin-audit-logs": "windrivesa_admin_audit_logs_synchronized_theme_architecture",
+    "21-admin-settings": "windrivesa_admin_settings",
+    "22-reset-password": "windrivesa_reset_password_fully_interactive_3_state_engine"
+  },
+  "excluded_note": "All other Stitch iteration folders were intentionally excluded."
+}

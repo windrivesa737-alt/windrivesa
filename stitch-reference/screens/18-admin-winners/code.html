@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinDriveSA — Admin Winners (Fulfilled Prize Records)</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              gold: '#F2B705',
+              'gold-hover': '#D9A304',
+              emerald: '#00843D',
+              charcoal: '#17212B',
+              border: '#D9E0E7',
+              surface: '#F5F7FA',
+              muted: '#667085',
+              darkcard: '#0D2235',
+              darkborder: '#1E3852'
+            }
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            display: ['Sora', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom scrollbar for data tables & audit drawer */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(7, 26, 43, 0.18);
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .mono-num {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+
+<body class="bg-brand-surface dark:bg-[#040E18] text-[#1E293B] dark:text-[#E2E8F0] font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-brand-gold selection:text-brand-navy">
+
+  <!-- Top QA Presets & Environment Bar (Internal Compliance Sandbox) -->
+  <div class="w-full bg-brand-navy text-white text-[11px] font-mono py-1.5 px-4 sm:px-6 flex flex-wrap items-center justify-between border-b border-brand-charcoal/40 z-50">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span>
+      <span class="font-bold tracking-wider text-brand-gold">CONSOLE V2.4 RSA</span>
+      <span class="text-white/40">|</span>
+      <span class="text-white/80">WINNERS & FULFILMENT LEDGER</span>
+      <span class="hidden md:inline text-white/50">• /admin/winners • Internal Admin Scope</span>
+    </div>
+    <div class="flex items-center gap-3 mt-1 sm:mt-0">
+      <span class="text-white/60 text-[10px]">Filter Presets:</span>
+      <button onclick="applyPreset('all')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white transition-colors">1. All (4)</button>
+      <button onclick="applyPreset('vehicles')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white transition-colors">2. Vehicles (2)</button>
+      <button onclick="applyPreset('cash')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white transition-colors">3. Cash (2)</button>
+      <button onclick="resetPrototypeData()" class="px-2 py-0.5 rounded bg-brand-gold text-brand-navy font-bold hover:bg-brand-gold-hover transition-colors">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- Main Shell -->
+  <div class="flex flex-col lg:flex-row min-h-[calc(100vh-32px)]">
+
+    <!-- ========================================================================= -->
+    <!-- TABLET & MOBILE COMPACT ADMIN HEADER (Normal Document Flow, No Overlap) -->
+    <!-- ========================================================================= -->
+    <header class="relative flex lg:hidden w-full shrink-0 bg-white dark:bg-[#071A2B] px-4 py-3 items-center justify-between border-b border-brand-border dark:border-brand-darkborder z-40">
+      <div class="flex items-center gap-3">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8DSizzb4Fh0W0OTNSkTJjm8zPAW5QZgM4Oj2z7pvmLsH-J1jdkKdUnzTsQVtEZpgTS5UlzhW8w0newPvzgerQD9cDevz85hZa_mhbnxu3a6fFPHZrc9LkuHFcHNHl1evZg4LXoxYHmkoJ5UY5UIHQAyr3S3-GpQ41B0vJSXPFvPGSIAgmbGtDp4-OlhrntdWQ7QNRGHLPXw7rpbeu5cSwEi4vSWhBuTA96uOQztZiJwp5drsEY3Bjnr_Wjp0bQZz5Mb4" alt="WinDriveSA" class="h-8 object-contain">
+        <span class="text-[10px] font-mono px-1.5 py-0.5 bg-brand-surface dark:bg-white/10 rounded border border-brand-border dark:border-white/15 text-brand-navy dark:text-white font-semibold">ADMIN</span>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="p-2 rounded-lg border border-brand-border dark:border-brand-darkborder text-brand-navy dark:text-white hover:bg-brand-surface dark:hover:bg-white/5 transition-colors" aria-label="Toggle Theme">
+          <svg class="w-5 h-5 hidden dark:block text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-5 h-5 block dark:hidden text-brand-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        
+        <!-- Hamburger Button -->
+        <button onclick="toggleAdminDrawer()" class="p-2 rounded-lg border border-brand-border dark:border-brand-darkborder text-brand-navy dark:text-white hover:bg-brand-surface dark:hover:bg-white/5 transition-colors focus:outline-none" aria-label="Open Navigation Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MOBILE & TABLET SLIDING DRAWER BACKDROP & MENU -->
+    <div id="admin-drawer" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden" aria-hidden="true">
+      <div onclick="toggleAdminDrawer()" class="absolute inset-0 bg-brand-navy/60 backdrop-blur-xs"></div>
+      <div class="relative w-72 max-w-[80vw] h-full bg-white dark:bg-[#071A2B] border-r border-brand-border dark:border-brand-darkborder flex flex-col justify-between p-5 overflow-y-auto">
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-brand-border dark:border-brand-darkborder">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjiqNkcdnGKQDfQ8X_T-viMd0fk4vktFd3_aMUKqENxd1oPlFXVp_F3XjxmzOeZtfcrpQraS2n0gO1M82pdZPICjMrQzWBCJ0oqqFF2kGlzcNi6C3Q1Dz1704yZFuVXMHksGQCRjAACMYc8RteQdpWFpz0VIfEQJ2qBpqE4CSwg7rsmgfh0chHe7_R-jEwu-ImXD9sMTYdbGi4Z4c6iYegY9JBz7ckfPl1ZxVROudpBgOIaG3MkwpLeLjPxKzFam0zmX4" alt="WinDriveSA" class="h-8 object-contain">
+            <button onclick="toggleAdminDrawer()" class="p-1 rounded text-brand-muted hover:text-brand-navy dark:hover:text-white">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div class="mt-4 text-[11px] font-mono uppercase text-brand-muted font-bold tracking-wider">Operations Desk</div>
+          <nav class="mt-2 space-y-1">
+            <a href="#dashboard" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Dashboard</a>
+            <a href="#users" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Users</a>
+            <a href="#rewards" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Rewards</a>
+            <a href="#cash-prizes" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Cash Prizes</a>
+            <a href="#vehicle-prizes" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Vehicle Prizes</a>
+            <a href="#claim-requests" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Claim Requests</a>
+            <a href="#claim-requirements" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Claim Requirements</a>
+            <a href="#winners" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy font-bold shadow-xs">
+              <span>Winners</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-gold text-brand-navy dark:bg-brand-navy dark:text-white uppercase">Fulfilled</span>
+            </a>
+            <a href="#support" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Support Desk</a>
+            <a href="#audit-logs" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Audit Logs</a>
+            <a href="#settings" class="flex items-center px-3 py-2.5 rounded-lg text-sm text-brand-navy dark:text-white/80 hover:bg-brand-surface dark:hover:bg-white/5 font-medium">Settings</a>
+          </nav>
+        </div>
+        <div class="pt-4 border-t border-brand-border dark:border-brand-darkborder">
+          <div class="flex items-center gap-3 px-2 py-2">
+            <div class="w-8 h-8 rounded-full bg-brand-navy dark:bg-white/10 text-brand-gold dark:text-white font-bold text-xs flex items-center justify-center">04</div>
+            <div class="text-xs">
+              <div class="font-semibold text-brand-navy dark:text-white">Admin Controller 04</div>
+              <div class="text-[11px] text-brand-muted truncate">escrow-ops@windrivesa.co.za</div>
+            </div>
+          </div>
+          <button onclick="simulateLogout()" class="mt-2 w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg">
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- DESKTOP ADMIN SIDEBAR (Strict Full-Height 100dvh, Light Mode by Default) -->
+    <!-- ========================================================================= -->
+    <aside class="hidden lg:flex w-64 xl:w-72 bg-white dark:bg-[#071A2B] border-r border-brand-border dark:border-brand-darkborder flex-col justify-between shrink-0 sticky top-0 h-[100dvh] z-30 transition-colors">
+      <div class="p-5 overflow-y-auto">
+        <!-- Logo & Console Header -->
+        <div class="flex items-center justify-between pb-5 border-b border-brand-border dark:border-brand-darkborder">
+          <a href="#admin" class="block">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgKXtwV5CDS-4eatuKp843Ej9PEyZPome5Ms1B3VUKX8I6xyPAmeXIWoNcQdA90z5UMvPDRYSJrhRTTRS3vGvYMc_-rKekMSoKUfJ0BxKLOpRG7pbMpYZuJn5gdTgOCx4kBC6Dtty4zA7Ew8_2Q62RFU14HjimG-XTw4f_EoXHndZfBeqYLyHO9CyEpqGDI_9lzhGZOTCka7YeVMKkECAko9TU2v8MkCdX8z49KjTAAy7u-3W0rvfsPRhx64d42gLtOoE" alt="WinDriveSA Master" class="h-9 object-contain">
+          </a>
+          <span class="text-[10px] font-mono tracking-wider font-semibold px-2 py-0.5 rounded bg-brand-surface dark:bg-white/10 text-brand-navy dark:text-white border border-brand-border dark:border-white/10">ADMIN</span>
+        </div>
+
+        <div class="mt-4 flex items-center gap-2 px-2 py-1">
+          <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+          <span class="text-[11px] font-mono uppercase tracking-wider font-semibold text-brand-muted">OPERATIONS DESK</span>
+        </div>
+
+        <!-- Admin Nav Items -->
+        <nav class="mt-3 space-y-1">
+          <div class="text-[10px] font-mono uppercase text-brand-muted/80 font-bold px-2.5 py-1 tracking-wider">Core Operations</div>
+          
+          <a href="#dashboard" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="#users" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <span>Users</span>
+          </a>
+
+          <a href="#rewards" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+            <span>Rewards</span>
+          </a>
+
+          <a href="#cash-prizes" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span>Cash Prizes</span>
+            </div>
+            <span class="text-[10px] font-mono text-brand-muted bg-brand-surface dark:bg-white/5 px-1.5 py-0.5 rounded border border-brand-border dark:border-brand-darkborder">ZAR</span>
+          </a>
+
+          <a href="#vehicle-prizes" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+            <span>Vehicle Prizes</span>
+          </a>
+
+          <div class="pt-3 text-[10px] font-mono uppercase text-brand-muted/80 font-bold px-2.5 py-1 tracking-wider">Claims & Records</div>
+
+          <a href="#claim-requests" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              <span>Claim Requests</span>
+            </div>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">6</span>
+          </a>
+
+          <a href="#claim-requirements" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <span>Claim Requirements</span>
+          </a>
+
+          <!-- ACTIVE ITEM: WINNERS -->
+          <a href="#winners" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy font-bold shadow-sm ring-1 ring-brand-navy/5 transition-all">
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-brand-gold dark:text-brand-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+              <span>Winners</span>
+            </div>
+            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-brand-emerald text-white uppercase tracking-wider">FULFILLED</span>
+          </a>
+
+          <div class="pt-3 text-[10px] font-mono uppercase text-brand-muted/80 font-bold px-2.5 py-1 tracking-wider">Governance & Support</div>
+
+          <a href="#support" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <span>Support Desk</span>
+          </a>
+
+          <a href="#audit-logs" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            <span>Audit Logs</span>
+          </a>
+
+          <a href="#settings" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-brand-navy/80 dark:text-white/70 hover:bg-brand-surface dark:hover:bg-white/5 font-medium transition-colors">
+            <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Bottom Profile / Theme Toggle Section -->
+      <div class="p-4 border-t border-brand-border dark:border-brand-darkborder bg-brand-surface/40 dark:bg-black/10">
+        <!-- Dedicated Desktop Theme Toggle -->
+        <button onclick="toggleTheme()" class="w-full flex items-center justify-between px-3 py-2 mb-3 rounded-lg border border-brand-border dark:border-brand-darkborder bg-white dark:bg-brand-darkcard text-xs font-medium text-brand-navy dark:text-white hover:border-brand-muted transition-colors">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            <span>Switch to Console Dark</span>
+          </span>
+          <span class="text-[10px] font-mono text-brand-muted">CTRL+M</span>
+        </button>
+
+        <div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-brand-darkcard border border-brand-border dark:border-brand-darkborder">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-brand-navy dark:bg-white/10 text-brand-gold font-bold text-xs flex items-center justify-center">04</div>
+            <div class="text-left">
+              <div class="text-xs font-semibold text-brand-navy dark:text-white leading-tight">Admin Controller 04</div>
+              <div class="text-[10px] text-brand-muted truncate max-w-[120px]">escrow-ops@windrivesa.co.za</div>
+            </div>
+          </div>
+          <button onclick="simulateLogout()" title="Sign out" class="text-brand-muted hover:text-brand-navy dark:hover:text-white p-1 rounded transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN WORKSPACE CONTENT -->
+    <!-- ========================================================================= -->
+    <main id="main-content" class="flex-1 w-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto flex flex-col justify-between">
+      <div>
+
+        <!-- Operational Breadcrumb & Context Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-brand-border dark:border-brand-darkborder">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-mono text-brand-muted uppercase tracking-wider mb-1.5">
+              <span>PRIZE HISTORY</span>
+              <span>•</span>
+              <span class="text-brand-emerald font-semibold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+                Fulfilment Ledger Active
+              </span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-brand-navy dark:text-white tracking-tight">
+              Winners
+            </h1>
+            <p class="text-sm text-brand-muted mt-1 max-w-2xl">
+              View fulfilled prize records and their associated claim history. Internal administration scope only.
+            </p>
+          </div>
+
+          <!-- Secondary Operational Actions -->
+          <div class="flex items-center gap-2.5">
+            <button onclick="exportAuditLedger()" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg bg-white dark:bg-brand-darkcard border border-brand-border dark:border-brand-darkborder text-brand-navy dark:text-white hover:bg-brand-surface transition-colors shadow-2xs">
+              <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              <span>Export Fulfilment CSV</span>
+            </button>
+            <div class="hidden sm:block text-[11px] font-mono text-brand-muted px-2.5 py-1.5 rounded bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+              SAST Active Cycle: <strong class="text-brand-navy dark:text-white">#WD-2026-F</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- OPERATIONAL SUMMARY METRICS (Prototype Values, No Fake Marketing Stats) -->
+        <!-- ========================================================================= -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-6">
+          <!-- Card 1 -->
+          <div class="bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <div class="flex items-center justify-between text-brand-muted text-xs font-mono">
+              <span>FULFILLED RECORDS</span>
+              <svg class="w-4 h-4 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-display text-brand-navy dark:text-white mt-2 mono-num" id="metric-total">
+              4
+            </div>
+            <div class="text-[11px] text-brand-muted mt-1 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+              <span>100% Natis & Bank Cleared</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <div class="flex items-center justify-between text-brand-muted text-xs font-mono">
+              <span>CASH PRIZES</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-gold/20 text-brand-navy dark:text-brand-gold">ZAR</span>
+            </div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-display text-brand-navy dark:text-white mt-2 mono-num" id="metric-cash">
+              2
+            </div>
+            <div class="text-[11px] text-brand-muted mt-1">
+              R500,000 Disbursed via Escrow
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <div class="flex items-center justify-between text-brand-muted text-xs font-mono">
+              <span>VEHICLE PRIZES</span>
+              <svg class="w-4 h-4 text-brand-navy dark:text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+            </div>
+            <div class="text-2xl sm:text-3xl font-extrabold font-display text-brand-navy dark:text-white mt-2 mono-num" id="metric-vehicles">
+              2
+            </div>
+            <div class="text-[11px] text-brand-muted mt-1">
+              Provincial Handover Signed
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <div class="flex items-center justify-between text-brand-muted text-xs font-mono">
+              <span>LATEST FULFILMENT</span>
+              <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="text-lg sm:text-xl font-bold font-display text-brand-navy dark:text-white mt-2.5 mono-num">
+              14 Sep 2026
+            </div>
+            <div class="text-[11px] text-brand-muted mt-1 truncate">
+              M. Dlamini • #WD-FLM-881
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- VIEW CONTAINER 1: DIRECTORY TABLE & SEARCH/FILTERS -->
+        <!-- ========================================================================= -->
+        <div id="view-directory" class="space-y-4">
+          
+          <!-- Filter & Search Toolbar -->
+          <div class="bg-white dark:bg-brand-darkcard p-3.5 sm:p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
+              
+              <!-- Search Input -->
+              <div class="lg:col-span-4 relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-brand-muted">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input type="text" id="search-input" oninput="filterRecords()" placeholder="Search by user, email, or prize..." 
+                       class="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-brand-border dark:border-brand-darkborder bg-brand-surface/50 dark:bg-white/5 text-brand-navy dark:text-white placeholder-brand-muted focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold">
+              </div>
+
+              <!-- Prize Type Filter -->
+              <div class="lg:col-span-2">
+                <label for="filter-type" class="sr-only">Prize Type</label>
+                <select id="filter-type" onchange="filterRecords()" class="w-full px-3 py-2 text-xs rounded-lg border border-brand-border dark:border-brand-darkborder bg-brand-surface/50 dark:bg-white/5 text-brand-navy dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-gold">
+                  <option value="ALL">All Prize Types</option>
+                  <option value="CASH">Cash Prize</option>
+                  <option value="VEHICLE">Vehicle Prize</option>
+                </select>
+              </div>
+
+              <!-- Fulfilment Date Filter -->
+              <div class="lg:col-span-2">
+                <label for="filter-date" class="sr-only">Fulfilment Date</label>
+                <select id="filter-date" onchange="filterRecords()" class="w-full px-3 py-2 text-xs rounded-lg border border-brand-border dark:border-brand-darkborder bg-brand-surface/50 dark:bg-white/5 text-brand-navy dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-gold">
+                  <option value="ALL">All Dates (2026)</option>
+                  <option value="SEPTEMBER">September 2026</option>
+                  <option value="AUGUST">August 2026</option>
+                  <option value="OLDER">Historical Cycles</option>
+                </select>
+              </div>
+
+              <!-- Reward Status (Strict separation) -->
+              <div class="lg:col-span-2">
+                <label for="filter-status" class="sr-only">Reward Status</label>
+                <select id="filter-status" onchange="filterRecords()" class="w-full px-3 py-2 text-xs rounded-lg border border-brand-border dark:border-brand-darkborder bg-brand-surface/50 dark:bg-white/5 text-brand-navy dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-gold">
+                  <option value="ALL">Reward: All Completed</option>
+                  <option value="COMPLETED" selected>COMPLETED (Fulfilled)</option>
+                </select>
+              </div>
+
+              <!-- Clear Filters Button -->
+              <div class="lg:col-span-2 flex items-center justify-end">
+                <button onclick="clearAllFilters()" class="w-full sm:w-auto px-3 py-2 text-xs font-semibold text-brand-muted hover:text-brand-navy dark:hover:text-white border border-brand-border dark:border-brand-darkborder rounded-lg bg-white dark:bg-brand-darkcard hover:bg-brand-surface transition-colors flex items-center justify-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  <span>Clear Filters</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Desktop Operational Table -->
+          <div class="hidden md:block bg-white dark:bg-brand-darkcard rounded-xl border border-brand-border dark:border-brand-darkborder overflow-hidden shadow-2xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-brand-border dark:border-brand-darkborder bg-brand-surface/60 dark:bg-white/5 text-[11px] font-mono uppercase text-brand-muted tracking-wider">
+                  <th class="py-3.5 px-4 font-semibold">User</th>
+                  <th class="py-3.5 px-4 font-semibold">Prize</th>
+                  <th class="py-3.5 px-4 font-semibold">Type</th>
+                  <th class="py-3.5 px-4 font-semibold">Claim Status</th>
+                  <th class="py-3.5 px-4 font-semibold">Fulfilled Date</th>
+                  <th class="py-3.5 px-4 font-semibold text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="table-body" class="divide-y divide-brand-border/60 dark:divide-brand-darkborder/60 text-xs">
+                <!-- Dynamically injected via JavaScript -->
+              </tbody>
+            </table>
+            
+            <!-- Empty State Container (Hidden by default) -->
+            <div id="table-empty" class="hidden p-12 text-center">
+              <div class="w-12 h-12 rounded-full bg-brand-surface dark:bg-white/5 mx-auto flex items-center justify-center text-brand-muted mb-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <h3 class="text-sm font-bold font-display text-brand-navy dark:text-white">No Fulfilled Records Match Query</h3>
+              <p class="text-xs text-brand-muted mt-1 max-w-sm mx-auto">Try clearing your filters or searching by a different participant email or prize type.</p>
+              <button onclick="clearAllFilters()" class="mt-3 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy hover:opacity-90">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Mobile / Tablet Stacked Records List -->
+          <div id="mobile-records-list" class="block md:hidden space-y-3">
+            <!-- Dynamically injected via JavaScript -->
+          </div>
+
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- VIEW CONTAINER 2: DEDICATED WINNER RECORD DETAIL (/admin/winners/:id) -->
+        <!-- ========================================================================= -->
+        <div id="view-detail" class="hidden space-y-6">
+          
+          <!-- Back Button & Detail Action Bar -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+            <button onclick="showDirectory()" class="inline-flex items-center gap-2 text-xs font-semibold text-brand-navy dark:text-brand-gold hover:underline">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+              <span>Back to Winners Ledger</span>
+            </button>
+            
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-surface dark:bg-white/10 text-brand-muted border border-brand-border dark:border-brand-darkborder">
+                RECORD ID: <span id="detail-dossier-id" class="font-bold text-brand-navy dark:text-white">WD-FLM-881</span>
+              </span>
+              <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-brand-emerald/15 text-brand-emerald border border-brand-emerald/30 uppercase">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+                FULFILLED
+              </span>
+            </div>
+          </div>
+
+          <!-- Two-Column Operational Layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- LEFT COLUMN: User, Prize & Claim Particulars (8 cols) -->
+            <div class="lg:col-span-8 space-y-6">
+
+              <!-- Record Header Card -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 sm:p-6 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-brand-border dark:border-brand-darkborder">
+                  <div>
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-brand-muted">FULFILLED PRIZE RECORD</span>
+                    <h2 id="detail-name" class="text-xl sm:text-2xl font-extrabold font-display text-brand-navy dark:text-white mt-0.5">Michael Dlamini</h2>
+                    <div id="detail-account-ref" class="text-xs font-mono text-brand-muted mt-0.5">Account: WD-RSA-9941 • Verified Participant</div>
+                  </div>
+                  <div class="text-left sm:text-right">
+                    <div class="text-[10px] font-mono text-brand-muted uppercase">Final Fulfilment Date</div>
+                    <div id="detail-fulfilled-date" class="text-sm font-bold font-mono text-brand-navy dark:text-white">14 Sep 2026, 11:20 SAST</div>
+                  </div>
+                </div>
+
+                <!-- Three Stat Cards within Header -->
+                <div class="grid grid-cols-3 gap-3 mt-4 text-center">
+                  <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                    <div class="text-[10px] font-mono text-brand-muted uppercase">Account Status</div>
+                    <div class="text-xs font-bold text-brand-emerald mt-0.5">APPROVED</div>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                    <div class="text-[10px] font-mono text-brand-muted uppercase">Reward Status</div>
+                    <div class="text-xs font-bold text-brand-navy dark:text-white mt-0.5">COMPLETED</div>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                    <div class="text-[10px] font-mono text-brand-muted uppercase">Claim Status</div>
+                    <div class="text-xs font-bold text-brand-emerald mt-0.5">FULFILLED</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assigned Prize Details Surface -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 sm:p-6 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-bold font-display uppercase tracking-wider text-brand-navy dark:text-white flex items-center gap-2">
+                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Assigned Prize Specification</span>
+                  </h3>
+                  <span id="detail-badge-type" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-surface dark:bg-white/10 text-brand-navy dark:text-white uppercase">CASH PRIZE</span>
+                </div>
+
+                <!-- Dynamic Prize Container -->
+                <div id="detail-prize-container">
+                  <!-- Injected via JS depending on Cash vs Vehicle -->
+                </div>
+              </div>
+
+              <!-- Submitted Claim Information (Operational review, No Sensitive CVV/PINs) -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 sm:p-6 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-bold font-display uppercase tracking-wider text-brand-navy dark:text-white flex items-center gap-2">
+                    <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Claim & Settlement Information</span>
+                  </h3>
+                  <span class="text-[10px] font-mono text-brand-muted">Operational Audit Copy</span>
+                </div>
+
+                <!-- Dynamic Claim Info -->
+                <div id="detail-claim-info">
+                  <!-- Injected via JS: Bank settlement info for cash or delivery coordinates for vehicle -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Chronological Timeline & Audit History (4 cols) -->
+            <div class="lg:col-span-4 space-y-6">
+
+              <!-- User Administrative Dossier Card -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <h4 class="text-xs font-mono uppercase tracking-wider text-brand-muted mb-3">Claimant Particulars</h4>
+                <div class="space-y-2.5 text-xs">
+                  <div>
+                    <span class="text-brand-muted block text-[10px] uppercase font-mono">Full Legal Name</span>
+                    <span id="detail-side-name" class="font-bold text-brand-navy dark:text-white">Michael Dlamini</span>
+                  </div>
+                  <div>
+                    <span class="text-brand-muted block text-[10px] uppercase font-mono">Email Address</span>
+                    <span id="detail-side-email" class="font-mono text-brand-navy dark:text-white text-[11px]">m.dlamini@telkomsa.net</span>
+                  </div>
+                  <div>
+                    <span class="text-brand-muted block text-[10px] uppercase font-mono">Contact Number</span>
+                    <span id="detail-side-phone" class="font-mono text-brand-navy dark:text-white">+27 82 459 9012</span>
+                  </div>
+                  <div>
+                    <span class="text-brand-muted block text-[10px] uppercase font-mono">Account Created</span>
+                    <span id="detail-side-created" class="font-mono text-brand-navy dark:text-white">12 Jan 2026</span>
+                  </div>
+                  <div class="pt-2 border-t border-brand-border dark:border-brand-darkborder">
+                    <span class="text-brand-muted block text-[10px] uppercase font-mono">POPIA Compliance Reference</span>
+                    <span class="font-mono text-[10px] text-brand-muted">SARB-ZAR-2026-FIDC-8921</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fulfilment Lifecycle Timeline -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <h4 class="text-xs font-mono uppercase tracking-wider text-brand-navy dark:text-white font-bold mb-4 flex items-center justify-between">
+                  <span>Fulfilment Lifecycle</span>
+                  <span class="text-[10px] font-mono font-normal text-brand-muted">6 of 6 Completed</span>
+                </h4>
+
+                <!-- Timeline Items -->
+                <div class="relative pl-6 space-y-5 border-l-2 border-brand-emerald/40 ml-2 text-xs">
+                  
+                  <!-- Step 1 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald text-white flex items-center justify-center text-[10px]">✓</span>
+                    <div class="font-bold text-brand-navy dark:text-white">Reward Assigned</div>
+                    <div class="text-[11px] text-brand-muted" id="timeline-step-1">01 Sep 2026, 09:00 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">Admin Controller 02</div>
+                  </div>
+
+                  <!-- Step 2 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald text-white flex items-center justify-center text-[10px]">✓</span>
+                    <div class="font-bold text-brand-navy dark:text-white">Claim Submitted by User</div>
+                    <div class="text-[11px] text-brand-muted" id="timeline-step-2">02 Sep 2026, 14:15 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">Claimant self-service portal</div>
+                  </div>
+
+                  <!-- Step 3 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald text-white flex items-center justify-center text-[10px]">✓</span>
+                    <div class="font-bold text-brand-navy dark:text-white">Adjudication & Claim Approved</div>
+                    <div class="text-[11px] text-brand-muted" id="timeline-step-3">04 Sep 2026, 10:30 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">Admin Controller 04 (Audited)</div>
+                  </div>
+
+                  <!-- Step 4 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald text-white flex items-center justify-center text-[10px]">✓</span>
+                    <div class="font-bold text-brand-navy dark:text-white">Requirements Verified</div>
+                    <div class="text-[11px] text-brand-muted" id="timeline-step-4">08 Sep 2026, 16:00 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">POPIA Section 18 verified</div>
+                  </div>
+
+                  <!-- Step 5 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald text-white flex items-center justify-center text-[10px]">✓</span>
+                    <div class="font-bold text-brand-navy dark:text-white">Processing & Disbursement</div>
+                    <div class="text-[11px] text-brand-muted" id="timeline-step-5">11 Sep 2026, 11:00 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">Logistics/Fiduciary gateway</div>
+                  </div>
+
+                  <!-- Step 6 -->
+                  <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-brand-emerald ring-4 ring-brand-emerald/20 text-white flex items-center justify-center text-[10px] font-bold">★</span>
+                    <div class="font-bold text-brand-emerald">Fulfilment Complete</div>
+                    <div class="text-[11px] text-brand-muted font-mono" id="timeline-step-6">14 Sep 2026, 11:20 SAST</div>
+                    <div class="text-[10px] text-brand-muted/80">Signed & archived in immutable ledger</div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Internal Record History (Audit Context) -->
+              <div class="bg-white dark:bg-brand-darkcard p-5 rounded-xl border border-brand-border dark:border-brand-darkborder shadow-2xs">
+                <h4 class="text-xs font-mono uppercase tracking-wider text-brand-muted mb-3 flex items-center justify-between">
+                  <span>Record History / Audit Trail</span>
+                  <span class="text-[10px] text-brand-emerald">IMMUTABLE</span>
+                </h4>
+                <div class="space-y-2 text-[11px] font-mono">
+                  <div class="p-2 rounded bg-brand-surface dark:bg-white/5 border border-brand-border/60 dark:border-brand-darkborder/60">
+                    <div class="font-semibold text-brand-navy dark:text-white">Status Finalized: FULFILLED</div>
+                    <div class="text-[10px] text-brand-muted mt-0.5">14 Sep 2026, 11:20 SAST • Actor: Admin Controller 04</div>
+                  </div>
+                  <div class="p-2 rounded bg-brand-surface dark:bg-white/5 border border-brand-border/60 dark:border-brand-darkborder/60">
+                    <div class="font-semibold text-brand-navy dark:text-white">Claim Transition: PROCESSING</div>
+                    <div class="text-[10px] text-brand-muted mt-0.5">11 Sep 2026, 11:00 SAST • Actor: System Escrow Gate</div>
+                  </div>
+                  <div class="p-2 rounded bg-brand-surface dark:bg-white/5 border border-brand-border/60 dark:border-brand-darkborder/60">
+                    <div class="font-semibold text-brand-navy dark:text-white">Admin Adjudication: APPROVED</div>
+                    <div class="text-[10px] text-brand-muted mt-0.5">04 Sep 2026, 10:30 SAST • Actor: Admin Controller 04</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- ADMIN REGULATORY & COMPLIANCE FOOTER (Strict Internal Console Scope) -->
+      <!-- ========================================================================= -->
+      <footer class="mt-8 pt-4 border-t border-brand-border dark:border-brand-darkborder text-[11px] font-mono text-brand-muted flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+          <span>POPIA Section 18 Compliance & SARB Escrow Verification Enabled</span>
+          <span class="hidden md:inline">• Ledger: 0x7F9B...88D2</span>
+        </div>
+        <div>
+          <span>RSA Gazette Ref #4412-26 • Internal Admin Scope</span>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-xs font-semibold bg-brand-navy text-white border border-brand-gold">
+    <span id="toast-icon">✓</span>
+    <span id="toast-msg">Action Completed</span>
+  </div>
+
+  <!-- JAVASCRIPT STATE ENGINE & FUNCTIONAL INTERACTIONS -->
+  <script>
+    // -------------------------------------------------------------
+    // 1. Prototype Dataset (Strictly Fictional Prototype Records)
+    // -------------------------------------------------------------
+    const WINNER_RECORDS = [
+      {
+        id: 'WD-FLM-881',
+        name: 'Michael Dlamini',
+        email: 'm.dlamini@telkomsa.net',
+        phone: '+27 82 459 9012',
+        accountRef: 'WD-RSA-9941',
+        accountCreated: '12 Jan 2026',
+        prizeType: 'CASH',
+        prizeTitle: 'Cash Prize',
+        prizeAmount: 'R250,000',
+        currency: 'ZAR',
+        rewardStatus: 'COMPLETED',
+        claimStatus: 'FULFILLED',
+        fulfilledDate: '14 Sep 2026',
+        fulfilledTimestamp: '14 Sep 2026, 11:20 SAST',
+        bankDetails: {
+          bankName: 'Standard Bank of South Africa',
+          accountHolder: 'Michael Dlamini',
+          accountNumber: '••••••••4891',
+          accountType: 'Cheque / Current',
+          branchCode: '051001 (Johannesburg Main)'
+        },
+        timeline: {
+          step1: '01 Sep 2026, 09:00 SAST',
+          step2: '02 Sep 2026, 14:15 SAST',
+          step3: '04 Sep 2026, 10:30 SAST',
+          step4: '08 Sep 2026, 16:00 SAST',
+          step5: '11 Sep 2026, 11:00 SAST',
+          step6: '14 Sep 2026, 11:20 SAST'
+        }
+      },
+      {
+        id: 'WD-FLM-880',
+        name: 'Thandi Mokoena',
+        email: 'thandi.mokoena@vodamail.co.za',
+        phone: '+27 83 912 3441',
+        accountRef: 'WD-RSA-9942',
+        accountCreated: '18 Jan 2026',
+        prizeType: 'VEHICLE',
+        prizeTitle: '2026 Toyota Hilux 2.8 GD-6 Legend 4x4',
+        vehicleMake: 'Toyota',
+        vehicleModel: 'Hilux 2.8 GD-6 Legend 4x4 Automatic',
+        vehicleYear: '2026',
+        vehicleImage: 'https://lh3.googleusercontent.com/aida/AEtjO1XG1tU2dwj0NuRZlpARd_53gKx9tHv6As274NSfv4x0S1A67lcKYhFWixl28Ft-b4O2MImxBQc7FZLoXQWAi4BQ6rGlRHtgCZwD0xLHIw-mt-9356M3dxlRFcZ9_kDO7wtmbEcWyKqSVkDQvbjJUIkiuiv5T3yxJdkFYAD6n7ICBPUW81lYXG9C5o4YcVkL_t2ekkwMw_LD5iR89TSlhK8vYpEiOBe-NnHxHOANQXy_Vgy6WJmq7EMWG1jg',
+        rewardStatus: 'COMPLETED',
+        claimStatus: 'FULFILLED',
+        fulfilledDate: '12 Sep 2026',
+        fulfilledTimestamp: '12 Sep 2026, 15:45 SAST',
+        deliveryDetails: {
+          recipientName: 'Thandi Mokoena',
+          recipientPhone: '+27 83 912 3441',
+          address: '42 Highlands Ridge Road, Waterkloof',
+          city: 'Pretoria',
+          province: 'Gauteng',
+          postalCode: '0181',
+          contactPreference: 'WhatsApp & Direct Call'
+        },
+        timeline: {
+          step1: '28 Aug 2026, 08:30 SAST',
+          step2: '30 Aug 2026, 11:20 SAST',
+          step3: '02 Sep 2026, 09:15 SAST',
+          step4: '05 Sep 2026, 14:00 SAST',
+          step5: '08 Sep 2026, 10:00 SAST',
+          step6: '12 Sep 2026, 15:45 SAST'
+        }
+      },
+      {
+        id: 'WD-FLM-879',
+        name: 'Sipho Ndlovu',
+        email: 'sipho.ndlovu@nashua.co.za',
+        phone: '+27 71 882 1099',
+        accountRef: 'WD-RSA-9943',
+        accountCreated: '02 Feb 2026',
+        prizeType: 'CASH',
+        prizeTitle: 'Cash Prize',
+        prizeAmount: 'R250,000',
+        currency: 'ZAR',
+        rewardStatus: 'COMPLETED',
+        claimStatus: 'FULFILLED',
+        fulfilledDate: '08 Sep 2026',
+        fulfilledTimestamp: '08 Sep 2026, 09:40 SAST',
+        bankDetails: {
+          bankName: 'First National Bank (FNB)',
+          accountHolder: 'Sipho Ndlovu',
+          accountNumber: '••••••••7214',
+          accountType: 'Private Clients Cheque',
+          branchCode: '250655 (Sandton)'
+        },
+        timeline: {
+          step1: '22 Aug 2026, 10:00 SAST',
+          step2: '24 Aug 2026, 16:30 SAST',
+          step3: '27 Aug 2026, 11:45 SAST',
+          step4: '30 Aug 2026, 13:00 SAST',
+          step5: '03 Sep 2026, 15:00 SAST',
+          step6: '08 Sep 2026, 09:40 SAST'
+        }
+      },
+      {
+        id: 'WD-FLM-878',
+        name: 'Naledi Khumalo',
+        email: 'naledi.k@investec.co.za',
+        phone: '+27 82 301 7765',
+        accountRef: 'WD-RSA-9944',
+        accountCreated: '14 Feb 2026',
+        prizeType: 'VEHICLE',
+        prizeTitle: '2026 Toyota Hilux 2.8 GD-6 Legend 4x4',
+        vehicleMake: 'Toyota',
+        vehicleModel: 'Hilux 2.8 GD-6 Legend 4x4 Automatic',
+        vehicleYear: '2026',
+        vehicleImage: 'https://lh3.googleusercontent.com/aida/AEtjO1UwFyf75LTrTxY9FNEVy62CXeB2tjGxsLcKQNrloVDG8B9--jKGqKk1S-_b9A2n3yA_Yt2ywpzh9WAjDgjrEVQzfOZe41BiiHHgKWquDQalb-LH-xLo0SwuHjJPFidH6SaBib1LSxD6cu3KCOweQUExXF3OntV3PHa2tkEyH83vtBWyjZViZZRS1Z0DZtfDL038dhfMxpoLGcmPh3ntQQGqrxkqhNmKNQ0PUTMO8AkcuAaawd_T8y7Ee5o',
+        rewardStatus: 'COMPLETED',
+        claimStatus: 'FULFILLED',
+        fulfilledDate: '01 Sep 2026',
+        fulfilledTimestamp: '01 Sep 2026, 14:10 SAST',
+        deliveryDetails: {
+          recipientName: 'Naledi Khumalo',
+          recipientPhone: '+27 82 301 7765',
+          address: '17 Umhlanga Rocks Drive, La Lucia',
+          city: 'Durban',
+          province: 'KwaZulu-Natal',
+          postalCode: '4051',
+          contactPreference: 'Direct Phone Dispatch'
+        },
+        timeline: {
+          step1: '15 Aug 2026, 11:00 SAST',
+          step2: '18 Aug 2026, 15:00 SAST',
+          step3: '20 Aug 2026, 10:15 SAST',
+          step4: '23 Aug 2026, 14:20 SAST',
+          step5: '26 Aug 2026, 09:30 SAST',
+          step6: '01 Sep 2026, 14:10 SAST'
+        }
+      }
+    ];
+
+    let currentRecords = [...WINNER_RECORDS];
+    let selectedRecord = WINNER_RECORDS[0];
+
+    // -------------------------------------------------------------
+    // 2. Render Functions (Table & Mobile Cards)
+    // -------------------------------------------------------------
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+      const mobileList = document.getElementById('mobile-records-list');
+      const emptyState = document.getElementById('table-empty');
+
+      if (currentRecords.length === 0) {
+        tbody.innerHTML = '';
+        mobileList.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // Desktop Table Rows
+      tbody.innerHTML = currentRecords.map(rec => {
+        const isCash = rec.prizeType === 'CASH';
+        const typeBadge = isCash 
+          ? `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300">CASH</span>`
+          : `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-100 text-blue-900 dark:bg-blue-900/40 dark:text-blue-300">VEHICLE</span>`;
+        
+        return `
+          <tr class="hover:bg-brand-surface/70 dark:hover:bg-white/5 transition-colors">
+            <td class="py-3.5 px-4">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full bg-brand-navy dark:bg-white/10 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                  ${rec.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div>
+                  <div class="font-bold text-brand-navy dark:text-white leading-tight">${rec.name}</div>
+                  <div class="text-[11px] text-brand-muted font-mono">${rec.email}</div>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white">
+              ${rec.prizeTitle}
+            </td>
+            <td class="py-3.5 px-4">
+              ${typeBadge}
+            </td>
+            <td class="py-3.5 px-4">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-brand-emerald/15 text-brand-emerald border border-brand-emerald/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+                FULFILLED
+              </span>
+            </td>
+            <td class="py-3.5 px-4 font-mono text-brand-muted">
+              ${rec.fulfilledDate}
+            </td>
+            <td class="py-3.5 px-4 text-right">
+              <button onclick="viewRecordDetails('${rec.id}')" class="px-3 py-1 text-xs font-semibold rounded-lg bg-brand-surface dark:bg-white/10 hover:bg-brand-navy hover:text-white dark:hover:bg-brand-gold dark:hover:text-brand-navy text-brand-navy dark:text-white border border-brand-border dark:border-brand-darkborder transition-all">
+                View Record
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Mobile Stacked Cards
+      mobileList.innerHTML = currentRecords.map(rec => {
+        const isCash = rec.prizeType === 'CASH';
+        const typeBadge = isCash 
+          ? `<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300">CASH</span>`
+          : `<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-100 text-blue-900 dark:bg-blue-900/40 dark:text-blue-300">VEHICLE</span>`;
+        
+        return `
+          <div class="bg-white dark:bg-brand-darkcard p-4 rounded-xl border border-brand-border dark:border-brand-darkborder space-y-3 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-brand-navy dark:bg-white/10 text-white font-bold text-xs flex items-center justify-center">
+                  ${rec.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div class="font-bold text-sm text-brand-navy dark:text-white">${rec.name}</div>
+              </div>
+              ${typeBadge}
+            </div>
+
+            <div class="text-xs space-y-1 py-1 border-y border-brand-border/60 dark:border-brand-darkborder/60">
+              <div class="flex justify-between">
+                <span class="text-brand-muted">Prize:</span>
+                <span class="font-semibold text-brand-navy dark:text-white text-right">${rec.prizeTitle}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-brand-muted">Fulfilled Date:</span>
+                <span class="font-mono text-brand-muted">${rec.fulfilledDate}</span>
+              </div>
+              <div class="flex justify-between items-center pt-1">
+                <span class="text-brand-muted">Status:</span>
+                <span class="inline-flex items-center gap-1 text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-emerald/15 text-brand-emerald">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+                  FULFILLED
+                </span>
+              </div>
+            </div>
+
+            <button onclick="viewRecordDetails('${rec.id}')" class="w-full py-2 text-xs font-semibold rounded-lg bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy text-center transition-opacity hover:opacity-90">
+              View Record
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // -------------------------------------------------------------
+    // 3. Search & Filtering Engine
+    // -------------------------------------------------------------
+    function filterRecords() {
+      const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+      const typeVal = document.getElementById('filter-type').value;
+      const dateVal = document.getElementById('filter-date').value;
+
+      currentRecords = WINNER_RECORDS.filter(rec => {
+        // Search Match
+        const matchesSearch = !searchVal || 
+          rec.name.toLowerCase().includes(searchVal) ||
+          rec.email.toLowerCase().includes(searchVal) ||
+          rec.prizeTitle.toLowerCase().includes(searchVal);
+
+        // Type Match
+        const matchesType = (typeVal === 'ALL') || (rec.prizeType === typeVal);
+
+        // Date Match
+        let matchesDate = true;
+        if (dateVal === 'SEPTEMBER') {
+          matchesDate = rec.fulfilledDate.includes('Sep 2026');
+        } else if (dateVal === 'AUGUST') {
+          matchesDate = rec.fulfilledDate.includes('Aug 2026');
+        } else if (dateVal === 'OLDER') {
+          matchesDate = !rec.fulfilledDate.includes('Sep 2026');
+        }
+
+        return matchesSearch && matchesType && matchesDate;
+      });
+
+      renderTable();
+    }
+
+    function clearAllFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-type').value = 'ALL';
+      document.getElementById('filter-date').value = 'ALL';
+      document.getElementById('filter-status').value = 'COMPLETED';
+      currentRecords = [...WINNER_RECORDS];
+      renderTable();
+      showToast('Filters cleared', '✓');
+    }
+
+    // -------------------------------------------------------------
+    // 4. Record Detail View Flow (/admin/winners/:id)
+    // -------------------------------------------------------------
+    function viewRecordDetails(recordId) {
+      const record = WINNER_RECORDS.find(r => r.id === recordId);
+      if (!record) return;
+      selectedRecord = record;
+
+      // Populate Header & Meta
+      document.getElementById('detail-dossier-id').innerText = record.id;
+      document.getElementById('detail-name').innerText = record.name;
+      document.getElementById('detail-account-ref').innerText = `Account: ${record.accountRef} • Verified Participant`;
+      document.getElementById('detail-fulfilled-date').innerText = record.fulfilledTimestamp;
+
+      // Populate Sidebar Particulars
+      document.getElementById('detail-side-name').innerText = record.name;
+      document.getElementById('detail-side-email').innerText = record.email;
+      document.getElementById('detail-side-phone').innerText = record.phone;
+      document.getElementById('detail-side-created').innerText = record.accountCreated;
+
+      // Populate Timeline Timestamps
+      document.getElementById('timeline-step-1').innerText = record.timeline.step1;
+      document.getElementById('timeline-step-2').innerText = record.timeline.step2;
+      document.getElementById('timeline-step-3').innerText = record.timeline.step3;
+      document.getElementById('timeline-step-4').innerText = record.timeline.step4;
+      document.getElementById('timeline-step-5').innerText = record.timeline.step5;
+      document.getElementById('timeline-step-6').innerText = record.timeline.step6;
+
+      // Type Badge
+      const typeBadge = document.getElementById('detail-badge-type');
+      typeBadge.innerText = record.prizeType === 'CASH' ? 'CASH PRIZE' : 'VEHICLE PRIZE';
+
+      // Prize Specification Container
+      const prizeContainer = document.getElementById('detail-prize-container');
+      if (record.prizeType === 'CASH') {
+        prizeContainer.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+            <div>
+              <span class="text-[10px] font-mono uppercase text-brand-muted">Prize Valuation (ZAR)</span>
+              <div class="text-3xl font-extrabold font-display text-brand-navy dark:text-brand-gold mt-1 mono-num">${record.prizeAmount}</div>
+              <div class="text-xs text-brand-muted mt-1">Disbursed via SARB Institutional Fiduciary Escrow</div>
+            </div>
+            <div class="mt-3 sm:mt-0 text-left sm:text-right">
+              <span class="text-[10px] font-mono uppercase text-brand-muted">Reward Lifecycle Status</span>
+              <div class="text-sm font-bold text-brand-emerald mt-1">COMPLETED</div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Vehicle Prize Specification
+        prizeContainer.innerHTML = `
+          <div class="space-y-4">
+            <div class="relative rounded-xl overflow-hidden border border-brand-border dark:border-brand-darkborder bg-black max-h-64">
+              <img src="${record.vehicleImage}" alt="${record.prizeTitle}" class="w-full h-56 object-cover object-center">
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-brand-navy via-brand-navy/60 to-transparent p-4 text-white">
+                <div class="text-xs font-mono text-brand-gold uppercase tracking-wider">${record.vehicleMake} • ${record.vehicleYear}</div>
+                <div class="text-lg font-bold font-display">${record.vehicleModel}</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Make</span>
+                <span class="font-bold text-brand-navy dark:text-white">${record.vehicleMake}</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Model Trim</span>
+                <span class="font-bold text-brand-navy dark:text-white">Legend 4x4 Auto</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Year</span>
+                <span class="font-bold text-brand-navy dark:text-white font-mono">${record.vehicleYear}</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Reward Status</span>
+                <span class="font-bold text-brand-emerald">COMPLETED</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Claim Particulars (Bank vs Delivery coordinates)
+      const claimInfoContainer = document.getElementById('detail-claim-info');
+      if (record.prizeType === 'CASH') {
+        claimInfoContainer.innerHTML = `
+          <div class="space-y-3">
+            <div class="text-xs text-brand-muted">
+              Submitted banking details for administrative reconciliation (Strictly read-only; no sensitive CVVs, PINs, or passwords recorded):
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Bank Institution</span>
+                <span class="font-bold text-brand-navy dark:text-white">${record.bankDetails.bankName}</span>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Account Holder</span>
+                <span class="font-bold text-brand-navy dark:text-white">${record.bankDetails.accountHolder}</span>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Account Number</span>
+                <span class="font-mono text-brand-navy dark:text-white">${record.bankDetails.accountNumber}</span>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Account Type & Branch</span>
+                <span class="font-mono text-brand-navy dark:text-white">${record.bankDetails.accountType} (${record.bankDetails.branchCode})</span>
+              </div>
+            </div>
+            <div class="text-[11px] font-mono text-brand-emerald flex items-center gap-1.5 p-2 rounded bg-brand-emerald/10 border border-brand-emerald/20">
+              <span>✓</span>
+              <span>Disbursement Cleared via South African Reserve Bank Fiduciary Gateway</span>
+            </div>
+          </div>
+        `;
+      } else {
+        claimInfoContainer.innerHTML = `
+          <div class="space-y-3">
+            <div class="text-xs text-brand-muted">
+              Registered vehicle delivery coordinates and provincial dispatch audit record:
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Recipient / Signee</span>
+                <span class="font-bold text-brand-navy dark:text-white">${record.deliveryDetails.recipientName}</span>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Dispatch Phone</span>
+                <span class="font-mono text-brand-navy dark:text-white">${record.deliveryDetails.recipientPhone}</span>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-surface dark:bg-white/5 border border-brand-border dark:border-brand-darkborder sm:col-span-2">
+                <span class="text-[10px] font-mono text-brand-muted uppercase block">Physical Handover Address</span>
+                <span class="font-semibold text-brand-navy dark:text-white">${record.deliveryDetails.address}, ${record.deliveryDetails.city}, ${record.deliveryDetails.province}, ${record.deliveryDetails.postalCode}</span>
+              </div>
+            </div>
+            <div class="text-[11px] font-mono text-brand-emerald flex items-center gap-1.5 p-2 rounded bg-brand-emerald/10 border border-brand-emerald/20">
+              <span>✓</span>
+              <span>NaTIS Registration, License Disc & Provincial Logistics Handover Cleared</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // Switch View Containers
+      document.getElementById('view-directory').classList.add('hidden');
+      document.getElementById('view-detail').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showDirectory() {
+      document.getElementById('view-detail').classList.add('hidden');
+      document.getElementById('view-directory').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // 5. Presets & Sandbox QA Controls
+    // -------------------------------------------------------------
+    function applyPreset(preset) {
+      if (preset === 'all') {
+        currentRecords = [...WINNER_RECORDS];
+        document.getElementById('filter-type').value = 'ALL';
+      } else if (preset === 'vehicles') {
+        currentRecords = WINNER_RECORDS.filter(r => r.prizeType === 'VEHICLE');
+        document.getElementById('filter-type').value = 'VEHICLE';
+      } else if (preset === 'cash') {
+        currentRecords = WINNER_RECORDS.filter(r => r.prizeType === 'CASH');
+        document.getElementById('filter-type').value = 'CASH';
+      }
+      showDirectory();
+      renderTable();
+      showToast(`Preset: ${preset.toUpperCase()} loaded (${currentRecords.length} records)`, '⚡');
+    }
+
+    function resetPrototypeData() {
+      clearAllFilters();
+      showDirectory();
+      showToast('Prototype data reset to initial baseline', '↺');
+    }
+
+    function exportAuditLedger() {
+      showToast('Exporting immutable fulfilment CSV ledger...', '⬇');
+    }
+
+    function simulateLogout() {
+      showToast('Signing out administrator...', '🔒');
+      setTimeout(() => {
+        alert('Internal Admin Session Terminated.');
+      }, 500);
+    }
+
+    // -------------------------------------------------------------
+    // 6. Navigation Drawer & Theme Controllers (Light Mode Default)
+    // -------------------------------------------------------------
+    function toggleAdminDrawer() {
+      const drawer = document.getElementById('admin-drawer');
+      drawer.classList.toggle('-translate-x-full');
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        localStorage.setItem('windrive_admin_theme', 'light');
+        showToast('Switched to Console Light Mode', '☀');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        localStorage.setItem('windrive_admin_theme', 'dark');
+        showToast('Switched to Console Dark Mode', '☾');
+      }
+    }
+
+    // Keyboard shortcut for theme toggle (Ctrl + M)
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && (e.key === 'm' || e.key === 'M')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+
+    function showToast(msg, icon = '✓') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.innerText = msg;
+      toastIcon.innerText = icon;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2400);
+    }
+
+    // Initialize in Light Mode strictly unless user explicitly set dark
+    (function initTheme() {
+      const savedTheme = localStorage.getItem('windrive_admin_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+      renderTable();
+    })();
+  </script>
+
+</body>
+</html>

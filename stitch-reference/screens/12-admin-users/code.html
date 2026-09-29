@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinDriveSA — Admin Console | Users</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d2e4fc",
+            "inverse-surface": "#27313c",
+            "surface": "#f7f9ff",
+            "on-secondary-container": "#6c5000",
+            "on-tertiary-fixed": "#00210a",
+            "surface-dim": "#d1dbe9",
+            "inverse-on-surface": "#e8f2ff",
+            "on-secondary-fixed": "#251a00",
+            "on-surface-variant": "#44474c",
+            "surface-container-low": "#edf4ff",
+            "surface-container-high": "#dfe9f7",
+            "on-error-container": "#93000a",
+            "on-tertiary": "#ffffff",
+            "inverse-primary": "#b6c8df",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#5b4300",
+            "error": "#ba1a1a",
+            "surface-bright": "#f7f9ff",
+            "background": "#f7f9ff",
+            "on-tertiary-container": "#26974d",
+            "on-primary-container": "#74859b",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#f9bd14",
+            "tertiary-fixed-dim": "#71dc8a",
+            "on-primary-fixed": "#0a1d2e",
+            "on-tertiary-fixed-variant": "#005324",
+            "outline": "#74777d",
+            "secondary-fixed": "#ffdf9d",
+            "surface-variant": "#d9e3f1",
+            "secondary-container": "#fcc019",
+            "surface-tint": "#4f6074",
+            "primary-container": "#0a1d2e",
+            "error-container": "#ffdad6",
+            "outline-variant": "#c4c6cd",
+            "primary-fixed-dim": "#b6c8df",
+            "tertiary-container": "#00210a",
+            "tertiary-fixed": "#8ef9a4",
+            "surface-container-highest": "#d9e3f1",
+            "surface-container": "#e4effd",
+            "secondary": "#785900",
+            "on-background": "#121c26",
+            "on-secondary": "#ffffff",
+            "tertiary": "#000000",
+            "primary": "#000000",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#37485b",
+            "on-surface": "#121c26"
+          },
+          fontFamily: {
+            "display-hero": ["Sora", "sans-serif"],
+            "tabular-stat": ["Manrope", "sans-serif"],
+            "headline-sm": ["Sora", "sans-serif"],
+            "headline-lg": ["Sora", "sans-serif"],
+            "title-zar-val": ["Sora", "sans-serif"],
+            "label-caps": ["Manrope", "sans-serif"],
+            "body-md": ["Manrope", "sans-serif"],
+            "headline-xl": ["Sora", "sans-serif"],
+            "body-sm": ["Manrope", "sans-serif"],
+            "body-lg": ["Manrope", "sans-serif"],
+            "headline-md": ["Sora", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    .dark body, .dark #adminRoot {
+      background-color: #0b131e !important;
+      color: #e2e8f0 !important;
+    }
+    .dark .bg-surface {
+      background-color: #0b131e !important;
+    }
+    .dark .bg-surface-container-lowest {
+      background-color: #121c2a !important;
+      border-color: #223249 !important;
+    }
+    .dark .bg-surface-container-low {
+      background-color: #162334 !important;
+    }
+    .dark .bg-surface-container {
+      background-color: #1a2a3e !important;
+    }
+    .dark .text-on-surface {
+      color: #f1f5f9 !important;
+    }
+    .dark .text-on-surface-variant {
+      color: #94a3b8 !important;
+    }
+    .dark .border-surface-variant\/30,
+    .dark .border-surface-variant\/40,
+    .dark .border-surface-variant\/20 {
+      border-color: #1f2f44 !important;
+    }
+    .dark aside {
+      background-color: #0d1724 !important;
+      border-color: #1f2f44 !important;
+    }
+    .dark input, .dark select {
+      background-color: #162334 !important;
+      color: #f1f5f9 !important;
+      border-color: #273b54 !important;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+<div class="min-h-screen flex flex-col bg-surface transition-colors duration-200" id="adminRoot">
+<!-- QA STATE SIMULATOR BAR (Fixed Top) -->
+<header class="w-full bg-primary-container text-on-primary text-xs py-2 px-4 flex flex-wrap items-center justify-between gap-3 border-b border-surface-variant/20 z-40 sticky top-0 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="font-label-caps tracking-widest text-[10px] text-secondary-container uppercase font-bold">QA Sandbox Simulator</span>
+<span class="text-on-primary-container text-[11px] hidden sm:inline">| Prototype State Controller</span>
+</div>
+<div class="flex items-center gap-1.5 overflow-x-auto text-[11px]">
+<button class="px-2.5 py-1 rounded bg-surface-container-high/20 hover:bg-surface-container-high/40 text-on-primary transition font-medium cursor-pointer" onclick="setQaState('default')">1. Standard Fleet</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-high/20 hover:bg-surface-container-high/40 text-on-primary transition font-medium cursor-pointer" onclick="setQaState('pending')">2. Triage (Pending)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-high/20 hover:bg-surface-container-high/40 text-on-primary transition font-medium cursor-pointer" onclick="setQaState('empty')">3. Zero Records</button>
+<button class="px-2.5 py-1 rounded bg-secondary-container text-on-secondary-container hover:brightness-105 transition font-semibold cursor-pointer" onclick="resetPrototypeData()">Reset Data</button>
+</div>
+</header>
+<!-- TABLET / MOBILE AUTHENTICATED ADMIN HEADER ONLY (lg:hidden) -->
+<div class="lg:hidden flex items-center justify-between bg-surface-container-lowest px-4 py-3 border-b border-surface-variant/30 sticky top-[37px] z-30 shadow-sm">
+<div class="flex items-center gap-2.5">
+<img alt="WinDriveSA Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADwXnkVLONFChrZGg69w-gW1be_zbpSzAHHTv6TI4sfNfuJw5FBhdh4AN0JBn7Ld3emrynBhOHJYbMqONH-5iKUjenwSDD7rgTS0jiHqguGfPEl1sc2qpOQm16ZTMmNd6_-KDPByDc-fOSNS6Exi7_sjyXUEGUKApR2xo7QI7W7p5Gl3rYekQ7VbrKD3jZ0vzD3STu9tPBaqnAAefBWG_56OwfgWqvx3D_I2AQZc9v1bbg89gFEGRUzMraJHLPwk8BjME"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-on-surface">WinDriveSA</span>
+<span class="font-label-caps text-[8px] uppercase tracking-wider text-secondary font-bold">ADMIN CONSOLE</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-on-surface rounded-md hover:bg-surface-container transition" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+<span class="material-symbols-outlined text-lg" id="mobileThemeIcon">brightness_4</span>
+</button>
+<button aria-label="Open Admin Menu" class="w-9 h-9 flex items-center justify-center bg-surface-container text-on-surface rounded-md hover:bg-surface-container-high transition" onclick="toggleMobileDrawer()">
+<span class="material-symbols-outlined text-xl">menu</span>
+</button>
+</div>
+</div>
+<div class="flex flex-1 w-full relative">
+<!-- ADMIN SIDEBAR (DESKTOP) -->
+<aside class="hidden lg:flex flex-col w-64 shrink-0 bg-surface-container-lowest border-r border-surface-variant/30 py-5 px-4 justify-between h-[calc(100vh-37px)] sticky top-[37px] shadow-sm z-30">
+<div class="flex flex-col gap-5 overflow-y-auto">
+<!-- Logo & Institutional Ref -->
+<div class="flex flex-col px-2">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Logo" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQB6zA3Rrp1sd8pRZvFC6-0wXhdclGbMXySajnVMyB-_0N39xgMVIPHcDa9XYfo0OnpxR07cVt4LqlXfLh2uBF1KfltzRbdE71T2NfBnm5gI_DtOw6c6MVOmZR6i1KMuNea91m0w3eOD02QCISS0sFGQWgwTlOPTWUXPBKsibORHefr0MzlhnCEC5WT839NGjfSem3B9qKGf7RTRJEdgYu7vE4BOB9fYjcnuhAhgS2fMDIGLhzq-boiMcZIdEOM8Xmkwo"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-sm font-bold tracking-tight text-on-surface">WinDriveSA</span>
+<span class="font-label-caps text-[9px] uppercase tracking-wider text-secondary font-bold">ADMIN CONSOLE v2.4 RSA</span>
+</div>
+</div>
+<div class="mt-3 px-2 py-1.5 bg-surface-container-low rounded flex items-center justify-between">
+<span class="font-label-caps text-[10px] text-on-surface-variant font-medium">GOVERNANCE LEVEL</span>
+<span class="font-body-sm text-[10px] font-bold text-on-tertiary-container bg-tertiary-container/10 px-1.5 py-0.5 rounded">AUDIT GRADE A</span>
+</div>
+</div>
+<!-- Authenticated Admin Navigation Routes -->
+<nav class="flex flex-col gap-1 text-sm font-body-md">
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Dashboard')">
+<span class="material-symbols-outlined text-lg">grid_view</span>
+<span>Dashboard</span>
+</button>
+<!-- Users (ACTIVE) -->
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-primary-container text-on-primary font-semibold shadow-sm text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-secondary-container">group</span>
+<span>Users</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Rewards')">
+<span class="material-symbols-outlined text-lg">workspace_premium</span>
+<span>Rewards</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Cash Prizes')">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span>Cash Prizes</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Vehicle Prizes')">
+<span class="material-symbols-outlined text-lg">directions_car</span>
+<span>Vehicle Prizes</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Claim Requests')">
+<span class="material-symbols-outlined text-lg">assignment_turned_in</span>
+<span>Claim Requests</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Claim Requirements')">
+<span class="material-symbols-outlined text-lg">fact_check</span>
+<span>Claim Requirements</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Winners')">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">emoji_events</span>
+<span>Winners</span>
+</div>
+<span class="font-label-caps text-[9px] bg-secondary-container/20 text-on-secondary-container px-1.5 py-0.5 rounded uppercase font-bold">Internal</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Support')">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+<span>Support</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Audit Logs')">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Audit Logs</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition text-left" onclick="handleAdminNav('Settings')">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Settings</span>
+</button>
+</nav>
+</div>
+<!-- Footer Operator Card & Theme Toggle -->
+<div class="flex flex-col gap-2.5 pt-3 border-t border-surface-variant/30">
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-8 h-8 rounded-full bg-primary-container text-secondary-container flex items-center justify-center font-bold text-xs shrink-0">OP</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm font-semibold text-xs text-on-surface truncate">Operations Lead</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant truncate">ops.desk@windrivesa.co.za</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-2 py-1">
+<span class="text-xs font-medium text-on-surface-variant">Theme</span>
+<button class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-xs font-semibold text-on-surface transition cursor-pointer" onclick="toggleTheme()">
+<span class="material-symbols-outlined text-sm" id="desktopThemeIcon">brightness_4</span>
+<span id="themeLabelText">Dark Mode</span>
+</button>
+</div>
+<button class="flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold text-error bg-error-container/20 rounded hover:bg-error-container/40 transition cursor-pointer" onclick="handleSignOut()">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span>Sign Out</span>
+</button>
+</div>
+</aside>
+<!-- MOBILE ADMIN DRAWER OVERLAY (Authenticated Links Only) -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden transition-opacity" id="mobileDrawer">
+<div class="w-72 h-full bg-surface-container-lowest flex flex-col justify-between p-5 shadow-2xl overflow-y-auto">
+<div class="flex flex-col gap-5">
+<div class="flex items-center justify-between border-b border-surface-variant/20 pb-3">
+<div class="flex items-center gap-2">
+<img alt="WinDriveSA Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD847sYpftMEF5vftVqb38QI9AhByslSHIBh4-5OcxEF7EJjUgXmbOfLkCxiGwOuFzJXXrFej1tg0qsD_A4txxBfPhe_wPJD2UdXJAa0K_KwDXobr4Bh_7fWaLZ8Q9OPu1wM6CVn1EUF0xo0fGbe93fkwjaCXjK83GTL8ybMo3WUZoCAKZBLrDOqqP47JMe0y3wlo0wNjLZn2mtwUrjtUGdxP3bQ917kOG7KgfGo8HSojBMjZ3SxnXMMCQIBd5z1P_WYDU"/>
+<span class="font-headline-sm text-xs font-bold">Admin Console</span>
+</div>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<nav class="flex flex-col gap-1 text-sm">
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Dashboard')">Dashboard</button>
+<button class="p-2.5 rounded bg-primary-container text-on-primary font-semibold flex items-center justify-between text-left">
+<span>Users</span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Rewards')">Rewards</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Cash Prizes')">Cash Prizes</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Vehicle Prizes')">Vehicle Prizes</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Claim Requests')">Claim Requests</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Claim Requirements')">Claim Requirements</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container flex items-center justify-between" onclick="toggleMobileDrawer(); handleAdminNav('Winners')">
+<span>Winners</span>
+<span class="font-label-caps text-[9px] bg-secondary-container/20 text-on-secondary-container px-1.5 py-0.5 rounded font-bold uppercase">Internal</span>
+</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Support')">Support</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Audit Logs')">Audit Logs</button>
+<button class="p-2.5 rounded text-left text-on-surface-variant hover:bg-surface-container" onclick="toggleMobileDrawer(); handleAdminNav('Settings')">Settings</button>
+</nav>
+</div>
+<div class="pt-4 border-t border-surface-variant/30 flex flex-col gap-3">
+<div class="text-xs text-on-surface-variant">ops.desk@windrivesa.co.za</div>
+<button class="w-full py-2 bg-error-container/20 text-error text-xs font-semibold rounded hover:bg-error-container/40" onclick="toggleMobileDrawer(); handleSignOut()">Sign Out</button>
+</div>
+</div>
+</div>
+<!-- MAIN BODY CONTENT -->
+<main class="flex-1 flex flex-col min-w-0 p-4 sm:p-6 lg:p-8 space-y-6">
+<!-- PAGE HEADER & KPI ROW -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-secondary font-bold">User Management</span>
+<span class="text-on-surface-variant text-xs">• RSA Registry Pool</span>
+</div>
+<h1 class="font-headline-xl text-3xl sm:text-headline-xl text-on-surface mt-1 tracking-tight font-bold">Users</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">Review verified participant accounts, manage jurisdictional compliance access, and monitor allocation pipelines.</p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="px-5 py-2.5 rounded-lg bg-secondary-container hover:brightness-95 text-on-secondary-container font-headline-sm text-sm font-semibold flex items-center gap-2 shadow-sm transition cursor-pointer" onclick="openCreateUserModal()">
+<span class="material-symbols-outlined text-lg">person_add</span>
+<span>+ Create User</span>
+</button>
+</div>
+</div>
+<!-- AUDIT SUMMARY STATS METRICS -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col shadow-sm">
+<span class="font-label-caps text-[11px] uppercase text-on-surface-variant font-bold tracking-wider">Total Users</span>
+<span class="font-title-zar-val text-2xl sm:text-3xl text-on-surface font-bold mt-1" id="statTotal">8</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5">Audited national accounts</span>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col shadow-sm">
+<span class="font-label-caps text-[11px] uppercase text-secondary font-bold tracking-wider">Pending Review</span>
+<span class="font-title-zar-val text-2xl sm:text-3xl text-secondary font-bold mt-1" id="statPending">2</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5">Verification required</span>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col shadow-sm">
+<span class="font-label-caps text-[11px] uppercase text-on-tertiary-container font-bold tracking-wider">Approved / Active</span>
+<span class="font-title-zar-val text-2xl sm:text-3xl text-on-tertiary-container font-bold mt-1" id="statActive">4</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5">Draw-eligible members</span>
+</div>
+<div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col shadow-sm">
+<span class="font-label-caps text-[11px] uppercase text-on-surface-variant font-bold tracking-wider">Rejected / Inactive</span>
+<span class="font-title-zar-val text-2xl sm:text-3xl text-on-surface-variant font-bold mt-1" id="statInactive">2</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5">Access suspended / denied</span>
+</div>
+</div>
+<!-- SEARCH & FILTER TOOLBAR -->
+<div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col gap-3 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+<!-- Live Search with Clear (X) button -->
+<div class="md:col-span-4 relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none">search</span>
+<input class="w-full pl-9 pr-8 py-2 text-sm bg-surface-container-low rounded-lg border border-surface-variant/40 focus:bg-surface-container-lowest focus:border-on-surface outline-none transition text-on-surface" id="searchInput" oninput="filterUsers()" placeholder="Search by name, email, phone, ref..." type="text"/>
+<button class="hidden absolute right-2.5 text-on-surface-variant hover:text-on-surface cursor-pointer p-0.5" id="clearSearchBtn" onclick="clearSearchInput()" title="Clear search">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<!-- Account Status Filter -->
+<div class="md:col-span-2">
+<select class="w-full px-3 py-2 text-sm bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface cursor-pointer" id="filterStatus" onchange="filterUsers()">
+<option value="ALL">Status: All</option>
+<option value="PENDING REVIEW">Pending Review</option>
+<option value="APPROVED">Approved</option>
+<option value="ACTIVE">Active</option>
+<option value="INACTIVE">Inactive</option>
+<option value="REJECTED">Rejected</option>
+</select>
+</div>
+<!-- Reward Status Filter -->
+<div class="md:col-span-2">
+<select class="w-full px-3 py-2 text-sm bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface cursor-pointer" id="filterReward" onchange="filterUsers()">
+<option value="ALL">Reward: All</option>
+<option value="REWARD ASSIGNED">Reward Assigned</option>
+<option value="NO REWARD">No Reward</option>
+</select>
+</div>
+<!-- Claim Status Filter -->
+<div class="md:col-span-2">
+<select class="w-full px-3 py-2 text-sm bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface cursor-pointer" id="filterClaim" onchange="filterUsers()">
+<option value="ALL">Claim: All</option>
+<option value="NO CLAIM">No Claim</option>
+<option value="SUBMITTED">Submitted</option>
+<option value="UNDER REVIEW">Under Review</option>
+<option value="APPROVED">Approved</option>
+<option value="REQUIREMENT PENDING">Requirement Pending</option>
+<option value="PROCESSING">Processing</option>
+<option value="FULFILLED">Fulfilled</option>
+</select>
+</div>
+<!-- Sort -->
+<div class="md:col-span-2">
+<select class="w-full px-3 py-2 text-sm bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface cursor-pointer" id="filterSort" onchange="filterUsers()">
+<option value="NEWEST">Sort: Newest</option>
+<option value="OLDEST">Sort: Oldest</option>
+<option value="AZ">Name: A–Z</option>
+<option value="STATUS">Status</option>
+</select>
+</div>
+</div>
+<!-- Counter & Reset Bar -->
+<div class="flex items-center justify-between text-xs text-on-surface-variant pt-2 border-t border-surface-variant/20">
+<div class="flex items-center gap-2">
+<span class="font-medium" id="resultsCount">Showing 8 of 8 verified accounts</span>
+<span class="hidden px-2 py-0.5 rounded bg-secondary-container/20 text-on-secondary-container font-semibold" id="activeFilterTag">Filters Active</span>
+</div>
+<button class="text-secondary hover:underline font-semibold flex items-center gap-1 cursor-pointer" onclick="clearAllFilters()">
+<span class="material-symbols-outlined text-xs">filter_alt_off</span>
+<span>Reset Filters</span>
+</button>
+</div>
+</div>
+<!-- USERS DIRECTORY TABLE (DESKTOP) -->
+<div class="hidden md:block bg-surface-container-lowest rounded-xl border border-surface-variant/30 shadow-sm overflow-hidden" id="desktopTableWrapper">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-surface-variant/30 bg-surface-container-low/50 text-[11px] font-label-caps uppercase text-on-surface-variant tracking-wider">
+<th class="py-3 px-4 font-bold">User</th>
+<th class="py-3 px-4 font-bold">Contact</th>
+<th class="py-3 px-4 font-bold">Account Status</th>
+<th class="py-3 px-4 font-bold">Reward Status</th>
+<th class="py-3 px-4 font-bold">Claim Activity</th>
+<th class="py-3 px-4 font-bold">Created Date</th>
+<th class="py-3 px-4 font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant/20 text-sm font-body-md" id="userTableBody">
+<!-- JS rendered rows -->
+</tbody>
+</table>
+</div>
+</div>
+<!-- MOBILE RESPONSIVE CARDS CONTAINER (MOBILE) -->
+<div class="md:hidden flex flex-col gap-3" id="userCardsContainer">
+<!-- JS rendered cards -->
+</div>
+<!-- EMPTY STATE -->
+<div class="hidden p-12 flex-col items-center justify-center text-center bg-surface-container-lowest rounded-xl border border-dashed border-surface-variant/60" id="emptyState">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-2xl">search_off</span>
+</div>
+<h3 class="font-headline-sm text-base font-bold text-on-surface">No Users Found</h3>
+<p class="font-body-md text-xs text-on-surface-variant mt-1 max-w-sm">No accounts match the current filter criteria or reference query. Try adjusting your search or filters.</p>
+<button class="mt-4 px-4 py-2 bg-primary-container text-on-primary rounded-lg text-xs font-semibold hover:bg-inverse-surface transition cursor-pointer" onclick="clearAllFilters()">Reset Filters</button>
+</div>
+<!-- STATUTORY JURISDICTION FOOTER NOTE -->
+<div class="p-3.5 bg-surface-container-low rounded-lg text-[11px] text-on-surface-variant flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border border-surface-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">verified_user</span>
+<span>POPIA Section 18 Compliance: Personal identifying records encrypted at rest under RSA National Treasury draw governance.</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase font-bold">AUDITED SYSTEM ACCESS ONLY</span>
+</div>
+</main>
+</div>
+</div>
+<!-- ==================== MODALS ==================== -->
+<!-- MODAL: CREATE USER -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="createUserModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-2xl border border-surface-variant/30 flex flex-col gap-4 max-h-[95vh] overflow-y-auto">
+<div class="flex items-center justify-between border-b border-surface-variant/20 pb-3">
+<div>
+<h3 class="font-headline-sm text-base font-bold text-on-surface">Create New Participant</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Enrolls user into National Allocation Register</p>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 cursor-pointer" onclick="closeModal('createUserModal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Error message banner in modal -->
+<div class="hidden p-2.5 rounded bg-error-container/30 border border-error/30 text-error text-xs" id="createModalError"></div>
+<form class="flex flex-col gap-3 text-xs" id="createUserForm" onsubmit="submitCreateUser(event)">
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Full Legal Name *</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface" id="newUserName" placeholder="e.g. Kagiso Motsepe" required="" type="text"/>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Email Address *</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface" id="newUserEmail" placeholder="e.g. k.motsepe@domain.co.za" required="" type="email"/>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Mobile Number (RSA +27) *</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface" id="newUserMobile" placeholder="e.g. +27 82 123 4567" required="" type="tel"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Password *</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface" id="newUserPass" placeholder="Min 8 chars, Aa1" required="" type="password"/>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Confirm Password *</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-lg border border-surface-variant/40 focus:border-on-surface outline-none text-on-surface" id="newUserPassConfirm" placeholder="Re-enter password" required="" type="password"/>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.</p>
+<div class="p-2.5 bg-surface-container-low rounded text-[11px] text-on-surface-variant">
+        Default registration state: <strong class="text-on-surface">APPROVED</strong>, with reward status: <strong class="text-on-surface">NO REWARD</strong>.
+      </div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-surface-variant/20">
+<button class="px-3 py-2 text-on-surface-variant hover:text-on-surface font-semibold cursor-pointer" onclick="closeModal('createUserModal')" type="button">Cancel</button>
+<button class="px-4 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg hover:brightness-95 transition cursor-pointer" type="submit">Create User</button>
+</div>
+</form>
+</div>
+</div>
+<!-- MODAL: VIEW USER DETAIL -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="viewUserModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-2xl w-full p-6 shadow-2xl border border-surface-variant/30 flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
+<!-- Header -->
+<div class="flex items-center justify-between border-b border-surface-variant/20 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-container text-secondary-container font-headline-sm font-bold flex items-center justify-center text-base shrink-0" id="viewUserAvatar">
+          NM
+        </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 flex-wrap">
+<h3 class="font-headline-sm text-lg font-bold text-on-surface" id="viewUserName">Nkosana Mthembu</h3>
+<span class="font-label-caps text-[10px] px-2 py-0.5 rounded uppercase font-bold" id="viewUserStatusBadge">ACTIVE</span>
+</div>
+<span class="text-xs text-on-surface-variant font-mono mt-0.5" id="viewUserRef">WD-RSA-9941</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 cursor-pointer" onclick="closeModal('viewUserModal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Email change warning banner (if edited) -->
+<div class="hidden p-3 rounded-lg bg-secondary-container/20 border border-secondary text-on-surface text-xs flex items-start gap-2" id="emailWarningBanner">
+<span class="material-symbols-outlined text-secondary text-base shrink-0 mt-0.5">mark_email_unread</span>
+<div>
+<strong class="font-semibold block">Verification Required:</strong>
+<span>We've sent a verification link to the new email address. Please verify it to complete the email change.</span>
+</div>
+</div>
+<!-- VIEW MODE DETAILS -->
+<div class="flex flex-col gap-4" id="viewUserReadOnlySection">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+<!-- Account Info -->
+<div class="p-3.5 bg-surface-container-low rounded-lg flex flex-col gap-2">
+<span class="font-label-caps uppercase text-on-surface-variant font-bold tracking-wider">Account Information</span>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Full Name:</span>
+<span class="font-semibold text-on-surface" id="viewDetailFullName">Nkosana Mthembu</span>
+</div>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Email Address:</span>
+<span class="font-semibold text-on-surface truncate max-w-[190px]" id="viewDetailEmail">nkosana@example.com</span>
+</div>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Mobile Number:</span>
+<span class="font-semibold text-on-surface" id="viewDetailPhone">+27 82 555 0194</span>
+</div>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Account Status:</span>
+<span class="font-semibold text-on-surface" id="viewDetailStatusText">Active</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Account Created:</span>
+<span class="font-semibold text-on-surface" id="viewDetailDate">03 Dec 2025</span>
+</div>
+</div>
+<!-- Reward Info -->
+<div class="p-3.5 bg-surface-container-low rounded-lg flex flex-col gap-2">
+<span class="font-label-caps uppercase text-secondary font-bold tracking-wider">Reward Information</span>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Reward Status:</span>
+<span class="font-semibold text-secondary" id="viewDetailRewardStatus">REWARD ASSIGNED</span>
+</div>
+<div class="flex justify-between py-1 border-b border-surface-variant/20">
+<span class="text-on-surface-variant">Cash Prize:</span>
+<span class="font-title-zar-val text-xs font-bold text-on-surface" id="viewDetailCash">R250,000 ZAR</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Vehicle Prize:</span>
+<span class="font-semibold text-on-surface truncate max-w-[190px]" id="viewDetailVehicle">2026 Toyota Hilux 2.8 GD-6</span>
+</div>
+</div>
+</div>
+<!-- Claim Information Card -->
+<div class="p-3.5 bg-surface-container rounded-lg flex flex-col gap-2 text-xs">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<span class="font-label-caps uppercase font-bold text-on-surface tracking-wider">Claim Information</span>
+<button class="px-2.5 py-1 bg-surface-container-lowest hover:bg-surface-container-high rounded text-xs font-semibold text-on-surface border border-surface-variant/30 flex items-center gap-1 cursor-pointer transition" onclick="handleViewClaimsClick()">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>View Claims</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest rounded border border-surface-variant/20">
+<span class="text-on-surface-variant">Cash Claim Status:</span>
+<span class="font-semibold text-on-surface" id="viewDetailCashClaim">None</span>
+</div>
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest rounded border border-surface-variant/20">
+<span class="text-on-surface-variant">Vehicle Claim Status:</span>
+<span class="font-semibold text-on-surface" id="viewDetailVehicleClaim">SUBMITTED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- INLINE EDIT MODE (Toggled via Edit User) -->
+<div class="hidden flex-col gap-3 text-xs" id="viewUserEditSection">
+<div class="p-3.5 bg-surface-container-low rounded-lg flex flex-col gap-3 border border-secondary/30">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-xs font-bold text-on-surface uppercase tracking-wider">Edit User Profile</span>
+<span class="text-[11px] text-on-surface-variant font-mono" id="editFormRefDisplay"></span>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Full Legal Name</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded border border-surface-variant/40 text-on-surface outline-none" id="inlineEditName" type="text"/>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Email Address</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded border border-surface-variant/40 text-on-surface outline-none" id="inlineEditEmail" type="email"/>
+</div>
+<div>
+<label class="font-label-caps uppercase text-on-surface-variant mb-1 block font-bold">Mobile Number (+27)</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded border border-surface-variant/40 text-on-surface outline-none" id="inlineEditPhone" type="tel"/>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2">
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold cursor-pointer" onclick="cancelInlineEdit()" type="button">Cancel</button>
+<button class="px-4 py-1.5 bg-primary-container text-on-primary rounded font-semibold hover:bg-inverse-surface cursor-pointer" onclick="saveInlineEdit()" type="button">Save Changes</button>
+</div>
+</div>
+</div>
+<!-- Status-based Dynamic Action Buttons in View Modal -->
+<div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-surface-variant/20" id="viewModalFooterActions">
+<div class="flex flex-wrap items-center gap-2" id="dynamicStatusActions">
+<!-- Injected based on user status -->
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface text-xs font-semibold cursor-pointer" onclick="closeModal('viewUserModal')">Close</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL: CONFIRM APPROVE -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="confirmApproveModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-sm w-full p-5 shadow-2xl border border-surface-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-2.5 text-on-tertiary-container">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+<h3 class="font-headline-sm text-base font-bold text-on-surface">Approve User?</h3>
+</div>
+<p class="text-xs text-on-surface-variant">This will approve the account and allow a reward to be assigned.</p>
+<div class="flex justify-end gap-2 pt-2 border-t border-surface-variant/20">
+<button class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface font-semibold cursor-pointer" onclick="closeModal('confirmApproveModal')">Cancel</button>
+<button class="px-4 py-1.5 bg-on-tertiary-container text-on-tertiary rounded text-xs font-semibold hover:brightness-110 cursor-pointer" onclick="executeApproveUser()">Approve User</button>
+</div>
+</div>
+</div>
+<!-- MODAL: CONFIRM REJECT -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="confirmRejectModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-sm w-full p-5 shadow-2xl border border-surface-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-2.5 text-error">
+<span class="material-symbols-outlined text-2xl">cancel</span>
+<h3 class="font-headline-sm text-base font-bold text-on-surface">Reject User?</h3>
+</div>
+<p class="text-xs text-on-surface-variant">This will mark the account as rejected.</p>
+<div class="flex justify-end gap-2 pt-2 border-t border-surface-variant/20">
+<button class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface font-semibold cursor-pointer" onclick="closeModal('confirmRejectModal')">Cancel</button>
+<button class="px-4 py-1.5 bg-error text-on-error rounded text-xs font-semibold hover:brightness-110 cursor-pointer" onclick="executeRejectUser()">Reject User</button>
+</div>
+</div>
+</div>
+<!-- MODAL: CONFIRM ACTIVATE / DEACTIVATE -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="confirmToggleStatusModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-sm w-full p-5 shadow-2xl border border-surface-variant/30 flex flex-col gap-3">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-2xl text-secondary" id="toggleStatusIcon">sync_alt</span>
+<h3 class="font-headline-sm text-base font-bold text-on-surface" id="toggleStatusTitle">Deactivate User?</h3>
+</div>
+<p class="text-xs text-on-surface-variant" id="toggleStatusDesc">Are you sure you want to update this user's access status?</p>
+<div class="flex justify-end gap-2 pt-2 border-t border-surface-variant/20">
+<button class="px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface font-semibold cursor-pointer" onclick="closeModal('confirmToggleStatusModal')">Cancel</button>
+<button class="px-4 py-1.5 bg-primary-container text-on-primary rounded text-xs font-semibold hover:bg-inverse-surface cursor-pointer" id="toggleStatusConfirmBtn" onclick="executeToggleStatus()">Confirm</button>
+</div>
+</div>
+</div>
+<!-- MODAL: CLAIMS WORKFLOW PREVIEW -->
+<div class="fixed inset-0 bg-primary/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="claimsModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-2xl border border-surface-variant/30 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-surface-variant/20 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">assignment_turned_in</span>
+<h3 class="font-headline-sm text-base font-bold text-on-surface">Claim Pipeline Records</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 cursor-pointer" onclick="closeModal('claimsModal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="text-xs flex flex-col gap-2.5 text-on-surface" id="claimsModalContent">
+<!-- Injected claims detail -->
+</div>
+<div class="flex justify-end gap-2 pt-2 border-t border-surface-variant/20">
+<button class="px-4 py-1.5 bg-primary-container text-on-primary rounded text-xs font-semibold cursor-pointer" onclick="closeModal('claimsModal')">Done</button>
+</div>
+</div>
+</div>
+<!-- TOAST NOTIFICATION -->
+<div class="fixed bottom-6 right-6 max-w-sm bg-primary-container text-on-primary px-4 py-3 rounded-lg shadow-xl border border-secondary-container/40 flex items-start gap-3 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toastNotification">
+<span class="material-symbols-outlined text-secondary-container text-xl mt-0.5" id="toastIcon">check_circle</span>
+<div class="flex flex-col text-xs">
+<span class="font-bold" id="toastTitle">Notification</span>
+<span class="text-on-primary-container mt-0.5" id="toastMessage">Operation executed successfully.</span>
+</div>
+</div>
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// INITIAL DATA STORE
+const initialUsers = [
+  {
+    id: "WD-RSA-9941",
+    name: "Nkosana Mthembu",
+    email: "nkosana.mthembu@windrivesa.co.za",
+    phone: "+27 82 555 0194",
+    status: "ACTIVE",
+    rewardStatus: "REWARD ASSIGNED",
+    cashPrize: "R250,000 ZAR",
+    vehiclePrize: "2026 Toyota Hilux 2.8 GD-6 Legend",
+    claimCash: "None",
+    claimVehicle: "SUBMITTED",
+    claimActivity: "VEHICLE — SUBMITTED",
+    createdDate: "03 Dec 2025"
+  },
+  {
+    id: "WD-RSA-9942",
+    name: "Lerato Khumalo",
+    email: "lerato.k@vodamail.co.za",
+    phone: "+27 83 412 8891",
+    status: "PENDING REVIEW",
+    rewardStatus: "NO REWARD",
+    cashPrize: null,
+    vehiclePrize: null,
+    claimCash: "None",
+    claimVehicle: "None",
+    claimActivity: "NO CLAIM",
+    createdDate: "18 Jan 2026"
+  },
+  {
+    id: "WD-RSA-9943",
+    name: "Sipho Dlamini",
+    email: "s.dlamini@businessmail.co.za",
+    phone: "+27 71 884 9201",
+    status: "APPROVED",
+    rewardStatus: "REWARD ASSIGNED",
+    cashPrize: "R100,000 ZAR",
+    vehiclePrize: null,
+    claimCash: "UNDER REVIEW",
+    claimVehicle: "None",
+    claimActivity: "CASH — UNDER REVIEW",
+    createdDate: "12 Jan 2026"
+  },
+  {
+    id: "WD-RSA-9944",
+    name: "Anri van Zyl",
+    email: "anri.vanzyl@capevine.co.za",
+    phone: "+27 82 991 3044",
+    status: "ACTIVE",
+    rewardStatus: "REWARD ASSIGNED",
+    cashPrize: "R500,000 ZAR",
+    vehiclePrize: "2025 BMW M340i xDrive",
+    claimCash: "FULFILLED",
+    claimVehicle: "PROCESSING",
+    claimActivity: "CASH — FULFILLED",
+    createdDate: "28 Nov 2025"
+  },
+  {
+    id: "WD-RSA-9945",
+    name: "Thabo Molefe",
+    email: "thabo.molefe@gautenggov.za",
+    phone: "+27 76 223 9011",
+    status: "PENDING REVIEW",
+    rewardStatus: "NO REWARD",
+    cashPrize: null,
+    vehiclePrize: null,
+    claimCash: "None",
+    claimVehicle: "None",
+    claimActivity: "NO CLAIM",
+    createdDate: "18 Jan 2026"
+  },
+  {
+    id: "WD-RSA-9946",
+    name: "Pieter Botha",
+    email: "p.botha@overbergfarms.co.za",
+    phone: "+27 84 330 1982",
+    status: "INACTIVE",
+    rewardStatus: "NO REWARD",
+    cashPrize: null,
+    vehiclePrize: null,
+    claimCash: "None",
+    claimVehicle: "None",
+    claimActivity: "NO CLAIM",
+    createdDate: "15 Oct 2025"
+  },
+  {
+    id: "WD-RSA-9947",
+    name: "Nomvula Sithole",
+    email: "nomvula.s@durbanlogistics.co.za",
+    phone: "+27 81 772 4099",
+    status: "ACTIVE",
+    rewardStatus: "REWARD ASSIGNED",
+    cashPrize: "R150,000 ZAR",
+    vehiclePrize: "2026 Ford Ranger 3.0 V6 Wildtrak",
+    claimCash: "REQUIREMENT PENDING",
+    claimVehicle: "REQUIREMENT PENDING",
+    claimActivity: "REQUIREMENT PENDING",
+    createdDate: "04 Jan 2026"
+  },
+  {
+    id: "WD-RSA-9948",
+    name: "Farhad Patel",
+    email: "farhad.patel@joburgfin.co.za",
+    phone: "+27 72 109 4432",
+    status: "REJECTED",
+    rewardStatus: "NO REWARD",
+    cashPrize: null,
+    vehiclePrize: null,
+    claimCash: "None",
+    claimVehicle: "None",
+    claimActivity: "NO CLAIM",
+    createdDate: "02 Jan 2026"
+  }
+];
+
+let usersList = JSON.parse(JSON.stringify(initialUsers));
+let selectedUserIdForAction = null;
+let currentViewingUserId = null;
+let activeDropdownId = null;
+
+// BADGE HELPERS
+function getStatusBadge(status) {
+  switch (status) {
+    case 'ACTIVE':
+      return `<span class="inline-flex items-center gap-1 font-label-caps text-[10px] px-2 py-0.5 rounded bg-tertiary-fixed/40 text-on-tertiary-fixed-variant font-bold"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>ACTIVE</span>`;
+    case 'APPROVED':
+      return `<span class="inline-flex items-center gap-1 font-label-caps text-[10px] px-2 py-0.5 rounded bg-primary-fixed/60 text-on-primary-fixed font-bold"><span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>APPROVED</span>`;
+    case 'PENDING REVIEW':
+      return `<span class="inline-flex items-center gap-1 font-label-caps text-[10px] px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed-variant font-bold"><span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>PENDING REVIEW</span>`;
+    case 'REJECTED':
+      return `<span class="inline-flex items-center gap-1 font-label-caps text-[10px] px-2 py-0.5 rounded bg-error-container text-on-error-container font-bold"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>REJECTED</span>`;
+    case 'INACTIVE':
+    default:
+      return `<span class="inline-flex items-center gap-1 font-label-caps text-[10px] px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-bold"><span class="w-1.5 h-1.5 rounded-full bg-outline"></span>INACTIVE</span>`;
+  }
+}
+
+function getRewardBadge(rewardStatus) {
+  if (rewardStatus === 'REWARD ASSIGNED') {
+    return `<span class="font-label-caps text-[10px] px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed-variant font-bold inline-flex items-center gap-1"><span class="material-symbols-outlined text-[12px] text-secondary">verified</span>ASSIGNED</span>`;
+  }
+  return `<span class="font-label-caps text-[10px] px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-bold inline-block">NO REWARD</span>`;
+}
+
+function getClaimPill(claim) {
+  if (!claim || claim === 'NO CLAIM' || claim === 'None') {
+    return `<span class="font-body-sm text-xs text-on-surface-variant">No Claim</span>`;
+  }
+  if (claim.includes('FULFILLED')) {
+    return `<span class="font-label-caps text-[10px] px-2 py-0.5 rounded bg-tertiary-container/10 text-on-tertiary-container font-bold">${claim}</span>`;
+  }
+  if (claim.includes('REVIEW') || claim.includes('PENDING')) {
+    return `<span class="font-label-caps text-[10px] px-2 py-0.5 rounded bg-secondary-fixed/60 text-on-secondary-fixed-variant font-bold">${claim}</span>`;
+  }
+  return `<span class="font-label-caps text-[10px] px-2 py-0.5 rounded bg-surface-container text-on-surface font-bold">${claim}</span>`;
+}
+
+function getInitials(name) {
+  if (!name) return '??';
+  return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+}
+
+// RENDER DIRECTORY
+function renderUsers(list) {
+  const tableBody = document.getElementById('userTableBody');
+  const cardsContainer = document.getElementById('userCardsContainer');
+  const emptyState = document.getElementById('emptyState');
+  const desktopTableWrapper = document.getElementById('desktopTableWrapper');
+  const resultsCount = document.getElementById('resultsCount');
+
+  resultsCount.textContent = `Showing ${list.length} of ${usersList.length} verified accounts`;
+
+  if (list.length === 0) {
+    tableBody.innerHTML = '';
+    cardsContainer.innerHTML = '';
+    emptyState.classList.remove('hidden');
+    emptyState.classList.add('flex');
+    desktopTableWrapper.classList.add('hidden');
+    cardsContainer.classList.add('hidden');
+    updateStats();
+    return;
+  }
+
+  emptyState.classList.add('hidden');
+  emptyState.classList.remove('flex');
+  desktopTableWrapper.classList.remove('hidden');
+  cardsContainer.classList.remove('hidden');
+
+  // Desktop table rows
+  tableBody.innerHTML = list.map(u => `
+    <tr class="hover:bg-surface-container-low/50 transition cursor-pointer" onclick="openViewUserModal('${u.id}')">
+      <td class="py-3 px-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-headline-sm font-semibold flex items-center justify-center text-xs shrink-0">
+            ${getInitials(u.name)}
+          </div>
+          <div class="flex flex-col">
+            <span class="font-semibold text-on-surface">${u.name}</span>
+            <span class="text-[11px] font-mono text-on-surface-variant">${u.id}</span>
+          </div>
+        </div>
+      </td>
+      <td class="py-3 px-4">
+        <div class="flex flex-col">
+          <span class="text-xs text-on-surface font-medium">${u.email}</span>
+          <span class="text-[11px] text-on-surface-variant">${u.phone}</span>
+        </div>
+      </td>
+      <td class="py-3 px-4">
+        ${getStatusBadge(u.status)}
+      </td>
+      <td class="py-3 px-4">
+        ${getRewardBadge(u.rewardStatus)}
+      </td>
+      <td class="py-3 px-4">
+        ${getClaimPill(u.claimActivity)}
+      </td>
+      <td class="py-3 px-4 text-xs text-on-surface-variant whitespace-nowrap">
+        ${u.createdDate}
+      </td>
+      <td class="py-3 px-4 text-right" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-end gap-1.5">
+          <button onclick="openViewUserModal('${u.id}')" class="px-2.5 py-1 text-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-medium transition cursor-pointer">View User</button>
+          <div class="relative inline-block text-left">
+            <button onclick="toggleRowMenu('${u.id}', event)" class="p-1 rounded hover:bg-surface-container text-on-surface-variant cursor-pointer">
+              <span class="material-symbols-outlined text-sm">more_vert</span>
+            </button>
+            <div id="rowMenu_${u.id}" class="hidden absolute right-0 mt-1 w-40 bg-surface-container-lowest border border-surface-variant/30 rounded-lg shadow-xl z-40 py-1 text-xs text-left">
+              <button onclick="openViewUserModal('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-surface">View Details</button>
+              ${u.status === 'PENDING REVIEW' ? `
+                <button onclick="triggerApprove('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-tertiary-container font-semibold">Approve User</button>
+                <button onclick="triggerReject('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-error font-semibold">Reject User</button>
+              ` : ''}
+              ${(u.status === 'APPROVED' || u.status === 'ACTIVE') ? `
+                <button onclick="triggerAssignReward('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-secondary font-semibold">Assign Reward</button>
+                <button onclick="triggerToggleStatus('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-surface-variant">Deactivate User</button>
+              ` : ''}
+              ${u.status === 'INACTIVE' ? `
+                <button onclick="triggerToggleStatus('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-tertiary-container font-semibold">Activate User</button>
+              ` : ''}
+              ${u.status === 'REJECTED' ? `
+                <button onclick="triggerApprove('${u.id}')" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-tertiary-container font-semibold">Approve User</button>
+              ` : ''}
+              <button onclick="openViewUserModal('${u.id}', true)" class="w-full text-left px-3 py-1.5 hover:bg-surface-container text-on-surface">Edit User</button>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+
+  // Mobile stacked cards
+  cardsContainer.innerHTML = list.map(u => `
+    <div class="p-4 bg-surface-container-lowest rounded-xl border border-surface-variant/30 flex flex-col gap-3 shadow-sm">
+      <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface font-headline-sm font-semibold flex items-center justify-center text-xs shrink-0">
+            ${getInitials(u.name)}
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-sm font-bold text-on-surface">${u.name}</span>
+            <span class="font-mono text-[10px] text-on-surface-variant">${u.id} • ${u.createdDate}</span>
+          </div>
+        </div>
+        ${getStatusBadge(u.status)}
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-xs py-2 border-y border-surface-variant/20">
+        <div class="flex flex-col">
+          <span class="text-[10px] text-on-surface-variant uppercase font-label-caps font-bold">Contact</span>
+          <span class="truncate text-on-surface font-medium">${u.email}</span>
+          <span class="text-on-surface-variant text-[11px]">${u.phone}</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[10px] text-on-surface-variant uppercase font-label-caps font-bold">Reward & Claim</span>
+          <div>${getRewardBadge(u.rewardStatus)}</div>
+          <div class="mt-1">${getClaimPill(u.claimActivity)}</div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between gap-2">
+        <button onclick="openViewUserModal('${u.id}')" class="flex-1 py-1.5 bg-primary-container text-on-primary rounded-lg text-xs font-semibold text-center hover:bg-inverse-surface cursor-pointer transition">View User</button>
+        <button onclick="openViewUserModal('${u.id}', true)" class="px-3 py-1.5 bg-surface-container text-on-surface rounded-lg text-xs font-semibold hover:bg-surface-container-high cursor-pointer transition">Edit</button>
+      </div>
+    </div>
+  `).join('');
+
+  updateStats();
+}
+
+// DROPDOWN MENU TOGGLE
+function toggleRowMenu(id, event) {
+  event.stopPropagation();
+  const menu = document.getElementById(`rowMenu_${id}`);
+  if (activeDropdownId && activeDropdownId !== id) {
+    const prev = document.getElementById(`rowMenu_${activeDropdownId}`);
+    if (prev) prev.classList.add('hidden');
+  }
+  if (menu.classList.contains('hidden')) {
+    menu.classList.remove('hidden');
+    activeDropdownId = id;
+  } else {
+    menu.classList.add('hidden');
+    activeDropdownId = null;
+  }
+}
+
+document.addEventListener('click', () => {
+  if (activeDropdownId) {
+    const prev = document.getElementById(`rowMenu_${activeDropdownId}`);
+    if (prev) prev.classList.add('hidden');
+    activeDropdownId = null;
+  }
+});
+
+// SEARCH & FILTER LOGIC
+function filterUsers() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const statusFilter = document.getElementById('filterStatus').value;
+  const rewardFilter = document.getElementById('filterReward').value;
+  const claimFilter = document.getElementById('filterClaim').value;
+  const sortFilter = document.getElementById('filterSort').value;
+
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (query) {
+    clearBtn.classList.remove('hidden');
+  } else {
+    clearBtn.classList.add('hidden');
+  }
+
+  const tag = document.getElementById('activeFilterTag');
+  if (query || statusFilter !== 'ALL' || rewardFilter !== 'ALL' || claimFilter !== 'ALL') {
+    tag.classList.remove('hidden');
+  } else {
+    tag.classList.add('hidden');
+  }
+
+  let filtered = usersList.filter(u => {
+    const matchesSearch = (
+      u.name.toLowerCase().includes(query) ||
+      u.email.toLowerCase().includes(query) ||
+      u.phone.toLowerCase().includes(query) ||
+      u.id.toLowerCase().includes(query)
+    );
+
+    const matchesStatus = (statusFilter === 'ALL') || (u.status === statusFilter);
+    const matchesReward = (rewardFilter === 'ALL') || (u.rewardStatus === rewardFilter);
+    
+    let matchesClaim = true;
+    if (claimFilter !== 'ALL') {
+      const combined = `${u.claimActivity || ''} ${u.claimCash || ''} ${u.claimVehicle || ''}`.toUpperCase();
+      matchesClaim = combined.includes(claimFilter);
+    }
+
+    return matchesSearch && matchesStatus && matchesReward && matchesClaim;
+  });
+
+  // Sort
+  if (sortFilter === 'AZ') {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortFilter === 'OLDEST') {
+    filtered.sort((a, b) => new Date(a.createdDate) - new Date(b.createdDate));
+  } else if (sortFilter === 'STATUS') {
+    filtered.sort((a, b) => a.status.localeCompare(b.status));
+  } else {
+    // NEWEST: default
+    filtered.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+  }
+
+  renderUsers(filtered);
+}
+
+function clearSearchInput() {
+  document.getElementById('searchInput').value = '';
+  filterUsers();
+}
+
+function clearAllFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterStatus').value = 'ALL';
+  document.getElementById('filterReward').value = 'ALL';
+  document.getElementById('filterClaim').value = 'ALL';
+  document.getElementById('filterSort').value = 'NEWEST';
+  filterUsers();
+  showToast('Filters Cleared', 'Displaying all verified accounts.');
+}
+
+// METRIC STATS CALCULATION
+function updateStats() {
+  const total = usersList.length;
+  const pending = usersList.filter(u => u.status === 'PENDING REVIEW').length;
+  const active = usersList.filter(u => u.status === 'ACTIVE' || u.status === 'APPROVED').length;
+  const inactive = usersList.filter(u => u.status === 'INACTIVE' || u.status === 'REJECTED').length;
+
+  document.getElementById('statTotal').textContent = total.toLocaleString();
+  document.getElementById('statPending').textContent = pending.toLocaleString();
+  document.getElementById('statActive').textContent = active.toLocaleString();
+  document.getElementById('statInactive').textContent = inactive.toLocaleString();
+}
+
+// MODAL CONTROLS
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+// VIEW USER MODAL WITH DYNAMIC STATUS ACTIONS
+function openViewUserModal(id, startInEditMode = false) {
+  const user = usersList.find(u => u.id === id);
+  if (!user) return;
+  currentViewingUserId = id;
+
+  document.getElementById('viewUserAvatar').textContent = getInitials(user.name);
+  document.getElementById('viewUserName').textContent = user.name;
+  document.getElementById('viewUserRef').textContent = user.id;
+
+  // Read-only Details
+  document.getElementById('viewDetailFullName').textContent = user.name;
+  document.getElementById('viewDetailEmail').textContent = user.email;
+  document.getElementById('viewDetailPhone').textContent = user.phone;
+  document.getElementById('viewDetailStatusText').textContent = user.status;
+  document.getElementById('viewDetailDate').textContent = user.createdDate;
+
+  document.getElementById('viewDetailRewardStatus').textContent = user.rewardStatus;
+  document.getElementById('viewDetailCash').textContent = user.cashPrize || 'None';
+  document.getElementById('viewDetailVehicle').textContent = user.vehiclePrize || 'None';
+
+  document.getElementById('viewDetailCashClaim').textContent = user.claimCash || 'None';
+  document.getElementById('viewDetailVehicleClaim').textContent = user.claimVehicle || 'None';
+
+  // Badge in header
+  const badgeEl = document.getElementById('viewUserStatusBadge');
+  badgeEl.innerHTML = user.status;
+  badgeEl.className = `font-label-caps text-[10px] px-2 py-0.5 rounded uppercase font-bold ${
+    user.status === 'ACTIVE' ? 'bg-tertiary-fixed/60 text-on-tertiary-fixed-variant' :
+    user.status === 'APPROVED' ? 'bg-primary-fixed/60 text-on-primary-fixed' :
+    user.status === 'PENDING REVIEW' ? 'bg-secondary-fixed text-on-secondary-fixed-variant' :
+    user.status === 'REJECTED' ? 'bg-error-container text-on-error-container' : 'bg-surface-container-high text-on-surface-variant'
+  }`;
+
+  // Hide email banner initially
+  document.getElementById('emailWarningBanner').classList.add('hidden');
+
+  // Build dynamic actions based on status
+  const actionContainer = document.getElementById('dynamicStatusActions');
+  let actionsHtml = '';
+
+  if (user.status === 'PENDING REVIEW') {
+    actionsHtml = `
+      <button onclick="triggerApprove('${user.id}')" class="px-3 py-1.5 bg-on-tertiary-container text-on-tertiary rounded text-xs font-semibold hover:brightness-110 cursor-pointer">Approve User</button>
+      <button onclick="triggerReject('${user.id}')" class="px-3 py-1.5 bg-error text-on-error rounded text-xs font-semibold hover:brightness-110 cursor-pointer">Reject User</button>
+      <button onclick="startInlineEdit()" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Edit User</button>
+    `;
+  } else if (user.status === 'APPROVED') {
+    actionsHtml = `
+      <button onclick="triggerAssignReward('${user.id}')" class="px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded text-xs font-semibold hover:brightness-105 cursor-pointer">Assign Reward</button>
+      <button onclick="triggerToggleStatus('${user.id}')" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Deactivate User</button>
+      <button onclick="startInlineEdit()" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Edit User</button>
+    `;
+  } else if (user.status === 'ACTIVE') {
+    actionsHtml = `
+      <button onclick="triggerToggleStatus('${user.id}')" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Deactivate User</button>
+      <button onclick="triggerAssignReward('${user.id}')" class="px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded text-xs font-semibold hover:brightness-105 cursor-pointer">Assign Reward</button>
+      <button onclick="startInlineEdit()" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Edit User</button>
+    `;
+  } else if (user.status === 'INACTIVE') {
+    actionsHtml = `
+      <button onclick="triggerToggleStatus('${user.id}')" class="px-3 py-1.5 bg-on-tertiary-container text-on-tertiary rounded text-xs font-semibold hover:brightness-110 cursor-pointer">Activate User</button>
+      <button onclick="startInlineEdit()" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Edit User</button>
+    `;
+  } else if (user.status === 'REJECTED') {
+    actionsHtml = `
+      <button onclick="triggerApprove('${user.id}')" class="px-3 py-1.5 bg-on-tertiary-container text-on-tertiary rounded text-xs font-semibold hover:brightness-110 cursor-pointer">Approve User</button>
+      <button onclick="startInlineEdit()" class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface rounded text-xs font-semibold cursor-pointer">Edit User</button>
+    `;
+  }
+
+  actionContainer.innerHTML = actionsHtml;
+
+  // View vs edit mode
+  if (startInEditMode) {
+    startInlineEdit();
+  } else {
+    cancelInlineEdit();
+  }
+
+  document.getElementById('viewUserModal').classList.remove('hidden');
+}
+
+// INLINE EDIT USER PROFILE
+function startInlineEdit() {
+  const user = usersList.find(u => u.id === currentViewingUserId);
+  if (!user) return;
+  document.getElementById('inlineEditName').value = user.name;
+  document.getElementById('inlineEditEmail').value = user.email;
+  document.getElementById('inlineEditPhone').value = user.phone;
+  document.getElementById('editFormRefDisplay').textContent = user.id;
+
+  document.getElementById('viewUserReadOnlySection').classList.add('hidden');
+  document.getElementById('viewUserEditSection').classList.remove('hidden');
+  document.getElementById('viewModalFooterActions').classList.add('hidden');
+}
+
+function cancelInlineEdit() {
+  document.getElementById('viewUserReadOnlySection').classList.remove('hidden');
+  document.getElementById('viewUserEditSection').classList.add('hidden');
+  document.getElementById('viewModalFooterActions').classList.remove('hidden');
+}
+
+function saveInlineEdit() {
+  const user = usersList.find(u => u.id === currentViewingUserId);
+  if (!user) return;
+
+  const newName = document.getElementById('inlineEditName').value.trim();
+  const newEmail = document.getElementById('inlineEditEmail').value.trim();
+  const newPhone = document.getElementById('inlineEditPhone').value.trim();
+
+  if (!newName || !newEmail || !newPhone) {
+    alert('Please fill in all profile fields.');
+    return;
+  }
+
+  const emailChanged = (user.email.toLowerCase() !== newEmail.toLowerCase());
+  user.name = newName;
+  user.email = newEmail;
+  user.phone = newPhone;
+
+  cancelInlineEdit();
+  openViewUserModal(user.id);
+
+  if (emailChanged) {
+    document.getElementById('emailWarningBanner').classList.remove('hidden');
+    showToast('Verification Required', "We've sent a verification link to the new email address. Please verify it to complete the email change.");
+  } else {
+    showToast('User Updated', `Changes to ${user.name} have been saved successfully.`);
+  }
+
+  filterUsers();
+}
+
+// APPROVE USER FLOW
+function triggerApprove(id) {
+  selectedUserIdForAction = id;
+  document.getElementById('confirmApproveModal').classList.remove('hidden');
+}
+
+function executeApproveUser() {
+  const user = usersList.find(u => u.id === selectedUserIdForAction);
+  if (user) {
+    user.status = 'APPROVED';
+    closeModal('confirmApproveModal');
+    filterUsers();
+    showToast('User Approved', `Account ${user.name} (${user.id}) has been approved.`);
+    if (currentViewingUserId === user.id && !document.getElementById('viewUserModal').classList.contains('hidden')) {
+      openViewUserModal(user.id);
+    }
+  }
+}
+
+// REJECT USER FLOW
+function triggerReject(id) {
+  selectedUserIdForAction = id;
+  document.getElementById('confirmRejectModal').classList.remove('hidden');
+}
+
+function executeRejectUser() {
+  const user = usersList.find(u => u.id === selectedUserIdForAction);
+  if (user) {
+    user.status = 'REJECTED';
+    closeModal('confirmRejectModal');
+    filterUsers();
+    showToast('User Rejected', `Account ${user.name} marked as rejected.`);
+    if (currentViewingUserId === user.id && !document.getElementById('viewUserModal').classList.contains('hidden')) {
+      openViewUserModal(user.id);
+    }
+  }
+}
+
+// ACTIVATE / DEACTIVATE FLOW
+function triggerToggleStatus(id) {
+  selectedUserIdForAction = id;
+  const user = usersList.find(u => u.id === id);
+  if (!user) return;
+
+  const titleEl = document.getElementById('toggleStatusTitle');
+  const descEl = document.getElementById('toggleStatusDesc');
+  const btnEl = document.getElementById('toggleStatusConfirmBtn');
+
+  if (user.status === 'ACTIVE' || user.status === 'APPROVED') {
+    titleEl.textContent = 'Deactivate User?';
+    descEl.textContent = `Are you sure you want to suspend access for ${user.name}? This will mark their status as INACTIVE.`;
+    btnEl.textContent = 'Deactivate User';
+  } else {
+    titleEl.textContent = 'Activate User?';
+    descEl.textContent = `Are you sure you want to restore active draw participation privileges for ${user.name}?`;
+    btnEl.textContent = 'Activate User';
+  }
+
+  document.getElementById('confirmToggleStatusModal').classList.remove('hidden');
+}
+
+function executeToggleStatus() {
+  const user = usersList.find(u => u.id === selectedUserIdForAction);
+  if (user) {
+    if (user.status === 'ACTIVE' || user.status === 'APPROVED') {
+      user.status = 'INACTIVE';
+      showToast('User Deactivated', `${user.name} is now INACTIVE.`);
+    } else {
+      user.status = 'ACTIVE';
+      showToast('User Activated', `${user.name} is now ACTIVE.`);
+    }
+    closeModal('confirmToggleStatusModal');
+    filterUsers();
+    if (currentViewingUserId === user.id && !document.getElementById('viewUserModal').classList.contains('hidden')) {
+      openViewUserModal(user.id);
+    }
+  }
+}
+
+// ASSIGN REWARD & VIEW CLAIMS ACTION HELPERS
+function triggerAssignReward(id) {
+  const user = usersList.find(u => u.id === id);
+  showToast('Reward Assignment', `Routing to reward assignment module for ${user ? user.name : 'participant'}...`);
+}
+
+function handleViewClaimsClick() {
+  const user = usersList.find(u => u.id === currentViewingUserId);
+  if (!user) return;
+
+  const content = document.getElementById('claimsModalContent');
+  content.innerHTML = `
+    <div class="p-3 bg-surface-container rounded-lg flex flex-col gap-1.5">
+      <span class="font-semibold text-on-surface">${user.name} — ${user.id}</span>
+      <div class="flex justify-between py-1 border-b border-surface-variant/20">
+        <span class="text-on-surface-variant">Vehicle Reward Claim:</span>
+        <span class="font-bold text-on-surface">${user.claimVehicle || 'None'}</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-surface-variant/20">
+        <span class="text-on-surface-variant">Cash Prize Claim:</span>
+        <span class="font-bold text-on-surface">${user.claimCash || 'None'}</span>
+      </div>
+      <div class="flex justify-between py-1">
+        <span class="text-on-surface-variant">Audit Lifecycle State:</span>
+        <span class="font-bold text-secondary">${user.claimActivity || 'No Active Claims'}</span>
+      </div>
+    </div>
+    <p class="text-[11px] text-on-surface-variant">To review full audit documentation dossiers or approve claim disbursements, access the Claim Requests console.</p>
+  `;
+  document.getElementById('claimsModal').classList.remove('hidden');
+}
+
+// CREATE USER
+function openCreateUserModal() {
+  document.getElementById('createUserForm').reset();
+  document.getElementById('createModalError').classList.add('hidden');
+  document.getElementById('createUserModal').classList.remove('hidden');
+}
+
+function submitCreateUser(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('createModalError');
+  errorBox.classList.add('hidden');
+
+  const name = document.getElementById('newUserName').value.trim();
+  const email = document.getElementById('newUserEmail').value.trim();
+  const phone = document.getElementById('newUserMobile').value.trim();
+  const pass = document.getElementById('newUserPass').value;
+  const passConfirm = document.getElementById('newUserPassConfirm').value;
+
+  if (!name || !email || !phone || !pass || !passConfirm) {
+    errorBox.textContent = 'All fields marked with an asterisk (*) are required.';
+    errorBox.classList.remove('hidden');
+    return;
+  }
+
+  // Password validation: min 8, 1 uppercase, 1 lowercase, 1 number
+  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  if (!passRegex.test(pass)) {
+    errorBox.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.';
+    errorBox.classList.remove('hidden');
+    return;
+  }
+
+  if (pass !== passConfirm) {
+    errorBox.textContent = 'Security passwords do not match. Please re-enter.';
+    errorBox.classList.remove('hidden');
+    return;
+  }
+
+  const newId = `WD-RSA-${Math.floor(1000 + Math.random() * 9000)}`;
+  const now = new Date();
+  const dateStr = `${now.getDate().toString().padStart(2, '0')} ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
+
+  const newUser = {
+    id: newId,
+    name: name,
+    email: email,
+    phone: phone,
+    status: 'APPROVED',
+    rewardStatus: 'NO REWARD',
+    cashPrize: null,
+    vehiclePrize: null,
+    claimCash: 'None',
+    claimVehicle: 'None',
+    claimActivity: 'NO CLAIM',
+    createdDate: dateStr
+  };
+
+  usersList.unshift(newUser);
+  closeModal('createUserModal');
+  filterUsers();
+  showToast('User Created', 'The user account has been created successfully.');
+}
+
+// ADMIN NAVIGATION MOCK
+function handleAdminNav(route) {
+  showToast(`Admin Console: ${route}`, `Navigating to ${route} management view.`);
+}
+
+function handleSignOut() {
+  if (confirm('Are you sure you want to sign out of the WinDriveSA Secure Console?')) {
+    showToast('Signed Out', 'Redirecting to login portal...');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1200);
+  }
+}
+
+// QA STATE SIMULATOR
+function setQaState(state) {
+  if (state === 'default') {
+    usersList = JSON.parse(JSON.stringify(initialUsers));
+    clearAllFilters();
+    showToast('QA State', 'Standard fleet restored (8 users).');
+  } else if (state === 'pending') {
+    usersList = JSON.parse(JSON.stringify(initialUsers));
+    document.getElementById('filterStatus').value = 'PENDING REVIEW';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filterReward').value = 'ALL';
+    document.getElementById('filterClaim').value = 'ALL';
+    filterUsers();
+    showToast('QA State: Triage', 'Filtered strictly to pending review items.');
+  } else if (state === 'empty') {
+    usersList = [];
+    renderUsers([]);
+    showToast('QA State: Zero Records', 'Empty state simulated.');
+  }
+}
+
+function resetPrototypeData() {
+  usersList = JSON.parse(JSON.stringify(initialUsers));
+  clearAllFilters();
+  showToast('Sandbox Reset', 'All participant data reinitialized to baseline.');
+}
+
+// TOAST SYSTEM
+let toastTimeout;
+function showToast(title, msg) {
+  const toast = document.getElementById('toastNotification');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMessage').textContent = msg;
+  toast.classList.remove('translate-y-20', 'opacity-0');
+
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.add('translate-y-20', 'opacity-0');
+  }, 3800);
+}
+
+// MOBILE DRAWER
+function toggleMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  drawer.classList.toggle('hidden');
+}
+
+// STRICT THEME BEHAVIOR: Defaults to light mode
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.classList.toggle('dark');
+  const label = document.getElementById('themeLabelText');
+  const desktopIcon = document.getElementById('desktopThemeIcon');
+  const mobileIcon = document.getElementById('mobileThemeIcon');
+
+  if (isDark) {
+    if (label) label.textContent = 'Light Mode';
+    if (desktopIcon) desktopIcon.textContent = 'light_mode';
+    if (mobileIcon) mobileIcon.textContent = 'light_mode';
+    showToast('Theme Updated', 'Switched to Dark Mode');
+  } else {
+    if (label) label.textContent = 'Dark Mode';
+    if (desktopIcon) desktopIcon.textContent = 'brightness_4';
+    if (mobileIcon) mobileIcon.textContent = 'brightness_4';
+    showToast('Theme Updated', 'Switched to Light Mode');
+  }
+}
+
+// BOOT
+document.addEventListener('DOMContentLoaded', () => {
+  // Ensure default is light mode
+  document.documentElement.classList.remove('dark');
+  renderUsers(usersList);
+});
+</script>
+</body></html>

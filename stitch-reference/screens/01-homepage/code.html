@@ -1,0 +1,839 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-fixed-variant": "#5b4300",
+            "on-primary-fixed": "#0a1d2e",
+            "on-surface-variant": "#44474c",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#00210a",
+            "secondary-fixed-dim": "#f9bd14",
+            "surface": "#f7f9ff",
+            "error-container": "#ffdad6",
+            "tertiary-fixed": "#8ef9a4",
+            "on-tertiary-container": "#00843D",
+            "on-surface": "#121c26",
+            "surface-container-highest": "#d9e3f1",
+            "inverse-primary": "#b6c8df",
+            "surface-bright": "#f7f9ff",
+            "on-tertiary-fixed-variant": "#005324",
+            "on-secondary": "#ffffff",
+            "primary-container": "#071A2B",
+            "on-primary-fixed-variant": "#37485b",
+            "on-error": "#ffffff",
+            "on-secondary-fixed": "#251a00",
+            "tertiary": "#000000",
+            "primary": "#071A2B",
+            "tertiary-fixed-dim": "#71dc8a",
+            "outline-variant": "#c4c6cd",
+            "on-background": "#121c26",
+            "surface-container": "#e4effd",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#d2e4fc",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#5b4300",
+            "outline": "#74777d",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#00210a",
+            "on-primary": "#ffffff",
+            "surface-variant": "#d9e3f1",
+            "secondary-container": "#F2B705",
+            "primary-fixed-dim": "#b6c8df",
+            "surface-tint": "#4f6074",
+            "on-primary-container": "#74859b",
+            "inverse-surface": "#132E47",
+            "secondary": "#785900",
+            "background": "#f7f9ff",
+            "inverse-on-surface": "#e8f2ff",
+            "surface-container-high": "#dfe9f7",
+            "surface-dim": "#d1dbe9",
+            "surface-container-low": "#edf4ff",
+            "dark-bg": "#071A2B",
+            "dark-card": "#0D2438",
+            "dark-elevated": "#132E47",
+            "dark-border": "rgba(255,255,255,0.08)",
+            "dark-text": "#FFFFFF",
+            "dark-muted": "#AAB7C4"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          spacing: {
+            "space-lg": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem",
+            "margin": "2.5rem",
+            "space-xl": "2.5rem",
+            "gutter": "1.5rem"
+          },
+          fontFamily: {
+            "body-md": ["Manrope", "sans-serif"],
+            "label-caps": ["Manrope", "sans-serif"],
+            "body-lg": ["Manrope", "sans-serif"],
+            "title-zar-val": ["Sora", "sans-serif"],
+            "headline-sm": ["Sora", "sans-serif"],
+            "tabular-stat": ["Manrope", "sans-serif"],
+            "headline-xl": ["Sora", "sans-serif"],
+            "headline-md": ["Sora", "sans-serif"],
+            "headline-xl-mobile": ["Sora", "sans-serif"],
+            "display-hero": ["Sora", "sans-serif"],
+            "headline-lg": ["Sora", "sans-serif"],
+            "display-hero-mobile": ["Sora", "sans-serif"],
+            "body-sm": ["Manrope", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .nav-link.active {
+      background-color: rgba(228, 239, 253, 0.9);
+      color: #121c26;
+      font-weight: 600;
+    }
+    .dark .nav-link.active {
+      background-color: #132E47;
+      color: #F2B705;
+    }
+    section {
+      scroll-margin-top: 5rem;
+    }
+  </style>
+<script>
+    // Initialize theme based on preference or saved settings
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-surface dark:bg-[#071A2B] font-body-md text-on-surface dark:text-[#FFFFFF] antialiased transition-colors duration-300">
+<!-- NAVIGATION BAR -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/90 dark:bg-[#071A2B]/90 backdrop-blur-xl border-b border-surface-container-highest/60 dark:border-white/10 shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors duration-300">
+<div class="h-20 max-w-7xl mx-auto px-6 lg:px-margin flex items-center justify-between gap-space-md">
+<!-- Logo Section: Strictly image asset only, NO duplicate text -->
+<a aria-label="WinDriveSA Home" class="flex items-center shrink-0 focus:outline-none focus:ring-2 focus:ring-secondary-container rounded p-1" href="#home">
+<img alt="WinDriveSA Logo" class="h-10 sm:h-11 w-auto object-contain transition-transform hover:scale-[1.02]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvZp8PSQmsGnVn1BhYLec2NQUtFJ1cWu7SF0YqzzGC_pMA_8D13ytzypvxy2JXPXpc_mG416uJeEZJLT4vI29Z1LZKHEPCCufRaKaR3Sa4k3fhltPKGMIocvvaBLUEdkTYm5nSOC966m-Zyy-_xQjG5mxbCrowiQYK8ftGjN_boskqZJz31Dx0R_YsKnS58fkHljS3csSgCUUrQUh_3MrSEwCxTopvVMB0i6tWyokciCWuCo4hXSDFiTHEpphDb23g7yI">
+</a>
+<!-- Desktop Nav Links (Hidden below 1024px) -->
+<nav aria-label="Main Navigation" class="hidden lg:flex items-center gap-1.5" id="desktop-nav">
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all" data-nav="home" href="#home">Home</a>
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all" data-nav="prizes" href="#prizes">Prizes</a>
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all active" data-nav="how-it-works" href="#how-it-works">How It Works</a>
+
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all" data-nav="about" href="#about">About</a>
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all" data-nav="faqs" href="#faqs">FAQs</a>
+<a class="nav-link px-3.5 py-1.5 rounded-lg text-sm font-medium text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-all" data-nav="contact" href="#contact">Contact</a>
+</nav>
+<!-- Right Header Actions: [Theme Toggle] [Log In] [Create Account] -->
+<div class="flex items-center gap-2 sm:gap-3 shrink-0">
+<!-- Theme Toggle Button -->
+<button aria-label="Toggle Light and Dark mode" class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-[#132E47] transition-all border border-surface-container-highest/60 dark:border-white/10" id="theme-toggle" type="button">
+<span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[20px] hidden dark:inline-block text-[#F2B705]">light_mode</span>
+</button>
+<!-- Desktop Action Buttons -->
+<a class="hidden sm:inline-flex px-3.5 py-2 font-body-sm text-sm font-semibold text-on-surface-variant dark:text-[#AAB7C4] hover:text-on-surface dark:hover:text-white transition-colors" href="#contact">Log In</a>
+<a class="hidden sm:inline-flex px-4 py-2 bg-primary-container dark:bg-[#132E47] text-on-primary text-body-sm font-semibold rounded-lg hover:bg-inverse-surface dark:hover:bg-primary-container transition-all items-center gap-2 shadow-sm border border-transparent dark:border-white/15" href="#how-it-works">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container inline-block"></span>
+<span class="">Create Account</span>
+</a>
+<!-- Mobile / Tablet Hamburger Toggle Button -->
+<button aria-controls="mobile-drawer" aria-expanded="false" aria-label="Open mobile navigation menu" class="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#132E47] border border-surface-container-highest/60 dark:border-white/10 transition-colors" id="mobile-menu-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MOBILE / TABLET SLIDE-IN NAVIGATION DRAWER -->
+<div aria-hidden="true" class="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0" id="drawer-backdrop"></div>
+<aside aria-label="Mobile Navigation" aria-modal="true" class="fixed top-0 right-0 h-full w-full max-w-xs sm:max-w-sm bg-surface dark:bg-[#071A2B] z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 border-l border-surface-container-highest dark:border-white/10" id="mobile-drawer" role="dialog">
+<div>
+<div class="flex items-center justify-between pb-6 border-b border-surface-container-highest dark:border-white/10">
+<img alt="WinDriveSA" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADmKv8SfzSnbxKCXUyZjkccRufeRyxuUVzHsTWuS21TDBN7hZLF5Q6uo81tqPgwbJa5FbV2DO4NdOfJD1_Zv_EGvXK3m8PeFrdgJiRSCBd_8ijvGJbgXtksK08jC1KjvJXCw0QbLQIf5X1im23hHTO8q4ZtKUCeVwNnZ_-z4N8WywOHT5g2ZQzr55M2zBBASfMTeY9BupZHs5hZfJJ2dLxcye3wh-6BZORjLeUATFRnvRXP7n0_qheFQX--aWu5jqF2sM">
+<button aria-label="Close navigation menu" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant dark:text-[#AAB7C4] hover:bg-surface-container dark:hover:bg-[#132E47] transition-colors" id="close-drawer-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<nav aria-label="Mobile Menu Links" class="flex flex-col gap-2 mt-6">
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#home">
+<span class="">Home</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#prizes">
+<span class="">Prizes</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#how-it-works">
+<span class="">How It Works</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#about">
+<span class="">About</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#faqs">
+<span class="">FAQs</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+<a class="mobile-nav-link px-4 py-2.5 rounded-lg font-headline-sm text-sm font-semibold text-on-surface dark:text-white hover:bg-surface-container dark:hover:bg-[#0D2438] transition-colors flex items-center justify-between" href="#contact">
+<span class="">Contact</span>
+<span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+</a>
+</nav>
+</div>
+<!-- Mobile Drawer Actions & Status -->
+<div class="pt-6 border-t border-surface-container-highest dark:border-white/10 flex flex-col gap-3">
+<div class="flex items-center justify-between px-2 py-1 text-xs text-on-surface-variant dark:text-[#AAB7C4]">
+<span class="">Current Appearance</span>
+<span class="font-semibold text-secondary dark:text-secondary-container uppercase tracking-wider text-[11px]">System / Responsive</span>
+</div>
+<a class="w-full py-3 text-center rounded-lg bg-surface-container dark:bg-[#0D2438] text-on-surface dark:text-white font-semibold text-sm border border-surface-container-highest/60 dark:border-white/10 hover:bg-surface-container-high transition-colors" href="#contact">
+        Log In
+      </a>
+<a class="w-full py-3 text-center rounded-lg bg-primary-container dark:bg-secondary-container text-on-primary dark:text-[#071A2B] font-bold text-sm shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2" href="#how-it-works">
+<span class="">Create Account</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</aside>
+<main class="w-full">
+<!-- 1. HERO SECTION (Tightened padding-top, instant high-impact desktop viewport) -->
+<section class="relative w-full overflow-hidden pt-24 lg:pt-28 pb-12 lg:pb-16 bg-surface dark:bg-[#071A2B] transition-colors duration-300" id="home">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full">
+<!-- Left Column: Compact, impactful hierarchy -->
+<div class="lg:col-span-6 flex flex-col justify-center pr-0 lg:pr-4 z-10">
+<div class="inline-flex items-center gap-2 mb-4">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span class="font-label-caps text-xs tracking-[0.16em] uppercase text-on-surface dark:text-white font-bold">
+                WIN BIG. DRIVE AWAY.
+              </span>
+</div>
+<h1 class="font-display-hero text-3xl sm:text-4xl lg:text-[48px] xl:text-[54px] text-on-surface dark:text-white font-bold tracking-tight mb-4 lg:mb-5 leading-[1.12]">
+              Your Next Drive Could Be Extraordinary.
+            </h1>
+<p class="font-body-lg text-base sm:text-lg text-on-surface-variant dark:text-[#AAB7C4] max-w-xl mb-7 lg:mb-8 leading-relaxed">
+              Discover cash and vehicle prizes through WinDriveSA, then manage your reward journey from one secure account.
+            </p>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-7">
+<a class="px-7 py-3.5 bg-primary-container dark:bg-white text-on-primary dark:text-[#071A2B] font-headline-sm text-sm font-semibold rounded-lg shadow-md hover:bg-inverse-surface dark:hover:bg-slate-100 transition-all flex items-center justify-center gap-2 text-center" href="#how-it-works">
+<span class="">Create an Account</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<a class="px-7 py-3.5 bg-surface-container-lowest dark:bg-[#0D2438] text-on-surface dark:text-white border border-surface-container-highest/80 dark:border-white/10 font-headline-sm text-sm font-semibold rounded-lg shadow-sm hover:bg-surface-container dark:hover:bg-[#132E47] transition-all flex items-center justify-center gap-2 text-center" href="#prizes">
+<span class="">Explore Prizes</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+</div>
+<div class="pt-5 border-t border-surface-container-highest dark:border-white/10 flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#00843D] text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-sm text-xs sm:text-sm text-on-surface-variant dark:text-[#AAB7C4] font-medium">
+                Clear process. Personal account. Dedicated support.
+              </span>
+</div>
+</div>
+<!-- Right Column: Signature automotive bleed toward right edge using https://lh3.googleusercontent.com/aida-public/AB6AXuDiVFWypTaOMbd8ik-UdhqOAGzZCbseeZIVjNfloLYPuvN3DkRbp4Pwimsbl-1vORLOYy4aVYKu-jSVVO3LZlzKpx7HS6IViQMZWju69L3zykr-RV6PyOYPwzfneLMSCAztjLbl234lMsujJhDdeW4WSwdtigVtKF-8eTaQOmMg0r0FlpcALvPEl6UmKoNea8Isr56es0kodEEGwlFL67zCMk12EBehir3Ubho4vujZlv4XfIZPUhSIOA -->
+<div class="lg:col-span-6 relative w-full h-[380px] sm:h-[460px] lg:h-[540px]">
+<div class="w-full h-full rounded-2xl overflow-hidden shadow-2xl relative border border-black/5 dark:border-white/10">
+<img alt="2026 luxury dark metallic graphite modern double-cab 4x4 pickup truck on open paved South African mountain road" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiVFWypTaOMbd8ik-UdhqOAGzZCbseeZIVjNfloLYPuvN3DkRbp4Pwimsbl-1vORLOYy4aVYKu-jSVVO3LZlzKpx7HS6IViQMZWju69L3zykr-RV6PyOYPwzfneLMSCAztjLbl234lMsujJhDdeW4WSwdtigVtKF-8eTaQOmMg0r0FlpcALvPEl6UmKoNea8Isr56es0kodEEGwlFL67zCMk12EBehir3Ubho4vujZlv4XfIZPUhSIOA">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/20 to-transparent"></div>
+<!-- Architectural Verified Specification Badge -->
+<div class="absolute bottom-5 left-5 right-5 sm:right-auto bg-[#071A2B]/90 dark:bg-[#0D2438]/95 backdrop-blur-md px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-white/10">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container shrink-0 animate-pulse"></span>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] tracking-widest text-secondary-container uppercase font-bold">Verified Allocation</span>
+<span class="font-body-sm text-xs text-white font-semibold">2026 Fleet Specification · Western Cape Route</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. FEATURED PRIZES SECTION -->
+<section class="w-full py-16 lg:py-24 bg-surface-container-low dark:bg-[#0D2438] transition-colors duration-300" id="prizes">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="flex flex-col mb-12 max-w-2xl">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary dark:text-secondary-container font-bold mb-2.5">
+            FEATURED PRIZES
+          </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-on-surface dark:text-white font-bold tracking-tight mb-3">
+            Big Rewards. Real Possibilities.
+          </h2>
+<p class="font-body-lg text-base sm:text-lg text-on-surface-variant dark:text-[#AAB7C4]">
+            Explore the types of rewards available through WinDriveSA, from substantial cash prizes to premium vehicles.
+          </p>
+</div>
+<!-- Asymmetric 2-Part Editorial Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- Part A: Cash Reward Block -->
+<div class="lg:col-span-5 bg-primary-container dark:bg-[#071A2B] text-on-primary rounded-2xl p-8 lg:p-10 flex flex-col justify-between relative shadow-xl overflow-hidden border border-white/10">
+<div class="absolute -right-10 -bottom-10 w-64 h-64 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between gap-2 mb-8">
+<div class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-secondary-container text-[16px]">payments</span>
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-secondary-container font-bold">CASH PRIZE</span>
+</div>
+<span class="font-body-sm text-xs text-inverse-primary">Example reward</span>
+</div>
+<span class="font-body-sm text-xs uppercase tracking-wider font-semibold text-inverse-primary block mb-2">Guaranteed Disbursement</span>
+<div class="font-display-hero text-4xl sm:text-5xl lg:text-[50px] leading-tight font-bold text-secondary-container tracking-tight mb-5">
+                R250,000
+              </div>
+<p class="font-body-md text-sm sm:text-base text-inverse-primary leading-relaxed mb-6">
+                Cash reward disbursed directly to verified South African bank accounts upon claim approval. Streamlined institutional verification through accredited reserve settlement protocols.
+              </p>
+</div>
+<div class="pt-6 border-t border-white/10 flex items-center justify-between">
+<a class="inline-flex items-center gap-2 font-headline-sm text-sm font-bold text-secondary-container hover:underline" href="#how-it-works">
+<span class="">Learn More</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<span class="font-label-caps text-[11px] tracking-widest text-[#AAB7C4] uppercase">EFT Allocation</span>
+</div>
+</div>
+<!-- Part B: Vehicle Reward Block -->
+<div class="lg:col-span-7 bg-surface-container-lowest dark:bg-[#132E47] rounded-2xl p-8 lg:p-10 shadow-lg flex flex-col justify-between relative overflow-hidden border border-surface-container-highest/60 dark:border-white/10">
+<div>
+<div class="flex items-center justify-between gap-2 mb-6">
+<div class="inline-flex items-center gap-2 bg-surface-container dark:bg-[#071A2B] px-3 py-1 rounded-full border border-surface-container-highest dark:border-white/10">
+<span class="material-symbols-outlined text-on-surface dark:text-white text-[16px]">directions_car</span>
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface dark:text-white font-bold">VEHICLE PRIZE</span>
+</div>
+<span class="font-body-sm text-xs text-on-surface-variant dark:text-[#AAB7C4]">Example reward</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+<div>
+<h3 class="font-headline-xl text-2xl lg:text-3xl text-on-surface dark:text-white font-bold mb-3 tracking-tight">
+                    2026 Toyota Hilux
+                  </h3>
+<p class="font-body-md text-sm sm:text-base text-on-surface-variant dark:text-[#AAB7C4] mb-6 leading-relaxed">
+                    A premium vehicle reward for an approved account. Engineered for durability, luxury double-cab styling, and road readiness across any South African terrain.
+                  </p>
+<div class="flex flex-col gap-2.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00843D] text-[18px]">check_circle</span>
+<span class="font-body-sm text-xs sm:text-sm text-on-surface dark:text-white font-medium">Comprehensive warranty &amp; service plan included</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00843D] text-[18px]">check_circle</span>
+<span class="font-body-sm text-xs sm:text-sm text-on-surface dark:text-white font-medium">Immediate on-the-road documentation &amp; licensing</span>
+</div>
+</div>
+</div>
+<div class="relative w-full h-52 sm:h-64 rounded-xl overflow-hidden bg-surface-container dark:bg-[#071A2B] shadow-md border border-surface-container-highest dark:border-white/10">
+<img alt="Editorial close-up of 2026 Toyota Hilux double-cab" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAaDbLaHg58iWbPdoI_2O4-gCmpSeQPoPQ2BjjLoMXnPLZiuOc1giy9890N2R8hKEIM5YT5nhmV13LGL0bRdJYF9LT3fn2t1SaK58Ihcr-wIPsZ0aTdVHNf1viwdErOnCYTxC6eIO7wqs8JCyQloHfHRq26IupAcf6w7IMNTI-7J-JcrKJYavHE8dx72vcSf6cZloFqFV3oOysZ9Nz0vT8TdRmE3Td5D-bBrkKsjl2Tc5XfJOjMYlx6g">
+</div>
+</div>
+</div>
+<div class="pt-6 border-t border-surface-container-highest dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<a class="px-6 py-3 bg-primary-container dark:bg-white text-on-primary dark:text-[#071A2B] font-headline-sm text-sm font-semibold rounded-lg hover:bg-inverse-surface dark:hover:bg-slate-100 transition-all inline-flex items-center gap-2" href="#how-it-works">
+<span class="">Explore Vehicle</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<span class="font-body-sm text-xs text-on-surface-variant dark:text-[#AAB7C4]">Allocated upon verification stage approval</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. HOW IT WORKS SECTION -->
+<section class="w-full py-16 lg:py-24 bg-surface dark:bg-[#071A2B] transition-colors duration-300" id="how-it-works">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="flex flex-col mb-14 max-w-2xl">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary dark:text-secondary-container font-bold mb-2.5">
+            HOW IT WORKS
+          </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-on-surface dark:text-white font-bold tracking-tight mb-3">
+            A Clearer Way to Claim Your Reward
+          </h2>
+<p class="font-body-lg text-base sm:text-lg text-on-surface-variant dark:text-[#AAB7C4]">
+            Create your account, complete the review process, view your assigned rewards, and submit your claim when it becomes available.
+          </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Step 01 -->
+<div class="bg-surface-container-lowest dark:bg-[#0D2438] p-7 rounded-2xl shadow-md flex flex-col justify-between border border-surface-container-highest/60 dark:border-white/10 hover:shadow-lg transition-all">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="font-display-hero text-3xl font-bold text-secondary-container leading-none">01</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] text-[24px]">app_registration</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Create Your Account</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Create your WinDriveSA account and provide the required information to activate your member dashboard.
+              </p>
+</div>
+<div class="mt-8 pt-4 border-t border-surface-container dark:border-white/10">
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-[#AAB7C4]">Stage 1 · Initial Intake</span>
+</div>
+</div>
+<!-- Step 02 -->
+<div class="bg-surface-container-lowest dark:bg-[#0D2438] p-7 rounded-2xl shadow-md flex flex-col justify-between border border-surface-container-highest/60 dark:border-white/10 hover:shadow-lg transition-all">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="font-display-hero text-3xl font-bold text-secondary-container leading-none">02</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] text-[24px]">verified_user</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Account Review</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Your account is reviewed before reward information becomes available to ensure system compliance and integrity.
+              </p>
+</div>
+<div class="mt-8 pt-4 border-t border-surface-container dark:border-white/10">
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-[#AAB7C4]">Stage 2 · Governance</span>
+</div>
+</div>
+<!-- Step 03 -->
+<div class="bg-surface-container-lowest dark:bg-[#0D2438] p-7 rounded-2xl shadow-md flex flex-col justify-between border border-surface-container-highest/60 dark:border-white/10 hover:shadow-lg transition-all">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="font-display-hero text-3xl font-bold text-secondary-container leading-none">03</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] text-[24px]">visibility</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">View Your Rewards</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Once approved and assigned a reward, your available cash and vehicle rewards appear in your personal dashboard.
+              </p>
+</div>
+<div class="mt-8 pt-4 border-t border-surface-container dark:border-white/10">
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-[#AAB7C4]">Stage 3 · Allocation</span>
+</div>
+</div>
+<!-- Step 04 -->
+<div class="bg-surface-container-lowest dark:bg-[#0D2438] p-7 rounded-2xl shadow-md flex flex-col justify-between border border-surface-container-highest/60 dark:border-white/10 hover:shadow-lg transition-all">
+<div>
+<div class="flex items-center justify-between mb-5">
+<span class="font-display-hero text-3xl font-bold text-secondary-container leading-none">04</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] text-[24px]">task_alt</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Submit Your Claim</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Choose the reward you want to claim, provide the required information, and track the claim from your dashboard.
+              </p>
+</div>
+<div class="mt-8 pt-4 border-t border-surface-container dark:border-white/10">
+<span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-[#AAB7C4]">Stage 4 · Final Claim</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. ACCOUNT REVIEW & GOVERNANCE PILLARS -->
+<section class="w-full py-16 bg-surface-container-low dark:bg-[#0D2438] transition-colors duration-300">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="bg-surface-container-lowest dark:bg-[#132E47] rounded-3xl p-8 lg:p-12 shadow-lg border border-surface-container-highest/60 dark:border-white/10">
+<div class="max-w-3xl mb-10">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary dark:text-secondary-container font-bold mb-2.5 block">
+              GOVERNANCE &amp; TRUST
+            </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-on-surface dark:text-white font-bold tracking-tight mb-3">
+              Everything Starts With Your Account
+            </h2>
+<p class="font-body-lg text-base sm:text-lg text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+              WinDriveSA keeps the reward journey organized around your personal account. Before reward information is displayed, new accounts go through a review process. Once approved, your assigned rewards and available claim actions are presented in your dashboard.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 border-t border-surface-container-highest dark:border-white/10">
+<div class="flex flex-col">
+<div class="w-12 h-12 rounded-xl bg-surface-container dark:bg-[#071A2B] flex items-center justify-center mb-4 border border-surface-container-highest/60 dark:border-white/10">
+<span class="material-symbols-outlined text-primary-container dark:text-secondary-container text-[24px]">fingerprint</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Account-first</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Your reward information is connected strictly to your authenticated personal account, safeguarding allocation privacy.
+              </p>
+</div>
+<div class="flex flex-col">
+<div class="w-12 h-12 rounded-xl bg-surface-container dark:bg-[#071A2B] flex items-center justify-center mb-4 border border-surface-container-highest/60 dark:border-white/10">
+<span class="material-symbols-outlined text-primary-container dark:text-secondary-container text-[24px]">timeline</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Clear status</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Track where your claim stands in real time as it moves through the systematic review and delivery process.
+              </p>
+</div>
+<div class="flex flex-col">
+<div class="w-12 h-12 rounded-xl bg-surface-container dark:bg-[#071A2B] flex items-center justify-center mb-4 border border-surface-container-highest/60 dark:border-white/10">
+<span class="material-symbols-outlined text-primary-container dark:text-secondary-container text-[24px]">headset_mic</span>
+</div>
+<h3 class="font-headline-sm text-lg text-on-surface dark:text-white font-bold mb-2">Direct support</h3>
+<p class="font-body-md text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Contact our dedicated WinDriveSA support team directly through phone, ticket, or WhatsApp when you need assistance.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. FULL-BLEED AUTOMOTIVE BANNER -->
+<section class="w-full relative py-28 lg:py-36 overflow-hidden bg-primary-container">
+<div class="absolute inset-0 z-0">
+<img alt="Cinematic automotive landscape" class="w-full h-full object-cover opacity-35" src="https://lh3.googleusercontent.com/aida/AEtjO1VMeeFBTOE4wmcy_scgHN4g_N7crdwvVD6JUlRe5vMGNdobh9cB4U8PVaxbBEutPhQguPCA2B0cj8cg960dkB5CrJqzqUtTdbaEUXgukio3ckZqdBLj74x3aNyKWFj67mb5RIepA3GkJiE7LznQK-o0XbdR4rBg4A06_c16V-lFhmZMlT2jzAkSEYjqP4MMsjhkYuxwYEZwMpM7lMffOF8xI5uPCMnvT271cz8iQjF5ZEXMhuj0elZ7dJA">
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container via-primary-container/85 to-primary-container/40"></div>
+</div>
+<div class="max-w-7xl mx-auto px-6 lg:px-margin relative z-10">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 mb-4">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary-container font-bold">
+              THE DRIVE AWAITS
+            </span>
+</div>
+<h2 class="font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-bold tracking-tight mb-5 leading-tight">
+            Some Rewards Change What Comes Next.
+          </h2>
+<p class="font-body-lg text-base sm:text-lg text-inverse-primary mb-8 max-w-xl leading-relaxed">
+            From cash rewards to vehicles built for the road ahead, WinDriveSA brings your reward journey into one place.
+          </p>
+<a class="px-8 py-4 bg-secondary-container text-[#071A2B] font-headline-sm text-sm font-bold rounded-lg shadow-lg hover:bg-yellow-400 transition-all inline-flex items-center gap-2" href="#prizes">
+<span class="">Explore Prizes</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 6. WINNERS SECTION (EDITORIAL SAMPLE / DEMO SHOWCASE) -->
+
+<!-- 7. ABOUT WINDRIVESA -->
+<section class="w-full py-16 lg:py-24 bg-surface-container-low dark:bg-[#0D2438] transition-colors duration-300" id="about">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary dark:text-secondary-container font-bold mb-2.5 block">
+              ABOUT WINDRIVESA
+            </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-on-surface dark:text-white font-bold tracking-tight mb-5">
+              Built Around the Moment That Matters.
+            </h2>
+<div class="flex flex-col gap-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-lg text-base sm:text-lg leading-relaxed">
+<p class="">
+                WinDriveSA is designed to give people a clear place to manage their reward journey — from account creation and review to viewing assigned prizes and submitting claims.
+              </p>
+<p class="">
+                Our focus is simple: make every step easier to understand, keep reward information connected to your account, and give you a direct way to reach support when you need it.
+              </p>
+</div>
+</div>
+<div class="lg:col-span-6 grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest dark:bg-[#132E47] p-6 rounded-2xl shadow-sm border border-surface-container-highest/60 dark:border-white/10">
+<span class="font-headline-xl text-3xl font-bold text-on-surface dark:text-white block mb-1">100%</span>
+<span class="font-headline-sm text-sm font-semibold text-on-surface dark:text-white block mb-2">Transparent Workflow</span>
+<span class="font-body-sm text-xs text-on-surface-variant dark:text-[#AAB7C4]">Every stage is trackable through your personal dashboard.</span>
+</div>
+<div class="bg-surface-container-lowest dark:bg-[#132E47] p-6 rounded-2xl shadow-sm border border-surface-container-highest/60 dark:border-white/10">
+<span class="font-headline-xl text-3xl font-bold text-on-surface dark:text-white block mb-1">24/7</span>
+<span class="font-headline-sm text-sm font-semibold text-on-surface dark:text-white block mb-2">Member Support</span>
+<span class="font-body-sm text-xs text-on-surface-variant dark:text-[#AAB7C4]">Continuous access to assistance and verification teams.</span>
+</div>
+<div class="bg-surface-container-lowest dark:bg-[#132E47] p-6 rounded-2xl shadow-sm col-span-2 border border-surface-container-highest/60 dark:border-white/10">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-[#00843D] text-[22px]">policy</span>
+<span class="font-headline-sm text-base font-bold text-on-surface dark:text-white">South African Regulatory Alignment</span>
+</div>
+<p class="font-body-sm text-xs sm:text-sm text-on-surface-variant dark:text-[#AAB7C4] leading-relaxed">
+                Built strictly around South African consumer privacy regulations (POPIA) and transparent institutional governance standards.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. FAQ SECTION -->
+<section class="w-full py-16 lg:py-24 bg-surface dark:bg-[#071A2B] transition-colors duration-300" id="faqs">
+<div class="max-w-4xl mx-auto px-6 lg:px-margin">
+<div class="text-center mb-14">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary dark:text-secondary-container font-bold mb-2 block">
+            FAQ
+          </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-on-surface dark:text-white font-bold tracking-tight mb-3">
+            Questions, Answered.
+          </h2>
+<p class="font-body-lg text-base sm:text-lg text-on-surface-variant dark:text-[#AAB7C4] max-w-xl mx-auto">
+            Clear answers about the platform, rewards, and the claims process.
+          </p>
+</div>
+<div class="flex flex-col gap-4">
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">What is WinDriveSA?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              WinDriveSA is a secure reward platform where participants register an account, complete account review, view assigned prizes, and submit claims for cash or vehicle rewards.
+            </div>
+</details>
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">Do I see my rewards immediately after registering?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              New accounts undergo an initial review process to confirm eligibility and ensure compliance. Once your account is reviewed and assigned a reward, your available rewards will display inside your dashboard.
+            </div>
+</details>
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">Where can I see my rewards?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              All assigned rewards are displayed directly within your secure WinDriveSA account dashboard after you log in.
+            </div>
+</details>
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">Can I claim both cash and a vehicle?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              Reward allocations depend on your specific verified assignment. Details regarding available options are clearly indicated in your account dashboard.
+            </div>
+</details>
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">What happens after I submit a claim?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              Once submitted, your claim enters the verification stage. Our support and compliance team will review the submitted details, coordinate necessary paperwork, and provide updates via your dashboard.
+            </div>
+</details>
+<details class="group bg-surface-container-lowest dark:bg-[#0D2438] rounded-2xl shadow-sm p-6 border border-surface-container-highest/60 dark:border-white/10 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between cursor-pointer font-headline-sm text-base sm:text-lg text-on-surface dark:text-white font-bold select-none">
+<span class="">How do I get support?</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-[#AAB7C4] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 text-on-surface-variant dark:text-[#AAB7C4] font-body-md text-sm sm:text-base border-t border-surface-container dark:border-white/10 mt-4 leading-relaxed">
+              You can reach support via our dedicated contact page, by logging into your account to submit a ticket, or via the official WhatsApp support channel provided upon registration.
+            </div>
+</details>
+</div>
+</div>
+</section>
+<!-- 9. CONTACT SECTION -->
+<section class="w-full py-16 lg:py-24 bg-primary-container text-on-primary transition-colors duration-300" id="contact">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7">
+<span class="font-label-caps text-xs uppercase tracking-[0.14em] text-secondary-container font-bold mb-2.5 block">
+              CONTACT
+            </span>
+<h2 class="font-headline-xl text-2xl sm:text-3xl lg:text-4xl text-white font-bold tracking-tight mb-4">
+              Need Help With Your Reward Journey?
+            </h2>
+<p class="font-body-lg text-base sm:text-lg text-inverse-primary max-w-xl mb-8 leading-relaxed">
+              If you have a question about your account, reward, or claim, our support team is available to help.
+            </p>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-5">
+<a class="px-8 py-3.5 bg-secondary-container text-[#071A2B] font-headline-sm text-sm font-bold rounded-lg hover:bg-yellow-400 transition-all flex items-center justify-center gap-2 text-center shadow-md" href="mailto:support@windrivesa.co.za">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+<span class="">Contact Support</span>
+</a>
+<a class="px-8 py-3.5 bg-white/10 text-white border border-white/20 font-headline-sm text-sm font-semibold rounded-lg hover:bg-white/20 transition-all flex items-center justify-center gap-2 text-center" href="#contact">
+<span class="">Log In</span>
+<span class="material-symbols-outlined text-[18px]">login</span>
+</a>
+</div>
+<p class="font-body-sm text-xs text-on-primary-container">
+              Note: WhatsApp support channel connects directly upon registration.
+            </p>
+</div>
+<div class="lg:col-span-5 bg-[#132E47]/70 backdrop-blur-md rounded-2xl p-7 lg:p-8 border border-white/10">
+<h3 class="font-headline-sm text-lg text-white font-bold mb-6">
+              Direct Assistance
+            </h3>
+<div class="flex flex-col gap-5">
+<div class="flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">mail</span>
+</div>
+<div>
+<span class="font-body-sm text-xs text-[#AAB7C4] block">Electronic Mail</span>
+<span class="font-headline-sm text-sm text-white font-medium">support@windrivesa.co.za</span>
+</div>
+</div>
+<div class="flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">schedule</span>
+</div>
+<div>
+<span class="font-body-sm text-xs text-[#AAB7C4] block">Review Center Hours</span>
+<span class="font-headline-sm text-sm text-white font-medium">Mon – Fri: 08:00 – 17:00 (SAST)</span>
+</div>
+</div>
+<div class="flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-[#00843D] text-[20px]">verified</span>
+</div>
+<div>
+<span class="font-body-sm text-xs text-[#AAB7C4] block">Jurisdiction</span>
+<span class="font-headline-sm text-sm text-white font-medium">Cape Town &amp; Johannesburg Operations, RSA</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER CONTINUITY -->
+<footer class="w-full bg-[#071A2B] text-[#AAB7C4] border-t border-white/10">
+<div class="max-w-7xl mx-auto px-6 lg:px-margin py-12 lg:py-16">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-xl">
+<div class="lg:col-span-2 flex flex-col gap-3">
+<div class="flex items-center gap-space-sm">
+<img alt="WinDriveSA" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3DLycluwQHBBw7aVgA56NRi8NAK5rXHI9G7qHBY7zE7tAIRJHQZ5Ra1uRqqv_cHhhk4794XqUWu1uCZ3XuTVJN3TPN-TrbiIy581S_L4uJ_TtmIgbQudiEGMqY4tvBU0S0X8gA6CSzJgRTTwxlhChX8shYRnLrnfILvQ67gJou67P1yqKBUWdKylIPxW4WmsZsh3czBlBqDZXnF5Z6zZdIsfpcb9sDc7_NS784LyrjDfr1t7wlYZMOD8rIemwckk6rag">
+</div>
+<p class="font-headline-sm text-base text-secondary-container font-semibold mt-1">Win Big. Drive Away.</p>
+<p class="font-body-sm text-xs text-[#AAB7C4] max-w-sm leading-relaxed">
+            South Africa's premier transparent vehicle allocation and institutional prize platform. Rigorous compliance, verified audit standards, and tangible empowerment.
+          </p>
+</div>
+<div class="flex flex-col gap-2.5">
+<span class="font-label-caps text-xs uppercase tracking-wider text-white font-bold">Platform Navigation</span>
+<div class="flex flex-col gap-2">
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#home">Home</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#prizes">Verified Prizes</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#how-it-works">How It Works</a>
+
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#about">About Institutional Draw</a>
+</div>
+</div>
+<div class="flex flex-col gap-2.5">
+<span class="font-label-caps text-xs uppercase tracking-wider text-white font-bold">Member Access</span>
+<div class="flex flex-col gap-2">
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#contact">Log In</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#how-it-works">Create Account</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#faqs">Member FAQs</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#about">Draw Governance</a>
+</div>
+</div>
+<div class="flex flex-col gap-2.5">
+<span class="font-label-caps text-xs uppercase tracking-wider text-white font-bold">Verification &amp; Help</span>
+<div class="flex flex-col gap-2">
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#contact">Contact Support</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#about">Audit &amp; Compliance</a>
+<a class="font-body-sm text-xs text-[#AAB7C4] hover:text-secondary-container transition-colors" href="#about">POPIA &amp; Privacy Policy</a>
+</div>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+<p class="font-body-sm text-xs text-[#AAB7C4]">Official company information will be published here. © 2024–2026 WinDriveSA. All rights reserved.</p>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-[11px] text-[#AAB7C4] uppercase tracking-wider">Republic of South Africa</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- JAVASCRIPT: THEME TOGGLE, MOBILE DRAWER, INTERSECTION OBSERVER FOR ACTIVE NAV -->
+<script>
+    // 1. Light / Dark Mode Toggle Logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // 2. Mobile Drawer Open/Close Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+    const drawerBackdrop = document.getElementById('drawer-backdrop');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function openDrawer() {
+      drawerBackdrop.classList.remove('hidden');
+      setTimeout(() => {
+        drawerBackdrop.classList.remove('opacity-0');
+        drawerBackdrop.classList.add('opacity-100');
+        mobileDrawer.classList.remove('translate-x-full');
+      }, 10);
+      mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      mobileDrawer.classList.add('translate-x-full');
+      drawerBackdrop.classList.remove('opacity-100');
+      drawerBackdrop.classList.add('opacity-0');
+      setTimeout(() => {
+        drawerBackdrop.classList.add('hidden');
+      }, 300);
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    mobileMenuBtn.addEventListener('click', openDrawer);
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    // Close drawer when clicking any nav link
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeDrawer();
+      });
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileDrawer.classList.contains('translate-x-full')) {
+        closeDrawer();
+      }
+    });
+
+    // 3. Smooth IntersectionObserver for highlighting active nav link
+    const sections = document.querySelectorAll('main > section[id], #home');
+    const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const currentId = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            if (link.getAttribute('data-nav') === currentId) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(sec => navObserver.observe(sec));
+  </script>
+
+
+</body></html>

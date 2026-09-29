@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinDriveSA — Operations Overview (Admin Dashboard)</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              'navy-surface': '#0D2135',
+              'navy-card': '#112940',
+              'navy-border': '#1B3754',
+              gold: '#F2B705',
+              'gold-hover': '#D9A404',
+              emerald: '#00843D',
+              'emerald-light': '#E6F4ED',
+              'emerald-dark': '#065F2C',
+              charcoal: '#17212B',
+              surface: '#F5F7FA',
+              'surface-card': '#FFFFFF',
+              border: '#D9E0E7',
+              muted: '#667085',
+              subtle: '#98A2B3'
+            }
+          },
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            manrope: ['Manrope', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar for admin tables & sidebars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D9E0E7;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #1B3754;
+    }
+    .focus-ring:focus-visible {
+      outline: 2px solid #F2B705;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="h-full bg-brand-surface text-brand-navy font-manrope antialiased dark:bg-[#061421] dark:text-[#F0F4F8] transition-colors duration-200 selection:bg-brand-gold selection:text-brand-navy">
+
+  <!-- Simulation & Live Feedback Toast Notification -->
+  <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 bg-brand-navy text-white rounded-lg shadow-xl border border-brand-navy-border dark:bg-brand-navy-card dark:border-brand-gold/30">
+    <div id="toast-icon-wrapper" class="w-2.5 h-2.5 rounded-full bg-brand-gold animate-pulse"></div>
+    <div class="text-xs">
+      <div id="toast-title" class="font-semibold text-brand-gold font-sora">Admin Navigation</div>
+      <div id="toast-message" class="text-slate-300">Route updated</div>
+    </div>
+  </div>
+
+  <div class="min-h-full flex flex-col lg:flex-row">
+    
+    <!-- =========================================================================
+         DESKTOP ADMIN SIDEBAR (PERSISTENT LEFT)
+         ========================================================================= -->
+    <aside aria-label="Admin Navigation" class="hidden lg:flex flex-col w-64 shrink-0 bg-white dark:bg-brand-navy dark:border-brand-navy-border border-r border-brand-border h-screen sticky top-0 z-30">
+      
+      <!-- Logo Container -->
+      <div class="p-5 border-b border-brand-border dark:border-brand-navy-border flex items-center justify-between">
+        <a href="#dashboard" onclick="simulateAdminAction('Dashboard', 'Navigating to Operations Overview'); return false;" class="block focus-ring rounded-md">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXs2TwtyEJFsnpCWUnoYhbCBbK5Dn3jPO5kyUkhj8pmq5NwBMOEF8NzEX04TqLVuGQE6U9Jtn3U31absRjsaKOs-4e0HNSTZSHb0Gh-_UTb3hsGHRa50CzOaWYjRGQ-KJcXkkz7fqh4KB2OeYDQTGRqyrJe_xurQVukc_X1ZBD6SWSAjjgp1x_70lyOgGaJ7FUm9nkegWyYmzRtRGOl3EwkjB0OrrQtD46bwBkrUlbufwgThEDUTtwGNIkTyhwCl2flDU" alt="WinDriveSA Logo" class="h-9 w-auto object-contain">
+        </a>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider font-sora uppercase bg-brand-navy text-brand-gold dark:bg-brand-navy-card dark:border dark:border-brand-gold/40">
+          ADMIN
+        </span>
+      </div>
+
+      <!-- Administrator Verified Profile Card -->
+      <div class="p-4 mx-3 my-3 rounded-lg bg-brand-surface dark:bg-brand-navy-card border border-brand-border dark:border-brand-navy-border">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-brand-navy text-brand-gold dark:bg-brand-navy-border dark:text-brand-gold flex items-center justify-center font-sora font-bold text-xs shadow-inner">
+            SA
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-bold text-brand-navy dark:text-white truncate font-sora">Super Admin Console</div>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+              <span class="text-[11px] text-brand-muted dark:text-slate-400 font-medium truncate">HQ Operations • SecOps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links Container -->
+      <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1" aria-label="Sidebar Admin Routes">
+        
+        <!-- Dashboard (Active) -->
+        <a href="#dashboard" id="nav-dashboard" onclick="setActiveNav('dashboard', 'Dashboard', 'Operations Overview loaded'); return false;" class="group flex items-center justify-between px-3 py-2.5 text-xs font-semibold rounded-lg bg-brand-navy text-white shadow-sm dark:bg-brand-gold dark:text-brand-navy transition-all focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-gold dark:text-brand-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="font-sora tracking-wide">Dashboard</span>
+          </div>
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-gold dark:bg-brand-navy"></span>
+        </a>
+
+        <!-- Users -->
+        <a href="#users" id="nav-users" onclick="setActiveNav('users', 'Users', 'Users directory: 12 pending KYC approvals'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span>Users</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300">12</span>
+        </a>
+
+        <!-- Rewards -->
+        <a href="#rewards" id="nav-rewards" onclick="setActiveNav('rewards', 'Rewards', 'Catalog of pool reward allocations'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V4a2 2 0 10-2 2h2zm0 13V8m0 13h5a2 2 0 002-2V9a2 2 0 00-2-2h-5m0 13H7a2 2 0 01-2-2V9a2 2 0 012-2h5"/>
+            </svg>
+            <span>Rewards</span>
+          </div>
+        </a>
+
+        <!-- Cash Prizes -->
+        <a href="#cash-prizes" id="nav-cash-prizes" onclick="setActiveNav('cash-prizes', 'Cash Prizes', 'ZAR EFT Escrow allocations configuration'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span>Cash Prizes</span>
+          </div>
+          <span class="text-[11px] font-mono text-brand-muted dark:text-slate-400">ZAR</span>
+        </a>
+
+        <!-- Vehicle Prizes -->
+        <a href="#vehicle-prizes" id="nav-vehicle-prizes" onclick="setActiveNav('vehicle-prizes', 'Vehicle Prizes', 'National fleet allocation & VIN registry'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+            </svg>
+            <span>Vehicle Prizes</span>
+          </div>
+          <span class="px-1.5 py-0.2 rounded text-[10px] font-semibold text-brand-emerald bg-brand-emerald-light dark:bg-brand-emerald-dark/40 dark:text-emerald-300">Fleet</span>
+        </a>
+
+        <!-- Claim Requests -->
+        <a href="#claim-requests" id="nav-claim-requests" onclick="setActiveNav('claim-requests', 'Claim Requests', 'Review queue: 9 cash + 5 vehicle claims awaiting review'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span>Claim Requests</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-brand-gold text-brand-navy">14</span>
+        </a>
+
+        <!-- Claim Requirements -->
+        <a href="#claim-requirements" id="nav-claim-requirements" onclick="setActiveNav('claim-requirements', 'Claim Requirements', 'Configure statutory delivery & transit charge rules'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Claim Requirements</span>
+          </div>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300">3</span>
+        </a>
+
+        <!-- Winners (Admin Only) -->
+        <a href="#winners" id="nav-winners" onclick="setActiveNav('winners', 'Winners (Admin Console)', 'Internal audit records of fulfilled claims. Strictly internal.'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+            </svg>
+            <span class="flex items-center gap-1.5">
+              Winners
+              <span class="text-[9px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-tighter">(Internal)</span>
+            </span>
+          </div>
+        </a>
+
+        <!-- Support -->
+        <a href="#support" id="nav-support" onclick="setActiveNav('support', 'Support Desk Console', 'Escalated member tickets & WhatsApp logs'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span>Support</span>
+          </div>
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        </a>
+
+        <!-- Audit Logs -->
+        <a href="#audit-logs" id="nav-audit-logs" onclick="setActiveNav('audit-logs', 'Audit Logs', 'POPIA Section 18 immutable event logs'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Audit Logs</span>
+          </div>
+        </a>
+
+        <!-- Settings -->
+        <a href="#settings" id="nav-settings" onclick="setActiveNav('settings', 'Admin Settings', 'System configurations, API endpoints, SARB compliance rules'); return false;" class="group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-muted dark:text-slate-400 group-hover:text-brand-navy dark:group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+
+      <!-- Sidebar Bottom: Theme Toggle & Logout -->
+      <div class="p-4 border-t border-brand-border dark:border-brand-navy-border space-y-3">
+        <!-- Theme Toggle Button -->
+        <button type="button" onclick="toggleTheme()" class="w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 bg-brand-surface dark:bg-brand-navy-card border border-brand-border dark:border-brand-navy-border hover:border-brand-gold dark:hover:border-brand-gold transition-colors focus-ring" aria-label="Toggle dark mode">
+          <span class="flex items-center gap-2">
+            <!-- Sun icon -->
+            <svg class="w-4 h-4 text-brand-gold block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <!-- Moon icon -->
+            <svg class="w-4 h-4 text-brand-gold hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+            <span id="theme-label-desktop">Light Mode</span>
+          </span>
+          <span class="text-[10px] uppercase font-bold text-brand-muted dark:text-slate-400">Switch</span>
+        </button>
+
+        <!-- Logout Action -->
+        <button type="button" onclick="simulateAdminAction('Session Termination', 'Logging out from Admin Console...'); setTimeout(() => { window.location.hash='#login'; }, 1000);" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition-colors focus-ring">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          <span>Sign Out Admin</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- =========================================================================
+         TABLET & MOBILE COMPACT ADMIN HEADER
+         ========================================================================= -->
+    <header class="lg:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-brand-navy border-b border-brand-border dark:border-brand-navy-border sticky top-0 z-40">
+      
+      <!-- Upper-Left Logo -->
+      <a href="#dashboard" onclick="simulateAdminAction('Dashboard', 'Operations Overview'); return false;" class="flex items-center gap-2 focus-ring rounded">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7iRy1I5HyBNv0eX2k38lAXogGslNSLdUv97aqXsguc-_dKI5TU8BTmB_z4uxt6JpBPa4bgz3W6UiL4zoAbCfh2U7_e4mXZM2u2NlKGxzrPGb78XtPcVzmFq-M9iuC2lAv1J5MQWhFkSV7_XTufoeKykmEsHftGeAolI4EBsaLGC6DXU2n13YgwR4LSD7n9zP-x2yxs5qlF6enYj3mfd0EAImG2zn6fawlXKWSqCuwPP9DkEtope-aLh4UJT11w7U8e88" alt="WinDriveSA Logo" class="h-7 w-auto object-contain">
+        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold font-sora uppercase bg-brand-navy text-brand-gold dark:bg-brand-navy-card">
+          ADMIN
+        </span>
+      </a>
+
+      <!-- Upper-Right Controls: Theme Toggle + Hamburger (Always Upper-Right) -->
+      <div class="flex items-center gap-2">
+        <!-- Theme Toggle (Tablet/Mobile) -->
+        <button type="button" onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-lg border border-brand-border dark:border-brand-navy-border bg-brand-surface dark:bg-brand-navy-card text-brand-navy dark:text-brand-gold focus-ring" aria-label="Toggle theme">
+          <svg class="w-5 h-5 block dark:hidden text-brand-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <svg class="w-5 h-5 hidden dark:block text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <!-- Functional Hamburger Button (Upper-Right) -->
+        <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="w-11 h-11 flex items-center justify-center rounded-lg border border-brand-border dark:border-brand-navy-border bg-brand-navy text-brand-gold dark:bg-brand-navy-card focus-ring" aria-label="Open admin navigation menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Mobile Drawer Menu (Strictly Admin Routes, No Public Links) -->
+    <div id="mobile-menu-drawer" class="hidden lg:hidden bg-white dark:bg-brand-navy border-b border-brand-border dark:border-brand-navy-border px-4 py-4 space-y-2 shadow-xl sticky top-[57px] z-30 max-h-[calc(100vh-60px)] overflow-y-auto">
+      <div class="px-2 pb-2 text-[11px] font-bold text-brand-muted dark:text-slate-400 uppercase tracking-wider font-sora">
+        Admin Navigation Menu
+      </div>
+      <a href="#dashboard" onclick="setActiveNav('dashboard', 'Dashboard', 'Operations Overview loaded'); toggleMobileMenu(); return false;" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy text-sm font-semibold">
+        <span>Dashboard</span>
+        <span class="w-2 h-2 rounded-full bg-brand-gold dark:bg-brand-navy"></span>
+      </a>
+      <a href="#users" onclick="setActiveNav('users', 'Users', '12 pending KYC approvals'); toggleMobileMenu(); return false;" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        <span>Users</span>
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300">12 Pending</span>
+      </a>
+      <a href="#rewards" onclick="setActiveNav('rewards', 'Rewards', 'Rewards catalog'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Rewards
+      </a>
+      <a href="#cash-prizes" onclick="setActiveNav('cash-prizes', 'Cash Prizes', 'ZAR EFT Escrow registry'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Cash Prizes
+      </a>
+      <a href="#vehicle-prizes" onclick="setActiveNav('vehicle-prizes', 'Vehicle Prizes', 'National fleet registry'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Vehicle Prizes
+      </a>
+      <a href="#claim-requests" onclick="setActiveNav('claim-requests', 'Claim Requests', 'Review queue: 14 claims'); toggleMobileMenu(); return false;" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        <span>Claim Requests</span>
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-brand-gold text-brand-navy">14 Queued</span>
+      </a>
+      <a href="#claim-requirements" onclick="setActiveNav('claim-requirements', 'Claim Requirements', 'Applicable requirements'); toggleMobileMenu(); return false;" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        <span>Claim Requirements</span>
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300">3 Configured</span>
+      </a>
+      <a href="#winners" onclick="setActiveNav('winners', 'Winners (Admin Console)', 'Internal audit records only'); toggleMobileMenu(); return false;" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        <span>Winners <span class="text-xs text-slate-400 font-normal">(Internal Audit)</span></span>
+      </a>
+      <a href="#support" onclick="setActiveNav('support', 'Support Desk', 'Member inquiries'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Support Desk
+      </a>
+      <a href="#audit-logs" onclick="setActiveNav('audit-logs', 'Audit Logs', 'POPIA Section 18 logs'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Audit Logs
+      </a>
+      <a href="#settings" onclick="setActiveNav('settings', 'Settings', 'Admin platform preferences'); toggleMobileMenu(); return false;" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-brand-navy dark:text-slate-200 hover:bg-brand-surface dark:hover:bg-brand-navy-card">
+        Settings
+      </a>
+      <div class="pt-3 border-t border-brand-border dark:border-brand-navy-border">
+        <button type="button" onclick="simulateAdminAction('Session Terminated', 'Signing out...'); toggleMobileMenu();" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30">
+          Sign Out Admin
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         MAIN ADMIN CONTENT WORKSPACE
+         ========================================================================= -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+      
+      <!-- Top Operational Breadcrumb & Context Header Bar -->
+      <div class="bg-white dark:bg-brand-navy border-b border-brand-border dark:border-brand-navy-border px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-xs text-brand-muted dark:text-slate-400 font-medium">
+          <span>HQ Admin Console</span>
+          <span>/</span>
+          <span class="text-brand-navy dark:text-slate-200 font-semibold font-sora" id="breadcrumb-current">Operations Overview</span>
+          <span class="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded-full text-[11px] bg-emerald-50 dark:bg-emerald-950/50 text-brand-emerald dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald animate-pulse"></span>
+            Operational Simulator Active
+          </span>
+        </div>
+
+        <!-- Quick System Status Badge -->
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 px-2.5 py-1 rounded border border-brand-border dark:border-brand-navy-border bg-brand-surface dark:bg-brand-navy-card text-xs">
+            <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+            <span class="font-semibold text-brand-navy dark:text-slate-200">System Status:</span>
+            <span class="text-brand-emerald dark:text-emerald-400 font-medium">Operational</span>
+          </div>
+          <span class="text-[11px] font-mono text-brand-muted dark:text-slate-400 hidden md:inline">
+            SAST: 10:42 UTC+2
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Operational Body -->
+      <div class="p-4 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
+        
+        <!-- =========================================================================
+             PAGE INTRO & OPERATIONAL HEADER
+             ========================================================================= -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-brand-border/80 dark:border-brand-navy-border pb-6">
+          <div>
+            <div class="text-[11px] font-bold uppercase tracking-widest text-brand-gold font-sora">
+              ADMIN DASHBOARD
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight mt-1">
+              Operations Overview
+            </h1>
+            <p class="text-sm text-brand-muted dark:text-slate-400 mt-1.5 max-w-2xl">
+              Monitor accounts, rewards, claims, and actions requiring attention. Real-time queues for administrative verification and delivery sign-offs.
+            </p>
+          </div>
+
+          <!-- Fast Action Toolbar -->
+          <div class="flex items-center gap-2.5 shrink-0">
+            <button type="button" onclick="simulateAdminAction('Queue Refresh', 'Refreshing real-time pending queues from database...');" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg bg-white dark:bg-brand-navy-card border border-brand-border dark:border-brand-navy-border text-brand-navy dark:text-slate-200 hover:border-brand-gold transition-colors focus-ring shadow-sm">
+              <svg class="w-3.5 h-3.5 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              <span>Refresh Data</span>
+            </button>
+            <button type="button" onclick="simulateAdminAction('Export Audit Log', 'Preparing POPIA compliant JSON/CSV audit ledger for export...');" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg bg-brand-navy dark:bg-brand-gold text-white dark:text-brand-navy hover:bg-brand-navy-surface dark:hover:bg-brand-gold-hover transition-colors focus-ring shadow-sm font-sora">
+              <svg class="w-3.5 h-3.5 text-brand-gold dark:text-brand-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span>Export Ledger</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             1. COMPACT SUMMARY METRICS ROW
+             Large, highly legible tabular values; zero meaningless decorative charts.
+             ========================================================================= -->
+        <section aria-labelledby="metrics-heading" class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 id="metrics-heading" class="text-xs font-bold uppercase tracking-wider text-brand-muted dark:text-slate-400 font-sora">
+              Live Operations Metrics
+            </h2>
+            <span class="text-[11px] text-brand-muted dark:text-slate-400">Values dynamically pulled from verified queues</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Metric 1: Pending User Reviews -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:border-amber-400/80 transition-colors flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-brand-muted dark:text-slate-400">Pending User Reviews</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                </div>
+                <div class="mt-3 flex items-baseline gap-2">
+                  <span class="text-3xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight font-mono">12</span>
+                  <span class="text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded">
+                    KYC / ID Escrow
+                  </span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-slate-400 mt-2">
+                  Citizens registered awaiting national identity verification.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-brand-border/60 dark:border-brand-navy-border/60">
+                <button type="button" onclick="simulateAdminAction('Review Users Queue', 'Navigating to Users / Verification queue for 12 pending citizens.');" class="text-xs font-bold text-brand-navy dark:text-brand-gold hover:underline flex items-center gap-1">
+                  <span>Review Users</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Metric 2: Active Users -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:border-brand-emerald transition-colors flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-brand-muted dark:text-slate-400">Active Users</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald"></span>
+                </div>
+                <div class="mt-3 flex items-baseline gap-2">
+                  <span class="text-3xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight font-mono">2,840</span>
+                  <span class="text-xs font-medium text-brand-emerald dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded">
+                    Verified Tier 1
+                  </span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-slate-400 mt-2">
+                  POPIA Section 18 verified accounts in good standing.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-brand-border/60 dark:border-brand-navy-border/60">
+                <button type="button" onclick="simulateAdminAction('Active Users Roster', 'Loading directory of 2,840 verified active citizens.');" class="text-xs font-bold text-brand-navy dark:text-brand-gold hover:underline flex items-center gap-1">
+                  <span>View Member Roster</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Metric 3: Pending Cash Claims -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:border-brand-gold transition-colors flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-brand-muted dark:text-slate-400">Pending Cash Claims</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-brand-gold"></span>
+                </div>
+                <div class="mt-3 flex items-baseline gap-2">
+                  <span class="text-3xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight font-mono">9</span>
+                  <span class="text-xs font-medium text-brand-navy dark:text-brand-gold bg-amber-100 dark:bg-amber-950/70 px-2 py-0.5 rounded font-mono">
+                    R1.45M ZAR Pool
+                  </span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-slate-400 mt-2">
+                  Submitted bank EFT accounts awaiting compliance audit.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-brand-border/60 dark:border-brand-navy-border/60">
+                <button type="button" onclick="simulateAdminAction('Review Cash Queue', 'Navigating to Cash Prize Claims: 9 pending approvals.');" class="text-xs font-bold text-brand-navy dark:text-brand-gold hover:underline flex items-center gap-1">
+                  <span>Review Cash Claims</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Metric 4: Pending Vehicle Claims -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:border-brand-navy transition-colors flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-brand-muted dark:text-slate-400">Pending Vehicle Claims</span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-brand-navy dark:bg-white"></span>
+                </div>
+                <div class="mt-3 flex items-baseline gap-2">
+                  <span class="text-3xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight font-mono">5</span>
+                  <span class="text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                    Logistics Dispatch
+                  </span>
+                </div>
+                <p class="text-xs text-brand-muted dark:text-slate-400 mt-2">
+                  Physical delivery addresses pending regional courier allocation.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-brand-border/60 dark:border-brand-navy-border/60">
+                <button type="button" onclick="simulateAdminAction('Review Vehicle Queue', 'Navigating to Vehicle Prize Claims: 5 pending dispatches.');" class="text-xs font-bold text-brand-navy dark:text-brand-gold hover:underline flex items-center gap-1">
+                  <span>Review Vehicle Claims</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- =========================================================================
+             2. ACTION REQUIRED (OPERATIONAL QUEUES)
+             Visually prominent section showing items needing immediate admin intervention.
+             ========================================================================= -->
+        <section aria-labelledby="action-required-heading" class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="flex h-3 w-3 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+              </span>
+              <h2 id="action-required-heading" class="text-base font-bold text-brand-navy dark:text-white font-sora">
+                Action Required
+              </h2>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300">
+              29 Items Pending Operational Review
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Queue Item 1: User Reviews -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded">
+                    User Reviews
+                  </span>
+                  <span class="font-mono text-xs font-bold text-brand-navy dark:text-white">12 accounts</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-navy dark:text-white font-sora">
+                  Accounts awaiting approval
+                </h3>
+                <p class="text-xs text-brand-muted dark:text-slate-400 leading-relaxed">
+                  Citizens uploaded South African Smart ID or Book copies requiring manual biometric and identity escrow validation before reward accessibility.
+                </p>
+              </div>
+              <button type="button" onclick="simulateAdminAction('Action Required: Users', 'Opening 12 unverified user KYC submissions...');" class="shrink-0 inline-flex items-center justify-center px-4 py-2 text-xs font-bold rounded-lg bg-brand-navy text-white hover:bg-brand-navy-surface dark:bg-brand-gold dark:text-brand-navy dark:hover:bg-brand-gold-hover transition-colors focus-ring font-sora shadow-sm">
+                Review (12)
+              </button>
+            </div>
+
+            <!-- Queue Item 2: Cash Claims -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-brand-gold bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded">
+                    Cash Claims
+                  </span>
+                  <span class="font-mono text-xs font-bold text-brand-navy dark:text-white">9 claims</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-navy dark:text-white font-sora">
+                  Cash prize claims awaiting review
+                </h3>
+                <p class="text-xs text-brand-muted dark:text-slate-400 leading-relaxed">
+                  Member submitted domestic banking account details (Standard Bank, FNB, Absa, Capitec, Nedbank) requiring compliance cross-audit prior to ZAR EFT release.
+                </p>
+              </div>
+              <button type="button" onclick="simulateAdminAction('Action Required: Cash Claims', 'Opening 9 pending cash disbursement claims...');" class="shrink-0 inline-flex items-center justify-center px-4 py-2 text-xs font-bold rounded-lg bg-brand-navy text-white hover:bg-brand-navy-surface dark:bg-brand-gold dark:text-brand-navy dark:hover:bg-brand-gold-hover transition-colors focus-ring font-sora shadow-sm">
+                Review (9)
+              </button>
+            </div>
+
+            <!-- Queue Item 3: Vehicle Claims -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-brand-navy dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                    Vehicle Claims
+                  </span>
+                  <span class="font-mono text-xs font-bold text-brand-navy dark:text-white">5 claims</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-navy dark:text-white font-sora">
+                  Vehicle prize claims awaiting review
+                </h3>
+                <p class="text-xs text-brand-muted dark:text-slate-400 leading-relaxed">
+                  Delivery recipient and physical logistics addresses (Gauteng, Western Cape, KZN) submitted for 2026 Toyota Hilux fleet allocations awaiting transport manifest.
+                </p>
+              </div>
+              <button type="button" onclick="simulateAdminAction('Action Required: Vehicle Claims', 'Opening 5 pending vehicle logistics claim files...');" class="shrink-0 inline-flex items-center justify-center px-4 py-2 text-xs font-bold rounded-lg bg-brand-navy text-white hover:bg-brand-navy-surface dark:bg-brand-gold dark:text-brand-navy dark:hover:bg-brand-gold-hover transition-colors focus-ring font-sora shadow-sm">
+                Review (5)
+              </button>
+            </div>
+
+            <!-- Queue Item 4: Claim Requirements -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-5 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-brand-emerald bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded">
+                    Requirements
+                  </span>
+                  <span class="font-mono text-xs font-bold text-brand-navy dark:text-white">3 items</span>
+                </div>
+                <h3 class="text-sm font-bold text-brand-navy dark:text-white font-sora">
+                  Approved claims with configured applicable requirements
+                </h3>
+                <p class="text-xs text-brand-muted dark:text-slate-400 leading-relaxed">
+                  Claims approved where applicable transit or administrative verification documentation charges are configured for South African logistics sign-off.
+                </p>
+              </div>
+              <button type="button" onclick="simulateAdminAction('Action Required: Requirements', 'Opening 3 configured claim requirement reviews...');" class="shrink-0 inline-flex items-center justify-center px-4 py-2 text-xs font-bold rounded-lg bg-brand-navy text-white hover:bg-brand-navy-surface dark:bg-brand-gold dark:text-brand-navy dark:hover:bg-brand-gold-hover transition-colors focus-ring font-sora shadow-sm">
+                Review (3)
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- =========================================================================
+             3. QUICK ACTIONS
+             Direct navigation shortcuts into administration workflows.
+             ========================================================================= -->
+        <section aria-labelledby="quick-actions-heading" class="space-y-3">
+          <h2 id="quick-actions-heading" class="text-xs font-bold uppercase tracking-wider text-brand-muted dark:text-slate-400 font-sora">
+            Quick Actions
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            
+            <!-- Quick Action 1: Create User -->
+            <button type="button" onclick="simulateAdminAction('Create User', 'Opening Users / Create User manual registration modal...');" class="group p-4 bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border hover:border-brand-gold dark:hover:border-brand-gold text-left transition-all focus-ring shadow-sm flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-surface dark:bg-brand-navy-border flex items-center justify-center text-brand-navy dark:text-brand-gold group-hover:scale-105 transition-transform shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-brand-navy dark:text-white font-sora group-hover:text-brand-gold transition-colors">
+                  Create User
+                </div>
+                <div class="text-[11px] text-brand-muted dark:text-slate-400 mt-0.5">
+                  → Users / Create User
+                </div>
+              </div>
+            </button>
+
+            <!-- Quick Action 2: Assign Reward -->
+            <button type="button" onclick="simulateAdminAction('Assign Reward', 'Opening Rewards / Assign Reward allocation console...');" class="group p-4 bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border hover:border-brand-gold dark:hover:border-brand-gold text-left transition-all focus-ring shadow-sm flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-surface dark:bg-brand-navy-border flex items-center justify-center text-brand-navy dark:text-brand-gold group-hover:scale-105 transition-transform shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-brand-navy dark:text-white font-sora group-hover:text-brand-gold transition-colors">
+                  Assign Reward
+                </div>
+                <div class="text-[11px] text-brand-muted dark:text-slate-400 mt-0.5">
+                  → Rewards / Assign Reward
+                </div>
+              </div>
+            </button>
+
+            <!-- Quick Action 3: Review Claims -->
+            <button type="button" onclick="simulateAdminAction('Review Claims', 'Navigating to Claim Requests central review table...');" class="group p-4 bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border hover:border-brand-gold dark:hover:border-brand-gold text-left transition-all focus-ring shadow-sm flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-surface dark:bg-brand-navy-border flex items-center justify-center text-brand-navy dark:text-brand-gold group-hover:scale-105 transition-transform shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-brand-navy dark:text-white font-sora group-hover:text-brand-gold transition-colors">
+                  Review Claims
+                </div>
+                <div class="text-[11px] text-brand-muted dark:text-slate-400 mt-0.5">
+                  → Claim Requests (14)
+                </div>
+              </div>
+            </button>
+
+            <!-- Quick Action 4: Configure Claim Requirements -->
+            <button type="button" onclick="simulateAdminAction('Configure Claim Requirements', 'Opening Claim Requirements parameters panel...');" class="group p-4 bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border hover:border-brand-gold dark:hover:border-brand-gold text-left transition-all focus-ring shadow-sm flex items-center gap-3.5">
+              <div class="w-10 h-10 rounded-lg bg-brand-surface dark:bg-brand-navy-border flex items-center justify-center text-brand-navy dark:text-brand-gold group-hover:scale-105 transition-transform shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-brand-navy dark:text-white font-sora group-hover:text-brand-gold transition-colors">
+                  Configure Requirements
+                </div>
+                <div class="text-[11px] text-brand-muted dark:text-slate-400 mt-0.5">
+                  → Claim Requirements
+                </div>
+              </div>
+            </button>
+
+          </div>
+        </section>
+
+        <!-- =========================================================================
+             4. RECENT ADMIN ACTIVITY
+             Clean, auditable operational ledger. Responsive table (desktop) / cards (mobile).
+             Clearly structured simulator data (replaceable by live API).
+             ========================================================================= -->
+        <section aria-labelledby="activity-heading" class="space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h2 id="activity-heading" class="text-base font-bold text-brand-navy dark:text-white font-sora">
+                Recent Admin Activity
+              </h2>
+              <p class="text-xs text-brand-muted dark:text-slate-400">
+                Immutable audit trail of administrator actions, queue approvals, and reward allocations.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-mono text-brand-muted dark:text-slate-400 bg-brand-surface dark:bg-brand-navy-card px-2 py-1 rounded border border-brand-border dark:border-brand-navy-border">
+                Filter: All Actions (5)
+              </span>
+              <button type="button" onclick="simulateAdminAction('Audit Trail Filter', 'Switching activity filter view...');" class="text-xs font-semibold text-brand-navy dark:text-brand-gold hover:underline">
+                View All Logs →
+              </button>
+            </div>
+          </div>
+
+          <!-- Desktop Activity Table -->
+          <div class="hidden md:block bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border overflow-hidden shadow-sm">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-brand-border dark:border-brand-navy-border bg-brand-surface/70 dark:bg-brand-navy/60 text-brand-muted dark:text-slate-400 font-sora font-semibold">
+                    <th scope="col" class="py-3 px-4">Action</th>
+                    <th scope="col" class="py-3 px-4">Administrator</th>
+                    <th scope="col" class="py-3 px-4">Related Account / Reference</th>
+                    <th scope="col" class="py-3 px-4">Date / Time (SAST)</th>
+                    <th scope="col" class="py-3 px-4 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-border dark:divide-brand-navy-border font-manrope">
+                  
+                  <!-- Row 1: Vehicle Claim Reviewed -->
+                  <tr class="hover:bg-brand-surface/50 dark:hover:bg-brand-navy/30 transition-colors">
+                    <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                      <span>Vehicle Claim Reviewed</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-300">
+                      Thabo Molefe <span class="text-[10px] text-slate-400">(Admin ID #04)</span>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono font-medium text-brand-navy dark:text-brand-gold">
+                      Claim #WD-VK-55912 <span class="text-[11px] font-sans text-brand-muted dark:text-slate-400">(N. Mthembu)</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-400 font-mono">
+                      18 Jan 2026, 14:15
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">
+                        APPROVED
+                      </span>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2: Cash Claim Reviewed -->
+                  <tr class="hover:bg-brand-surface/50 dark:hover:bg-brand-navy/30 transition-colors">
+                    <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+                      <span>Cash Claim Reviewed</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-300">
+                      Kagiso Ndlovu <span class="text-[10px] text-slate-400">(Admin ID #02)</span>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono font-medium text-brand-navy dark:text-brand-gold">
+                      Claim #WD-CP-77402 <span class="text-[11px] font-sans text-brand-muted dark:text-slate-400">(R250,000 ZAR)</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-400 font-mono">
+                      18 Jan 2026, 11:20
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300">
+                        UNDER REVIEW
+                      </span>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3: User Approved -->
+                  <tr class="hover:bg-brand-surface/50 dark:hover:bg-brand-navy/30 transition-colors">
+                    <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                      <span>User Approved</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-300">
+                      Sipho Khumalo <span class="text-[10px] text-slate-400">(Admin ID #01)</span>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono font-medium text-brand-navy dark:text-slate-200">
+                      User #WD-RSA-9941 <span class="text-[11px] font-sans text-brand-muted dark:text-slate-400">(Tier 1 Verified)</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-400 font-mono">
+                      17 Jan 2026, 16:45
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">
+                        VERIFIED
+                      </span>
+                    </td>
+                  </tr>
+
+                  <!-- Row 4: Claim Requirement Updated -->
+                  <tr class="hover:bg-brand-surface/50 dark:hover:bg-brand-navy/30 transition-colors">
+                    <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                      <span>Claim Requirement Updated</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-300">
+                      Super Admin <span class="text-[10px] text-slate-400">(HQ Root)</span>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono font-medium text-brand-navy dark:text-slate-200">
+                      Rule #REQ-LOGISTICS-02 <span class="text-[11px] font-sans text-brand-muted dark:text-slate-400">(R1,850 Fee Cap)</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-400 font-mono">
+                      16 Jan 2026, 09:30
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-300">
+                        CONFIGURED
+                      </span>
+                    </td>
+                  </tr>
+
+                  <!-- Row 5: Reward Assigned -->
+                  <tr class="hover:bg-brand-surface/50 dark:hover:bg-brand-navy/30 transition-colors">
+                    <td class="py-3.5 px-4 font-semibold text-brand-navy dark:text-white flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                      <span>Reward Assigned</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-300">
+                      Thabo Molefe <span class="text-[10px] text-slate-400">(Admin ID #04)</span>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono font-medium text-brand-navy dark:text-slate-200">
+                      Reward #RWD-2026-081 <span class="text-[11px] font-sans text-brand-muted dark:text-slate-400">(Toyota Hilux 4x4)</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-brand-muted dark:text-slate-400 font-mono">
+                      15 Jan 2026, 17:05
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-100 text-purple-900 dark:bg-purple-950 dark:text-purple-300">
+                        ASSIGNED
+                      </span>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Mobile Activity List (Stacked Cards for Responsive Cleanliness) -->
+          <div class="md:hidden space-y-3">
+            
+            <!-- Mobile Card 1 -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-4 shadow-sm space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-brand-navy dark:text-white font-sora">Vehicle Claim Reviewed</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">APPROVED</span>
+              </div>
+              <div class="text-xs font-mono text-brand-navy dark:text-brand-gold font-medium">Claim #WD-VK-55912 (N. Mthembu)</div>
+              <div class="flex items-center justify-between text-[11px] text-brand-muted dark:text-slate-400 pt-1 border-t border-brand-border/60 dark:border-brand-navy-border">
+                <span>Admin: Thabo Molefe (#04)</span>
+                <span>18 Jan, 14:15</span>
+              </div>
+            </div>
+
+            <!-- Mobile Card 2 -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-4 shadow-sm space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-brand-navy dark:text-white font-sora">Cash Claim Reviewed</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300">UNDER REVIEW</span>
+              </div>
+              <div class="text-xs font-mono text-brand-navy dark:text-brand-gold font-medium">Claim #WD-CP-77402 (R250,000 ZAR)</div>
+              <div class="flex items-center justify-between text-[11px] text-brand-muted dark:text-slate-400 pt-1 border-t border-brand-border/60 dark:border-brand-navy-border">
+                <span>Admin: Kagiso Ndlovu (#02)</span>
+                <span>18 Jan, 11:20</span>
+              </div>
+            </div>
+
+            <!-- Mobile Card 3 -->
+            <div class="bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border p-4 shadow-sm space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-brand-navy dark:text-white font-sora">User Approved</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">VERIFIED</span>
+              </div>
+              <div class="text-xs font-mono text-brand-navy dark:text-slate-200 font-medium">User #WD-RSA-9941 (Tier 1)</div>
+              <div class="flex items-center justify-between text-[11px] text-brand-muted dark:text-slate-400 pt-1 border-t border-brand-border/60 dark:border-brand-navy-border">
+                <span>Admin: Sipho Khumalo (#01)</span>
+                <span>17 Jan, 16:45</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- =========================================================================
+             5. SYSTEM STATUS & OPERATIONAL COMPLIANCE
+             Restrained status container. Zero fake uptime or fake certifications.
+             ========================================================================= -->
+        <section aria-label="System Operational Health" class="p-5 bg-white dark:bg-brand-navy-card rounded-xl border border-brand-border dark:border-brand-navy-border shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start sm:items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-brand-emerald flex items-center justify-center shrink-0 border border-emerald-200 dark:border-emerald-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-brand-navy dark:text-white font-sora">System Status: Operational</span>
+                <span class="inline-block w-2 h-2 rounded-full bg-brand-emerald"></span>
+              </div>
+              <p class="text-xs text-brand-muted dark:text-slate-400 mt-0.5">
+                Core services responding normal: Identity Escrow API, Claim Workflow Engine, POPIA Section 18 Audit Vault.
+              </p>
+            </div>
+          </div>
+          <div class="shrink-0 flex items-center gap-3 text-xs text-brand-muted dark:text-slate-400 font-mono">
+            <span>Env: Production-Internal</span>
+            <span>•</span>
+            <span>SecOps Build: 2026.01.4</span>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- =========================================================================
+           ADMIN FOOTER (STRICTLY INTERNAL COMPLIANCE)
+           ========================================================================= -->
+      <footer class="mt-auto border-t border-brand-border dark:border-brand-navy-border bg-white dark:bg-brand-navy px-4 sm:px-8 py-4 text-xs text-brand-muted dark:text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-brand-navy dark:text-slate-300 font-sora">WinDriveSA (Pty) Ltd.</span>
+          <span>•</span>
+          <span>Internal Administration & Operations Console</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-4 text-[11px]">
+          <span>POPIA Section 18 Compliant</span>
+          <span>•</span>
+          <span>RSA Reg: 2024/782194/07</span>
+          <span>•</span>
+          <span class="text-brand-gold font-semibold">Strictly Confidential</span>
+        </div>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       ADMIN WORKSPACE JAVASCRIPT
+       Handles Theme Switching, Mobile Drawer, and Prototype Interaction Routing
+       ========================================================================= -->
+  <script>
+    // 1. Mandatory Light Mode Default Initialization
+    // Strictly ignores OS/browser dark mode preferences unless user explicitly toggled
+    (function initializeTheme() {
+      const savedTheme = localStorage.getItem('windrive_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        updateThemeUI(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateThemeUI(false);
+      }
+    })();
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('windrive_theme', isDark ? 'dark' : 'light');
+      updateThemeUI(isDark);
+      showToast('Theme Updated', isDark ? 'Dark Mode (Console Night Ops)' : 'Light Mode (Default Standard)');
+    }
+
+    function updateThemeUI(isDark) {
+      const labelDesktop = document.getElementById('theme-label-desktop');
+      if (labelDesktop) {
+        labelDesktop.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+      }
+    }
+
+    // 2. Mobile Drawer Navigation Toggle
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+      const btn = document.getElementById('mobile-menu-btn');
+      
+      const isOpen = !drawer.classList.contains('hidden');
+      if (isOpen) {
+        drawer.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        drawer.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // 3. Admin Navigation Item State Switching
+    function setActiveNav(navKey, navTitle, routeInfo) {
+      // Update breadcrumb
+      const breadcrumb = document.getElementById('breadcrumb-current');
+      if (breadcrumb) breadcrumb.textContent = navTitle;
+
+      // Update Desktop Sidebar active classes
+      const allDesktopLinks = document.querySelectorAll('nav[aria-label="Sidebar Admin Routes"] a');
+      allDesktopLinks.forEach(link => {
+        link.className = "group flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-brand-navy dark:text-slate-300 hover:bg-brand-surface dark:hover:bg-brand-navy-card transition-colors focus-ring";
+      });
+
+      const activeEl = document.getElementById('nav-' + navKey);
+      if (activeEl) {
+        activeEl.className = "group flex items-center justify-between px-3 py-2.5 text-xs font-semibold rounded-lg bg-brand-navy text-white shadow-sm dark:bg-brand-gold dark:text-brand-navy transition-all focus-ring";
+      }
+
+      showToast(navTitle, routeInfo);
+    }
+
+    // 4. Toast Notification for Realistic Prototype Feedback
+    let toastTimeout;
+    function showToast(title, message) {
+      const toast = document.getElementById('admin-toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastMessage = document.getElementById('toast-message');
+
+      if (!toast) return;
+
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    function simulateAdminAction(actionTitle, detail) {
+      showToast(actionTitle, detail);
+    }
+  </script>
+</body>
+</html>

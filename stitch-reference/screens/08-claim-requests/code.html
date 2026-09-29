@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinDriveSA — Claim Requests</title>
+  
+  <!-- Fonts: Sora (Headings) & Manrope (Body/UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              'navy-dark': '#040F1A',
+              'navy-light': '#0B243B',
+              charcoal: '#17212B',
+              'charcoal-surface': '#1F2B37',
+              gold: '#F2B705',
+              'gold-hover': '#D9A404',
+              'gold-subtle': '#FFF8E7',
+              emerald: '#00843D',
+              'emerald-subtle': '#E8F5EE',
+              bg: '#F5F7FA',
+              border: '#D9E0E7',
+              'border-dark': '#1F2F40',
+              muted: '#667085',
+              'muted-dark': '#94A3B8'
+            }
+          },
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            manrope: ['Manrope', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Strict CSS baseline & typography rules */
+    body {
+      font-family: 'Manrope', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Sora', sans-serif;
+    }
+    /* Tabular numbers for financial and IDs */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Hide scrollbar for clean horizontal preview if needed */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-brand-bg dark:bg-brand-navy-dark text-brand-charcoal dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- ================================================================= -->
+  <!-- 00. PROTOTYPE QA SIMULATOR HARNESS (VISUALLY SEPARATED PROTO HARNESS) -->
+  <!-- ================================================================= -->
+  <aside aria-label="Prototype QA Simulator Controls" class="bg-brand-navy text-white text-xs px-4 py-2.5 border-b border-brand-charcoal z-50 flex flex-wrap items-center justify-between gap-3 select-none">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-gold animate-pulse"></span>
+      <span class="font-sora font-semibold tracking-wider text-[11px] text-brand-gold uppercase">QA Simulator Harness</span>
+      <span class="text-slate-400 hidden sm:inline">| Claim Requests Lifecycle Preview:</span>
+    </div>
+
+    <!-- Simulator State Buttons -->
+    <div class="flex items-center flex-wrap gap-1.5 overflow-x-auto no-scrollbar py-0.5" id="simulator-buttons">
+      <button onclick="setPrototypeState('available')" id="btn-state-available" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-brand-gold text-brand-navy font-bold shadow-sm">
+        1. Claim Available
+      </button>
+      <button onclick="setPrototypeState('under_review')" id="btn-state-under_review" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">
+        2. Under Review
+      </button>
+      <button onclick="setPrototypeState('approved')" id="btn-state-approved" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">
+        3. Approved
+      </button>
+      <button onclick="setPrototypeState('requirement')" id="btn-state-requirement" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">
+        4. Requirement Pending
+      </button>
+      <button onclick="setPrototypeState('processing')" id="btn-state-processing" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">
+        5. Processing
+      </button>
+      <button onclick="setPrototypeState('fulfilled')" id="btn-state-fulfilled" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">
+        6. Fulfilled
+      </button>
+      <button onclick="setPrototypeState('unassigned')" id="btn-state-unassigned" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border border-slate-700">
+        7. Prize Unassigned
+      </button>
+      <button onclick="setPrototypeState('pending_review')" id="btn-state-pending_review" class="px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white border border-slate-700">
+        8. Account In-Review
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================================================================= -->
+  <!-- RESPONSIVE APPLICATION SHELL -->
+  <!-- ================================================================= -->
+  <div class="flex-1 flex flex-col lg:flex-row w-full max-w-[1600px] mx-auto">
+
+    <!-- =============================================================== -->
+    <!-- 01. DESKTOP AUTHENTICATED SIDEBAR (Fixed 256px on Desktop) -->
+    <!-- =============================================================== -->
+    <aside class="hidden lg:flex flex-col w-64 shrink-0 bg-white dark:bg-brand-navy border-r border-brand-border dark:border-brand-border-dark min-h-[calc(100vh-42px)] p-6 justify-between transition-colors">
+      <div class="space-y-6">
+        <!-- Official Brand Logo -->
+        <div class="pt-1">
+          <a href="#/dashboard" class="block focus:outline-none focus:ring-2 focus:ring-brand-gold rounded">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBFwZ_eBXkCNCqPIZ3XvRb3-p1f-NNBT50dpniNQUeH3SwUPSzkJ2SFImTK_b-BfIH_4GArSPOOC7Vux1LAOVDTqXyyaNeMAPfH3YoHs5nYpS46UQB7Ji4P8DjcZknLEhqnnW8wukU9rdxmTvxQIZZ3q93pVz8UYwrpG1hsIN-8CMZNrSMZ6sU_BF-ADjCAG3bb1KNNhRe0yjx534BFfYa3WZNkatGrhia4fNMvzoxrtk9_n2FvsACwoHYyTWGmBl5do4" alt="WinDriveSA Logo" class="h-11 w-auto object-contain">
+          </a>
+        </div>
+
+        <!-- Verified Member Identity Card -->
+        <div class="bg-brand-bg dark:bg-brand-navy-light/60 p-3.5 rounded-xl border border-brand-border dark:border-brand-border-dark/80 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-brand-navy dark:bg-brand-charcoal text-brand-gold font-sora font-bold flex items-center justify-center text-sm shadow-inner shrink-0">
+            NM
+          </div>
+          <div class="min-w-0">
+            <div class="font-sora text-xs font-semibold text-brand-navy dark:text-white truncate">Nkosana Mthembu</div>
+            <div class="flex items-center gap-1.5 text-[11px] text-brand-muted dark:text-brand-muted-dark">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+              <span class="truncate">RSA Citizen • Tier 1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Authenticated Primary Navigation -->
+        <nav class="space-y-1.5" aria-label="Authenticated Navigation">
+          <a href="#/dashboard" onclick="simulateNavigation('Dashboard')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-brand-muted dark:text-brand-muted-dark hover:bg-brand-bg dark:hover:bg-slate-800 hover:text-brand-navy dark:hover:text-white transition">
+            <svg class="w-5 h-5 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            Dashboard
+          </a>
+
+          <a href="#/rewards" onclick="simulateNavigation('My Rewards')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-brand-muted dark:text-brand-muted-dark hover:bg-brand-bg dark:hover:bg-slate-800 hover:text-brand-navy dark:hover:text-white transition">
+            <svg class="w-5 h-5 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.496m5.008 0A2.25 2.25 0 0016.75 12V8.25m-7.254 2.25A2.25 2.25 0 017.25 8.25V6m0 0V4.5A2.25 2.25 0 019.5 2.25h5A2.25 2.25 0 0116.75 4.5V6" />
+            </svg>
+            My Rewards
+          </a>
+
+          <!-- ACTIVE NAVIGATION ITEM: Claim Requests -->
+          <a href="#/claim-requests" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-semibold bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy shadow-sm transition">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-brand-gold dark:text-brand-navy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25V3.75A1.125 1.125 0 0013.125 2.625H4.875A1.125 1.125 0 003.75 3.75v10.5" />
+              </svg>
+              <span>Claim Requests</span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-brand-gold dark:bg-brand-navy"></span>
+          </a>
+
+          <a href="#/account" onclick="simulateNavigation('Account')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-brand-muted dark:text-brand-muted-dark hover:bg-brand-bg dark:hover:bg-slate-800 hover:text-brand-navy dark:hover:text-white transition">
+            <svg class="w-5 h-5 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+            Account
+          </a>
+
+          <a href="#/support" onclick="simulateNavigation('Support')" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-brand-muted dark:text-brand-muted-dark hover:bg-brand-bg dark:hover:bg-slate-800 hover:text-brand-navy dark:hover:text-white transition">
+            <svg class="w-5 h-5 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+            </svg>
+            Support
+          </a>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer / Controls -->
+      <div class="space-y-4 pt-4 border-t border-brand-border dark:border-brand-border-dark">
+        <!-- Desktop Theme Toggle -->
+        <div class="flex items-center justify-between px-3.5 py-2 rounded-lg bg-brand-bg dark:bg-brand-navy-light/60">
+          <span class="text-xs font-medium text-brand-muted dark:text-brand-muted-dark flex items-center gap-2">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            Theme
+          </span>
+          <button onclick="toggleTheme()" aria-label="Toggle Light and Dark mode" class="theme-toggle-btn p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 text-brand-charcoal dark:text-brand-gold transition shadow-sm">
+            <!-- Light Icon (shown in dark mode) -->
+            <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+            </svg>
+            <!-- Moon Icon (shown in light mode) -->
+            <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>
+          </button>
+        </div>
+
+        <button onclick="simulateNavigation('Logout')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition">
+          <svg class="w-5 h-5 text-slate-400 group-hover:text-red-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+          </svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- =============================================================== -->
+    <!-- 02. TABLET / MOBILE COMPACT AUTHENTICATED HEADER -->
+    <!-- =============================================================== -->
+    <header class="lg:hidden flex items-center justify-between px-4 py-3.5 bg-white dark:bg-brand-navy border-b border-brand-border dark:border-brand-border-dark sticky top-0 z-40">
+      <!-- Upper Left: WinDriveSA Logo -->
+      <a href="#/dashboard" class="flex items-center focus:outline-none focus:ring-2 focus:ring-brand-gold rounded">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNEZqqYK27X8P9DzWs6hWq4RaY-WfaTMVHJ4s5NGa_hNu9swrru_m-P1HVBu1kpjwYgjWTQZpmeBA4L0bD39CBHoVTn-DhjUYKJithWdbuiB6ire_WAVgPaql-hFd7obVb33yRUEhWLtQBNT56a3YiOtcr9gb49iHGO4LlIDKfdBJmpLH8QilViK_RNpaBJdYy6ytuF6Hk3jDE8Z_EgfX-0hwW30CKpS8iKOrmlCukN48v1LbjePy6nnnsqV0uxLlBFUY" alt="WinDriveSA Logo" class="h-8 w-auto object-contain">
+      </a>
+
+      <!-- Upper Right Controls: Theme Toggle + Hamburger Menu -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleTheme()" aria-label="Toggle Theme" class="theme-toggle-btn w-10 h-10 rounded-lg flex items-center justify-center bg-brand-bg dark:bg-brand-navy-light text-brand-charcoal dark:text-brand-gold border border-brand-border dark:border-brand-border-dark transition">
+          <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+          </svg>
+          <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        </button>
+
+        <!-- Functional Hamburger Button (44x44px touch target) on FAR UPPER-RIGHT -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Open navigation menu" aria-expanded="false" class="w-11 h-11 rounded-lg flex items-center justify-center bg-brand-bg dark:bg-brand-navy-light text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark focus:outline-none focus:ring-2 focus:ring-brand-gold transition">
+          <svg id="menu-icon-bars" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-drawer" class="lg:hidden hidden bg-white dark:bg-brand-navy border-b border-brand-border dark:border-brand-border-dark p-4 shadow-xl space-y-3 z-30 transition-all">
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-brand-bg dark:bg-slate-800">
+        <div class="w-9 h-9 rounded bg-brand-navy dark:bg-brand-charcoal text-brand-gold font-sora font-bold flex items-center justify-center text-xs">
+          NM
+        </div>
+        <div>
+          <div class="font-sora text-xs font-semibold text-brand-navy dark:text-white">Nkosana Mthembu</div>
+          <div class="text-[11px] text-brand-emerald font-medium">RSA Citizen • Tier 1 Verified</div>
+        </div>
+      </div>
+
+      <nav class="space-y-1" aria-label="Mobile Authenticated Navigation">
+        <a href="#/dashboard" onclick="simulateNavigation('Dashboard'); toggleMobileMenu();" class="block px-3 py-2.5 rounded-md text-sm font-medium text-brand-charcoal dark:text-slate-200 hover:bg-brand-bg dark:hover:bg-slate-800">
+          Dashboard
+        </a>
+        <a href="#/rewards" onclick="simulateNavigation('My Rewards'); toggleMobileMenu();" class="block px-3 py-2.5 rounded-md text-sm font-medium text-brand-charcoal dark:text-slate-200 hover:bg-brand-bg dark:hover:bg-slate-800">
+          My Rewards
+        </a>
+        <!-- ACTIVE -->
+        <a href="#/claim-requests" onclick="toggleMobileMenu();" class="block px-3 py-2.5 rounded-md text-sm font-bold bg-brand-navy text-brand-gold dark:bg-brand-gold dark:text-brand-navy">
+          Claim Requests (Active)
+        </a>
+        <a href="#/account" onclick="simulateNavigation('Account'); toggleMobileMenu();" class="block px-3 py-2.5 rounded-md text-sm font-medium text-brand-charcoal dark:text-slate-200 hover:bg-brand-bg dark:hover:bg-slate-800">
+          Account & Security
+        </a>
+        <a href="#/support" onclick="simulateNavigation('Support'); toggleMobileMenu();" class="block px-3 py-2.5 rounded-md text-sm font-medium text-brand-charcoal dark:text-slate-200 hover:bg-brand-bg dark:hover:bg-slate-800">
+          Support
+        </a>
+        <button onclick="simulateNavigation('Logout'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
+          Sign Out
+        </button>
+      </nav>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- 03. MAIN APPLICATION CONTENT AREA -->
+    <!-- =============================================================== -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-10 max-w-6xl mx-auto w-full flex flex-col justify-between">
+      <div>
+
+        <!-- Back to Dashboard Breadcrumb Action -->
+        <div class="mb-5">
+          <a href="#/dashboard" onclick="simulateNavigation('Dashboard')" class="inline-flex items-center gap-2 text-xs font-semibold text-brand-muted dark:text-brand-muted-dark hover:text-brand-navy dark:hover:text-brand-gold transition py-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            Back to Dashboard
+          </a>
+        </div>
+
+        <!-- PAGE HEADER -->
+        <header class="mb-8">
+          <span class="inline-block text-[11px] font-sora font-bold uppercase tracking-wider text-brand-navy dark:text-brand-gold mb-1">
+            CLAIM REQUESTS
+          </span>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy dark:text-white font-sora tracking-tight">
+            Your Claim Requests
+          </h1>
+          <p class="text-sm sm:text-base text-brand-muted dark:text-brand-muted-dark mt-2 max-w-2xl">
+            Track the status of your submitted prize claims in one place.
+          </p>
+        </header>
+
+        <!-- CLAIM OVERVIEW SUMMARY STRIP (MY CLAIMS) -->
+        <section aria-label="Claims Overview" class="mb-8 p-4 sm:p-5 bg-white dark:bg-brand-navy border border-brand-border dark:border-brand-border-dark rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-brand-bg dark:bg-brand-navy-light text-brand-navy dark:text-brand-gold flex items-center justify-center font-sora font-bold text-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-[11px] font-sora uppercase font-bold text-brand-muted dark:text-brand-muted-dark tracking-wider">MY CLAIMS</div>
+              <div class="text-sm font-semibold text-brand-navy dark:text-white">Active Allocation Categories: Cash & Vehicle</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-brand-navy dark:text-slate-200 bg-brand-bg dark:bg-brand-navy-light px-3 py-1.5 rounded-lg border border-brand-border dark:border-brand-border-dark">
+            <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+            <span>RSA Allocation Escrow Verified</span>
+          </div>
+        </section>
+
+        <!-- DYNAMIC NOTIFICATION BANNER (Triggered by CTAs or simulator events) -->
+        <div id="toast-banner" class="hidden mb-6 p-4 rounded-xl border transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span id="toast-icon" class="text-lg">ℹ️</span>
+              <p id="toast-text" class="text-sm font-medium"></p>
+            </div>
+            <button onclick="dismissToast()" class="text-xs font-semibold px-2 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10">Dismiss</button>
+          </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- DYNAMIC CONTENT: TWO BALANCED PRIMARY CLAIM CARDS -->
+        <!-- ============================================================= -->
+        <div id="claims-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+
+          <!-- =========================================================== -->
+          <!-- CLAIM CARD 1: CASH PRIZE CLAIM (Financial focus) -->
+          <!-- =========================================================== -->
+          <article class="bg-white dark:bg-brand-navy border border-brand-border dark:border-brand-border-dark rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+            <!-- Top Card Header -->
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <span class="inline-block text-[11px] font-sora font-bold tracking-wider text-brand-muted dark:text-brand-muted-dark uppercase">
+                    CASH PRIZE CLAIM
+                  </span>
+                  <h2 class="text-xl font-sora font-bold text-brand-navy dark:text-white mt-0.5">
+                    Assigned Cash Allocation
+                  </h2>
+                </div>
+                <!-- Dynamic Cash Status Badge -->
+                <div id="cash-badge-container">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+
+              <!-- Financial Reward Display Box -->
+              <div class="my-5 p-5 bg-brand-bg dark:bg-brand-navy-light/70 rounded-xl border border-brand-border dark:border-brand-border-dark">
+                <div class="text-xs font-medium text-brand-muted dark:text-brand-muted-dark">Assigned Cash Prize</div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="cash-amount-display" class="font-sora text-3xl sm:text-4xl font-extrabold text-brand-navy dark:text-white tracking-tight tabular-nums">
+                    R250,000
+                  </span>
+                  <span class="text-sm font-bold text-brand-gold uppercase tracking-wider font-sora">ZAR</span>
+                </div>
+                <div class="mt-2 flex items-center gap-2 text-xs text-brand-muted dark:text-brand-muted-dark">
+                  <svg class="w-4 h-4 text-brand-emerald shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>Allocation ID: <strong class="font-mono text-brand-charcoal dark:text-slate-200">WD-CP-77402</strong> • Verified RSA EFT</span>
+                </div>
+              </div>
+
+              <!-- Status and Explanation Panel -->
+              <div class="space-y-2 mb-6">
+                <div class="text-xs uppercase font-bold tracking-wider text-brand-muted dark:text-brand-muted-dark">
+                  Current Status
+                </div>
+                <p id="cash-status-explanation" class="text-sm font-medium text-brand-charcoal dark:text-slate-200 leading-relaxed">
+                  <!-- Dynamic status copy -->
+                </p>
+                <div id="cash-submission-meta" class="text-xs text-brand-muted dark:text-brand-muted-dark hidden pt-1">
+                  Submitted: <span class="font-semibold text-brand-charcoal dark:text-slate-300">14 Oct 2026, 09:24 SAST</span>
+                </div>
+              </div>
+
+              <!-- Conditional Requirement / Applicable Charge Strip (Only shown when configured) -->
+              <div id="cash-charge-panel" class="hidden mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-brand-gold/50 text-xs space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-sora font-bold text-brand-navy dark:text-brand-gold uppercase tracking-wider text-[11px]">APPLICABLE REQUIREMENT</span>
+                  <span class="font-mono font-bold text-brand-navy dark:text-white">R0 (Disbursement Audit)</span>
+                </div>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Compliance review requires confirmed bank branch verification letter before release.
+                </p>
+                <div class="pt-1">
+                  <button onclick="handleContactSupport('Cash Claim Requirement')" class="font-semibold text-brand-navy dark:text-brand-gold underline hover:no-underline">
+                    Contact Support for Assistance →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Bottom Actions -->
+            <div class="pt-4 border-t border-brand-border dark:border-brand-border-dark flex items-center justify-between gap-3">
+              <div id="cash-action-container" class="w-full">
+                <!-- Dynamically rendered button -->
+              </div>
+            </div>
+          </article>
+
+          <!-- =========================================================== -->
+          <!-- CLAIM CARD 2: VEHICLE PRIZE CLAIM (Automotive visual focus) -->
+          <!-- =========================================================== -->
+          <article class="bg-white dark:bg-brand-navy border border-brand-border dark:border-brand-border-dark rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+            <!-- Top Card Header -->
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <span class="inline-block text-[11px] font-sora font-bold tracking-wider text-brand-muted dark:text-brand-muted-dark uppercase">
+                    VEHICLE PRIZE CLAIM
+                  </span>
+                  <h2 class="text-xl font-sora font-bold text-brand-navy dark:text-white mt-0.5">
+                    Assigned Vehicle Allocation
+                  </h2>
+                </div>
+                <!-- Dynamic Vehicle Status Badge -->
+                <div id="vehicle-badge-container">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+
+              <!-- High-Resolution Vehicle Visual Showcase -->
+              <div class="my-4 rounded-xl overflow-hidden border border-brand-border dark:border-brand-border-dark relative group bg-brand-charcoal">
+                <img src="https://lh3.googleusercontent.com/aida/AEtjO1W-OF9JkVLGyLEhrQXYCyyXqqCucMmz08xaVEK_yYnnSwo_FYdpK9NbGOpMvHTvDuCcAeQPjL6_V4maaZAx7RjdvkapQ695tWGovdIdE8ZMJuHXTr3WUkAo2r_u_KZegfQNIMZaVBVrNI7cb6BXdCU0XUZfWmLbRaD2IPxRjy6Aw6Yt-dPkmE-B4JyuDxArIA99Apqgqs2PvER6ar-uU6IlJO2gV8VEtbh5j9gdxgjpQ07HsHqIaFooTX33" alt="2026 Toyota Hilux Double-Cab 4x4 in Dark Metallic Charcoal" class="w-full h-44 sm:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/85 via-transparent to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                  <div>
+                    <span class="text-[10px] font-sora font-bold text-brand-gold uppercase tracking-wider bg-brand-navy/90 px-2 py-0.5 rounded backdrop-blur-sm">
+                      NATIONAL FLEET ALLOCATION
+                    </span>
+                    <h3 id="vehicle-name-display" class="font-sora text-lg sm:text-xl font-bold text-white mt-1">
+                      2026 Toyota Hilux
+                    </h3>
+                    <p class="text-xs text-slate-200">Double-Cab 4x4 • Dark Metallic Charcoal</p>
+                  </div>
+                  <span class="text-[11px] font-mono text-slate-300 bg-brand-navy/80 px-2 py-1 rounded backdrop-blur-sm hidden sm:inline-block">
+                    WD-VK-55912
+                  </span>
+                </div>
+              </div>
+
+              <!-- Status and Explanation Panel -->
+              <div class="space-y-2 mb-6">
+                <div class="text-xs uppercase font-bold tracking-wider text-brand-muted dark:text-brand-muted-dark">
+                  Current Status
+                </div>
+                <p id="vehicle-status-explanation" class="text-sm font-medium text-brand-charcoal dark:text-slate-200 leading-relaxed">
+                  <!-- Dynamic status copy -->
+                </p>
+                <div id="vehicle-submission-meta" class="text-xs text-brand-muted dark:text-brand-muted-dark hidden pt-1">
+                  Submitted: <span class="font-semibold text-brand-charcoal dark:text-slate-300">15 Oct 2026, 14:10 SAST</span>
+                </div>
+              </div>
+
+              <!-- Conditional Requirement / Applicable Charge Strip (Vehicle Transit & Title Requirement) -->
+              <div id="vehicle-charge-panel" class="hidden mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-brand-gold/50 text-xs space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-sora font-bold text-brand-navy dark:text-brand-gold uppercase tracking-wider text-[11px]">APPLICABLE CHARGE</span>
+                  <span class="font-mono font-bold text-brand-navy dark:text-white">R1,850 ZAR</span>
+                </div>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Administrative courier transit, licensing document courier, and regional logistics coordination.
+                </p>
+                <div class="pt-1 flex items-center justify-between">
+                  <span class="text-[11px] text-brand-muted dark:text-slate-400">Non-statutory processing escrow</span>
+                  <button onclick="handleContactSupport('Vehicle Applicable Charge')" class="font-semibold text-brand-navy dark:text-brand-gold underline hover:no-underline">
+                    Contact Support →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Bottom Actions -->
+            <div class="pt-4 border-t border-brand-border dark:border-brand-border-dark flex items-center justify-between gap-3">
+              <div id="vehicle-action-container" class="w-full">
+                <!-- Dynamically rendered button -->
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- EMPTY / UNAVAILABLE STATE CONTAINER (Rendered when state is unassigned/pending) -->
+        <!-- ============================================================= -->
+        <section id="empty-state-view" class="hidden p-8 sm:p-12 text-center bg-white dark:bg-brand-navy border border-brand-border dark:border-brand-border-dark rounded-2xl max-w-2xl mx-auto shadow-sm my-6">
+          <div class="w-16 h-16 rounded-full bg-brand-bg dark:bg-brand-navy-light text-brand-gold mx-auto flex items-center justify-center mb-4 text-2xl">
+            🛡️
+          </div>
+          <h2 id="empty-state-title" class="text-xl sm:text-2xl font-bold font-sora text-brand-navy dark:text-white mb-2">
+            Prize Not Yet Assigned
+          </h2>
+          <p id="empty-state-description" class="text-sm sm:text-base text-brand-muted dark:text-brand-muted-dark max-w-md mx-auto leading-relaxed mb-6">
+            Your reward information will appear here once a prize has been assigned to your account.
+          </p>
+          <div class="flex items-center justify-center gap-3">
+            <a href="#/dashboard" onclick="simulateNavigation('Dashboard')" class="px-5 py-2.5 rounded-lg bg-brand-navy text-white dark:bg-brand-gold dark:text-brand-navy font-sora text-xs font-bold hover:opacity-90 transition">
+              Back to Dashboard
+            </a>
+            <button onclick="handleContactSupport('Reward Inquiry')" class="px-5 py-2.5 rounded-lg border border-brand-border dark:border-brand-border-dark text-xs font-semibold text-brand-charcoal dark:text-slate-200 hover:bg-brand-bg dark:hover:bg-slate-800 transition">
+              Contact Support
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- 04. RESTRAINED SUPPORT & AUDIT PANEL -->
+      <!-- =============================================================== -->
+      <footer class="mt-12 pt-8 border-t border-brand-border dark:border-brand-border-dark">
+        <div class="bg-white dark:bg-brand-navy border border-brand-border dark:border-brand-border-dark rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-brand-bg dark:bg-brand-navy-light text-brand-navy dark:text-brand-gold flex items-center justify-center text-xl shrink-0">
+              <svg class="w-6 h-6 text-brand-navy dark:text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.516 0c.85.493 1.509 1.333 1.509 2.316V18" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-sora font-bold text-base sm:text-lg text-brand-navy dark:text-white">Need Help With Your Claims?</h3>
+              <p class="text-xs sm:text-sm text-brand-muted dark:text-brand-muted-dark mt-1 max-w-xl">
+                Have a question about your claim review or delivery status? Our dedicated South African support desk is available Monday to Friday, 08:00–17:00 SAST.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <button onclick="handleWhatsAppSupport()" class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-emerald-subtle dark:bg-emerald-950/40 text-brand-emerald dark:text-emerald-400 border border-brand-emerald/30 font-semibold text-xs hover:bg-brand-emerald hover:text-white dark:hover:bg-emerald-600 transition shadow-sm">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.942.895 3.036.895 3.18 0 5.767-2.587 5.768-5.766.001-3.18-2.586-5.767-5.768-5.767zm7.842 5.766c-.002 4.316-3.518 7.831-7.841 7.831-1.334 0-2.581-.355-3.676-.995l-4.148 1.088 1.107-4.043c-.722-1.15-1.124-2.482-1.123-3.881.002-4.315 3.518-7.831 7.842-7.831 4.315 0 7.839 3.516 7.839 7.831z"/>
+              </svg>
+              WhatsApp Support
+            </button>
+
+            <button onclick="handleContactSupport('General Claim Inquiry')" class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-navy dark:bg-white text-white dark:text-brand-navy font-sora font-semibold text-xs hover:opacity-90 transition shadow-sm">
+              Contact Support
+            </button>
+          </div>
+        </div>
+
+        <!-- Compliance & Regulatory Text -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-brand-muted dark:text-brand-muted-dark gap-2 pb-4">
+          <p>© 2026 WinDriveSA (Pty) Ltd. All rights reserved. POPIA Compliant • Secure Logistics Escrow</p>
+          <div class="flex items-center gap-4">
+            <span>RSA IDENTITY ESCROW</span>
+            <span>•</span>
+            <span>REG NO: 2024/782194/07</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- 05. INTERACTIVE JAVASCRIPT LOGIC -->
+  <!-- ================================================================= -->
+  <script>
+    /**
+     * WinDriveSA Claim Requests State & Prototype Controller
+     * Strictly fulfills all fidelity constraints, responsive rules,
+     * Light Mode default initialization, and real interactive feedback.
+     */
+
+    const AppState = {
+      theme: 'light', // Light Mode is the strict mandatory default
+      currentState: 'available', // initial simulator state
+      cashPrize: {
+        amount: 'R250,000',
+        currency: 'ZAR',
+        allocationId: 'WD-CP-77402',
+        status: 'CLAIM AVAILABLE',
+        statusKey: 'available'
+      },
+      vehiclePrize: {
+        model: '2026 Toyota Hilux',
+        specs: 'Double-Cab 4x4 • Dark Metallic Charcoal',
+        allocationId: 'WD-VK-55912',
+        status: 'CLAIM AVAILABLE',
+        statusKey: 'available'
+      }
+    };
+
+    // --- 1. Theme Initialization & Toggle ---
+    function initializeTheme() {
+      // Light Mode MUST be the default.
+      // Never use prefers-color-scheme or browser OS setting to force dark mode.
+      const savedTheme = localStorage.getItem('windrive_theme');
+      if (savedTheme === 'dark') {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+    }
+
+    function toggleTheme() {
+      const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      setTheme(newTheme);
+      localStorage.setItem('windrive_theme', newTheme);
+      showToast(`Switched to ${newTheme === 'dark' ? 'Dark' : 'Light'} Mode`, '🎨');
+    }
+
+    function setTheme(theme) {
+      AppState.theme = theme;
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    }
+
+    // --- 2. Tablet / Mobile Hamburger Menu ---
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const btn = document.getElementById('mobile-menu-btn');
+      const iconBars = document.getElementById('menu-icon-bars');
+      const iconClose = document.getElementById('menu-icon-close');
+      
+      const isOpen = !drawer.classList.contains('hidden');
+      if (isOpen) {
+        drawer.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        iconBars.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      } else {
+        drawer.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        iconBars.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      }
+    }
+
+    // --- 3. Simulator State Management ---
+    const StateDefinitions = {
+      available: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"><span class="w-2 h-2 rounded-full bg-slate-500"></span>CLAIM AVAILABLE</span>',
+        cashExplanation: 'Your cash prize is available to claim. Submit your bank account details for manual compliance audit and EFT authorization.',
+        cashBtn: '<button onclick="handleClaimCash()" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-brand-gold dark:hover:bg-brand-gold-hover dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2">Claim Cash Prize <span aria-hidden="true">→</span></button>',
+        cashShowCharge: false,
+        cashMeta: false,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"><span class="w-2 h-2 rounded-full bg-slate-500"></span>CLAIM AVAILABLE</span>',
+        vehicleExplanation: 'Your vehicle prize is available to claim. Enter your verified physical delivery address for logistics transport coordination.',
+        vehicleBtn: '<button onclick="handleClaimVehicle()" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-brand-gold dark:hover:bg-brand-gold-hover dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2">Claim Vehicle <span aria-hidden="true">→</span></button>',
+        vehicleShowCharge: false,
+        vehicleMeta: false
+      },
+
+      under_review: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800"><span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>UNDER REVIEW</span>',
+        cashExplanation: 'Your cash claim has been submitted and is currently under review by our compliance team.',
+        cashBtn: '<button onclick="handleViewClaim(\'cash\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        cashShowCharge: false,
+        cashMeta: true,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800"><span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>UNDER REVIEW</span>',
+        vehicleExplanation: 'Your vehicle claim has been submitted and is currently under review with our logistics team.',
+        vehicleBtn: '<button onclick="handleViewClaim(\'vehicle\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        vehicleShowCharge: false,
+        vehicleMeta: true
+      },
+
+      approved: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/50 text-brand-emerald dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"><span class="w-2 h-2 rounded-full bg-brand-emerald"></span>APPROVED</span>',
+        cashExplanation: 'Your cash claim has been approved. Bank details verified with South African clearing system.',
+        cashBtn: '<button onclick="handleViewClaim(\'cash\')" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-white dark:hover:bg-slate-100 dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        cashShowCharge: false,
+        cashMeta: true,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/50 text-brand-emerald dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"><span class="w-2 h-2 rounded-full bg-brand-emerald"></span>APPROVED</span>',
+        vehicleExplanation: 'Your vehicle claim has been approved. Dispatch authorization granted for regional handover hub.',
+        vehicleBtn: '<button onclick="handleViewClaim(\'vehicle\')" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-white dark:hover:bg-slate-100 dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        vehicleShowCharge: false,
+        vehicleMeta: true
+      },
+
+      requirement: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800"><span class="w-2 h-2 rounded-full bg-brand-gold"></span>REQUIREMENT PENDING</span>',
+        cashExplanation: 'An applicable requirement is pending before fulfilment can continue. Please inspect details below.',
+        cashBtn: '<button onclick="handleViewClaim(\'cash\')" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-brand-gold dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition">View Claim Details</button>',
+        cashShowCharge: true,
+        cashMeta: true,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800"><span class="w-2 h-2 rounded-full bg-brand-gold"></span>REQUIREMENT PENDING</span>',
+        vehicleExplanation: 'An applicable requirement is pending before fulfilment can continue. Please review courier transit coordination.',
+        vehicleBtn: '<button onclick="handleViewClaim(\'vehicle\')" class="w-full py-3 px-5 rounded-xl bg-brand-navy hover:bg-brand-navy-light text-white dark:bg-brand-gold dark:text-brand-navy font-sora font-bold text-xs uppercase tracking-wider transition">View Claim Details</button>',
+        vehicleShowCharge: true,
+        vehicleMeta: true
+      },
+
+      processing: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800"><span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>PROCESSING</span>',
+        cashExplanation: 'Your approved cash claim is currently being processed for electronic funds settlement.',
+        cashBtn: '<button onclick="handleViewClaim(\'cash\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        cashShowCharge: false,
+        cashMeta: true,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800"><span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>PROCESSING</span>',
+        vehicleExplanation: 'Your approved vehicle claim is currently being processed with the flatbed carrier fleet.',
+        vehicleBtn: '<button onclick="handleViewClaim(\'vehicle\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Claim</button>',
+        vehicleShowCharge: false,
+        vehicleMeta: true
+      },
+
+      fulfilled: {
+        cashBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-brand-emerald dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>FULFILLED</span>',
+        cashExplanation: 'Your cash claim has been fulfilled. Funds successfully transferred to verified bank account.',
+        cashBtn: '<button onclick="handleViewClaim(\'cash\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Fulfilled Record</button>',
+        cashShowCharge: false,
+        cashMeta: true,
+
+        vehicleBadge: '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-brand-emerald dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>FULFILLED</span>',
+        vehicleExplanation: 'Your vehicle claim has been fulfilled. Vehicle hand-over signed off and registered.',
+        vehicleBtn: '<button onclick="handleViewClaim(\'vehicle\')" class="w-full py-3 px-5 rounded-xl bg-brand-bg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-brand-navy dark:text-white border border-brand-border dark:border-brand-border-dark font-sora font-bold text-xs uppercase tracking-wider transition">View Fulfilled Record</button>',
+        vehicleShowCharge: false,
+        vehicleMeta: true
+      }
+    };
+
+    function setPrototypeState(stateKey) {
+      AppState.currentState = stateKey;
+
+      // Update simulator harness button styles
+      const buttons = document.querySelectorAll('#simulator-buttons button');
+      buttons.forEach(btn => {
+        btn.className = 'px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white';
+      });
+      const activeBtn = document.getElementById(`btn-state-${stateKey}`);
+      if (activeBtn) {
+        activeBtn.className = 'px-2.5 py-1 rounded font-medium text-[11px] transition-all bg-brand-gold text-brand-navy font-bold shadow-sm';
+      }
+
+      const grid = document.getElementById('claims-grid');
+      const emptyState = document.getElementById('empty-state-view');
+
+      // Special State 7: Prize Unassigned
+      if (stateKey === 'unassigned') {
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        document.getElementById('empty-state-title').innerText = 'Prize Not Yet Assigned';
+        document.getElementById('empty-state-description').innerText = 'Your reward information will appear here once a prize has been assigned to your account.';
+        showToast('Simulating: Prize Not Yet Assigned', '📋');
+        return;
+      }
+
+      // Special State 8: Account In-Review
+      if (stateKey === 'pending_review') {
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        document.getElementById('empty-state-title').innerText = 'Your Account Is Under Review';
+        document.getElementById('empty-state-description').innerText = 'Reward information will become available after your account has been approved and a reward has been assigned.';
+        showToast('Simulating: Account Under Review (Claims Hidden)', '⏳');
+        return;
+      }
+
+      // Standard Lifecycle States (1–6)
+      grid.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+
+      const config = StateDefinitions[stateKey];
+      if (!config) return;
+
+      // Cash Card Elements
+      document.getElementById('cash-badge-container').innerHTML = config.cashBadge;
+      document.getElementById('cash-status-explanation').innerText = config.cashExplanation;
+      document.getElementById('cash-action-container').innerHTML = config.cashBtn;
+      
+      const cashCharge = document.getElementById('cash-charge-panel');
+      if (config.cashShowCharge) {
+        cashCharge.classList.remove('hidden');
+      } else {
+        cashCharge.classList.add('hidden');
+      }
+
+      const cashMeta = document.getElementById('cash-submission-meta');
+      if (config.cashMeta) {
+        cashMeta.classList.remove('hidden');
+      } else {
+        cashMeta.classList.add('hidden');
+      }
+
+      // Vehicle Card Elements
+      document.getElementById('vehicle-badge-container').innerHTML = config.vehicleBadge;
+      document.getElementById('vehicle-status-explanation').innerText = config.vehicleExplanation;
+      document.getElementById('vehicle-action-container').innerHTML = config.vehicleBtn;
+      
+      const vehicleCharge = document.getElementById('vehicle-charge-panel');
+      if (config.vehicleShowCharge) {
+        vehicleCharge.classList.remove('hidden');
+      } else {
+        vehicleCharge.classList.add('hidden');
+      }
+
+      const vehicleMeta = document.getElementById('vehicle-submission-meta');
+      if (config.vehicleMeta) {
+        vehicleMeta.classList.remove('hidden');
+      } else {
+        vehicleMeta.classList.add('hidden');
+      }
+
+      showToast(`Prototype lifecycle set to: ${stateKey.replace('_', ' ').toUpperCase()}`, '⚡');
+    }
+
+    // --- 4. Interactive Action Handlers (Navigating & Viewing Claims) ---
+    function handleClaimCash() {
+      showToast('Redirecting to Screen 7: Cash Prize Claim intake flow (/claims/cash)...', '💰');
+      setTimeout(() => {
+        // In full app, would navigate to /claims/cash
+        alert('Navigating to Screen 7: WinDriveSA Cash Prize Claim form.');
+      }, 300);
+    }
+
+    function handleClaimVehicle() {
+      showToast('Redirecting to Screen 8: Vehicle Prize Claim intake flow (/claims/vehicle)...', '🚗');
+      setTimeout(() => {
+        // In full app, would navigate to /claims/vehicle
+        alert('Navigating to Screen 8: WinDriveSA Vehicle Prize Claim form.');
+      }, 300);
+    }
+
+    function handleViewClaim(type) {
+      const title = type === 'cash' ? 'Cash Claim WD-CP-77402' : 'Vehicle Claim WD-VK-55912';
+      showToast(`Opening detail inspection for ${title}...`, '🔍');
+      setTimeout(() => {
+        alert(`Viewing details for ${title}. Current status: ${AppState.currentState.toUpperCase()}`);
+      }, 300);
+    }
+
+    function simulateNavigation(dest) {
+      showToast(`Authenticated route navigation: ${dest}`, '🧭');
+    }
+
+    function handleContactSupport(context) {
+      showToast(`Opening verified member support ticket for: ${context}`, '🎫');
+    }
+
+    function handleWhatsAppSupport() {
+      showToast('Opening official WinDriveSA WhatsApp coordination line (+27 82 555 0194)...', '💬');
+    }
+
+    // --- 5. User Feedback Notification Toast ---
+    function showToast(message, icon = 'ℹ️') {
+      const toast = document.getElementById('toast-banner');
+      const text = document.getElementById('toast-text');
+      const iconEl = document.getElementById('toast-icon');
+
+      text.innerText = message;
+      iconEl.innerText = icon;
+
+      toast.className = 'mb-6 p-4 rounded-xl border bg-brand-navy text-white border-brand-gold/60 shadow-lg flex items-center justify-between transition-all';
+      toast.classList.remove('hidden');
+
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 6000);
+    }
+
+    function dismissToast() {
+      document.getElementById('toast-banner').classList.add('hidden');
+    }
+
+    // --- Initialization on Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeTheme();
+      setPrototypeState('available');
+    });
+  </script>
+</body>
+</html>

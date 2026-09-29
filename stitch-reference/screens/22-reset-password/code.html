@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+<html class="light h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinDriveSA — Reset Password</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container-Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#071A2B',
+              charcoal: '#17212B',
+              gold: '#F2B705',
+              emerald: '#00843D',
+              lightBg: '#F5F7FA',
+              muted: '#667085',
+              border: '#D9E0E7',
+              darkBorder: '#223244',
+              darkSurface: '#0E1D2D'
+            }
+          },
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            manrope: ['Manrope', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .font-heading {
+      font-family: 'Sora', sans-serif;
+    }
+    .theme-transition {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-[#F5F7FA] dark:bg-[#071A2B] text-[#17212B] dark:text-gray-100 theme-transition">
+<!-- ========================================== -->
+<!-- 1. PROTOTYPE STATE BAR (EXPLICIT UTILITY)  -->
+<!-- ========================================== -->
+<aside aria-label="Prototype state switcher" class="bg-[#071A2B] border-b border-[#17212B] px-4 py-2.5 text-xs text-white flex flex-wrap items-center justify-between gap-3 relative z-30 shrink-0">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-[#F2B705]/20 text-[#F2B705] border border-[#F2B705]/40">
+        PROTOTYPE STATE
+      </span>
+<span class="text-gray-400 text-xs hidden sm:inline">Simulate auth conditions:</span>
+</div>
+<!-- 3 Real Interactive Buttons with Full Tappable Hit-Areas -->
+<div class="flex items-center gap-2 overflow-x-auto py-0.5" role="tablist">
+<button aria-selected="true" class="px-4 py-2 rounded font-semibold cursor-pointer transition-all bg-[#F2B705] text-[#071A2B] font-bold shadow-sm" id="protoBtnReset" onclick="setResetPasswordState('reset')" role="tab" type="button">
+        1. Reset Password
+      </button>
+<button aria-selected="false" class="px-4 py-2 rounded font-semibold cursor-pointer transition-all text-gray-300 hover:text-white hover:bg-white/10" id="protoBtnSuccess" onclick="setResetPasswordState('success')" role="tab" type="button">
+        2. Password Reset Success
+      </button>
+<button aria-selected="false" class="px-4 py-2 rounded font-semibold cursor-pointer transition-all text-gray-300 hover:text-white hover:bg-white/10" id="protoBtnExpired" onclick="setResetPasswordState('expired')" role="tab" type="button">
+        3. Invalid / Expired Link
+      </button>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- 2. AUTHENTICATION HEADER                   -->
+<!-- ========================================== -->
+<header class="w-full bg-white dark:bg-[#0E1D2D] border-b border-[#D9E0E7] dark:border-[#223244] theme-transition shrink-0 z-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 py-3.5 flex items-center justify-between">
+<!-- Authentic WinDriveSA Master Logo -->
+<a class="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] rounded py-1" href="/login">
+<img alt="WinDriveSA" class="h-10 sm:h-11 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0R4COI46XGua9IO-WDMzQGBMbW6EU_C4QulYy5f4F8sRcoJwi6_ekY3aJWEU-DX1LQbCt8i6cVPX7JraDdyZZ-M3z7wu1bPKF1jbmEPbxdfbN2zOj1HWmeN4MWXPJhKsXJUSm3z9316lR_gpM3FiMeD8-sUD6A8ZCEcZLEbJg8Uqjj8s0pOjsnnx66HsyYdXrf8ezS1aI1F7XrzMRB9ndCaHyo4ydiHZSX8ehKxIW9RHqrXCrQKoh5TE8iqAcgP_kJQg"/>
+</a>
+<!-- Right Actions: Token status indicator, Theme Toggle, Back to Sign In -->
+<div class="flex items-center gap-3 sm:gap-4">
+<!-- Live Token Status Badge & Dropdown -->
+<div class="relative">
+<button aria-expanded="false" aria-haspopup="dialog" aria-label="View security token status" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-[#00843D] border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer" id="statusPillBtn" onclick="toggleStatusDetails()" type="button">
+<span class="w-2 h-2 rounded-full bg-[#00843D] animate-pulse" id="statusPulseDot"></span>
+<span id="statusPillLabel">TOKEN ACTIVE</span>
+<svg class="w-3.5 h-3.5 transition-transform" fill="none" id="statusChevron" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</button>
+<!-- Security Status Popover -->
+<div class="hidden absolute right-0 mt-2 w-72 sm:w-80 bg-white dark:bg-[#0E1D2D] border border-[#D9E0E7] dark:border-[#223244] rounded-xl shadow-xl p-4 z-50 text-left theme-transition" id="statusDetailsPopover">
+<div class="flex items-start justify-between pb-2 border-b border-[#D9E0E7]/60 dark:border-[#223244]/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#00843D]" id="popoverDot"></span>
+<span class="text-xs font-bold tracking-wide uppercase font-sora text-[#071A2B] dark:text-white" id="popoverHeading">Token Verified</span>
+</div>
+<button aria-label="Close" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 rounded" onclick="closeStatusDetails()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<div class="py-2.5">
+<p class="text-xs text-[#667085] dark:text-gray-300 leading-relaxed" id="popoverDescription">
+                Cryptographic authentication token is active and valid for 15 minutes. Complete password reconfiguration below.
+              </p>
+</div>
+<div class="pt-2 border-t border-[#D9E0E7]/40 dark:border-[#223244]/40 flex justify-end">
+<button class="text-[11px] font-semibold text-[#F2B705] hover:underline cursor-pointer" onclick="closeStatusDetails()" type="button">
+                Dismiss
+              </button>
+</div>
+</div>
+</div>
+<!-- Light / Dark Theme Toggle Button -->
+<button aria-label="Toggle light and dark mode" class="p-2 rounded-lg border border-[#D9E0E7] dark:border-[#223244] bg-gray-50 dark:bg-[#071A2B] hover:bg-gray-100 dark:hover:bg-[#17212B] text-[#17212B] dark:text-[#F2B705] transition-colors focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer" id="themeToggleBtn" onclick="handleThemeToggle()" type="button">
+<!-- Sun Icon (shown in dark mode) -->
+<svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<!-- Moon Icon (shown in light mode) -->
+<svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Back to Sign In Link -->
+<a class="text-xs font-semibold text-[#667085] dark:text-gray-300 hover:text-[#071A2B] dark:hover:text-white transition-colors hidden sm:inline-flex items-center gap-1.5 cursor-pointer" href="/login" onclick="handleNavSignIn(event)">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+          Back to Sign In
+        </a>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- 3. MAIN CARD CONTAINER (2-COL DESKTOP)     -->
+<!-- ========================================== -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col justify-center">
+<div class="w-full bg-white dark:bg-[#0E1D2D] border border-[#D9E0E7] dark:border-[#223244] rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 theme-transition">
+<!-- LEFT COLUMN: EDITORIAL AUTOMOTIVE VISUAL PANEL (lg:col-span-5) -->
+<section class="lg:col-span-5 relative bg-[#071A2B] flex flex-col justify-between overflow-hidden min-h-[280px] sm:min-h-[340px] lg:min-h-[620px] p-6 sm:p-8 lg:p-10">
+<!-- Background Automotive Visual Asset -->
+<img alt="WinDriveSA High performance luxury vehicle" class="absolute inset-0 w-full h-full object-cover object-center opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida/AEtjO1W-OF9JkVLGyLEhrQXYCyyXqqCucMmz08xaVEK_yYnnSwo_FYdpK9NbGOpMvHTvDuCcAeQPjL6_V4maaZAx7RjdvkapQ695tWGovdIdE8ZMJuHXTr3WUkAo2r_u_KZegfQNIMZaVBVrNI7cb6BXdCU0XUZfWmLbRaD2IPxRjy6Aw6Yt-dPkmE-B4JyuDxArIA99Apqgqs2PvER6ar-uU6IlJO2gV8VEtbh5j9gdxgjpQ07HsHqIaFooTX33"/>
+<!-- Deep Navy Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#071A2B] via-[#071A2B]/85 to-[#071A2B]/45"></div>
+<!-- Top Badge -->
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-[#F2B705] uppercase tracking-wider">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Cryptographic Security
+          </div>
+</div>
+<!-- Editorial Copy & Institutional Trust Points -->
+<div class="relative z-10 mt-12 sm:mt-24 lg:mt-auto">
+<p class="text-xs font-bold tracking-widest text-[#F2B705] uppercase mb-2 font-sora">
+            South African Automotive Allocation
+          </p>
+<h2 class="text-2xl sm:text-3xl font-bold font-sora text-white leading-tight">
+            Your journey starts here.
+          </h2>
+<p class="mt-3 text-sm text-gray-300 leading-relaxed max-w-sm">
+            WinDriveSA safeguards your member allocations with institutional credential governance and protected authentication.
+          </p>
+<div class="mt-6 pt-6 border-t border-white/15 space-y-2.5 text-xs text-gray-300">
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-[#00843D] shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>Single-use cryptographic recovery link</span>
+</div>
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-[#00843D] shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>Instant termination of existing active sessions</span>
+</div>
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-[#00843D] shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+<span>POPIA Section 18 statutory personal data protection</span>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: DYNAMIC AUTH CONTENT CONTAINER (lg:col-span-7) -->
+<section class="lg:col-span-7 p-6 sm:p-10 lg:p-14 flex flex-col justify-center relative min-h-[500px]">
+<div class="w-full" id="authContentContainer">
+<!-- Dynamic Content rendered via JavaScript renderContent() -->
+</div>
+</section>
+</div>
+</main>
+<!-- ========================================== -->
+<!-- 4. RESTRAINED AUTH FOOTER                  -->
+<!-- ========================================== -->
+<footer class="w-full border-t border-[#D9E0E7] dark:border-[#223244] bg-white dark:bg-[#0E1D2D] py-5 px-4 sm:px-6 lg:px-8 theme-transition shrink-0 z-10">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#667085] dark:text-gray-400">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#071A2B] dark:text-white font-sora">WinDriveSA</span>
+<span class="text-gray-400">•</span>
+<span>“Win Big. Drive Away.”</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-5 gap-y-2 justify-center">
+<a class="hover:underline hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#terms">Terms &amp; Conditions</a>
+<a class="hover:underline hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#privacy">Privacy Policy</a>
+<span class="text-emerald-700 dark:text-emerald-400 font-medium">POPIA Section 18 statutory personal data protection</span>
+<span class="text-gray-400 hidden lg:inline">© 2026 WinDriveSA (Pty) Ltd.</span>
+</div>
+</div>
+</footer>
+<!-- Toast Notification element for simulate nav -->
+<div class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-[#071A2B] text-white px-4 py-3 rounded-xl shadow-2xl border border-white/20 text-xs font-semibold flex items-center gap-2" id="toastNotification">
+<span id="toastIcon">ℹ️</span>
+<span id="toastMessage">Navigating...</span>
+</div>
+<!-- ========================================== -->
+<!-- 5. REAL INTERACTIVE STATE MACHINE ENGINE   -->
+<!-- ========================================== -->
+<script>
+    // State machine: allowed 'reset' | 'success' | 'expired'
+    let resetPasswordState = 'reset';
+    let currentTheme = 'light'; // Light Mode MUST be the default
+
+    // Eye toggle state tracker
+    let showNewPassword = false;
+    let showConfirmPassword = false;
+
+    // Toast utility
+    function showToast(message, icon = '✓') {
+      const toast = document.getElementById('toastNotification');
+      const msgEl = document.getElementById('toastMessage');
+      const iconEl = document.getElementById('toastIcon');
+      if (!toast || !msgEl) return;
+      msgEl.textContent = message;
+      iconEl.textContent = icon;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function handleNavSignIn(e) {
+      if (e) e.preventDefault();
+      showToast('Navigating to Sign In (/login)...', '🔐');
+    }
+
+    function handleNavForgotPassword(e) {
+      if (e) e.preventDefault();
+      showToast('Requesting new reset link (/forgot-password)...', '📧');
+    }
+
+    // --- 1. THEME TOGGLE LOGIC ---
+    function initTheme() {
+      // Strictly start in Light Mode as specified
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      currentTheme = 'light';
+    }
+
+    function handleThemeToggle() {
+      if (currentTheme === 'light') {
+        currentTheme = 'dark';
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      } else {
+        currentTheme = 'light';
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    }
+
+    // --- 2. PROTOTYPE STATE CONTROLS ---
+    function updateStateToolbar() {
+      const btnReset = document.getElementById('protoBtnReset');
+      const btnSuccess = document.getElementById('protoBtnSuccess');
+      const btnExpired = document.getElementById('protoBtnExpired');
+
+      const activeClass = 'px-4 py-2 rounded font-semibold cursor-pointer transition-all bg-[#F2B705] text-[#071A2B] font-bold shadow-sm';
+      const inactiveClass = 'px-4 py-2 rounded font-semibold cursor-pointer transition-all text-gray-300 hover:text-white hover:bg-white/10';
+
+      if (btnReset) {
+        btnReset.className = resetPasswordState === 'reset' ? activeClass : inactiveClass;
+        btnReset.setAttribute('aria-selected', resetPasswordState === 'reset');
+      }
+      if (btnSuccess) {
+        btnSuccess.className = resetPasswordState === 'success' ? activeClass : inactiveClass;
+        btnSuccess.setAttribute('aria-selected', resetPasswordState === 'success');
+      }
+      if (btnExpired) {
+        btnExpired.className = resetPasswordState === 'expired' ? activeClass : inactiveClass;
+        btnExpired.setAttribute('aria-selected', resetPasswordState === 'expired');
+      }
+
+      // Update Header Token Status Pill
+      const pillBtn = document.getElementById('statusPillBtn');
+      const pillLabel = document.getElementById('statusPillLabel');
+      const pulseDot = document.getElementById('statusPulseDot');
+      const popDot = document.getElementById('popoverDot');
+      const popHead = document.getElementById('popoverHeading');
+      const popDesc = document.getElementById('popoverDescription');
+
+      if (resetPasswordState === 'reset') {
+        pillLabel.textContent = 'TOKEN ACTIVE';
+        pillBtn.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-[#00843D] border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer';
+        pulseDot.className = 'w-2 h-2 rounded-full bg-[#00843D] animate-pulse';
+        popDot.className = 'w-2.5 h-2.5 rounded-full bg-[#00843D]';
+        popHead.textContent = 'Token Verified';
+        popDesc.textContent = 'Cryptographic authentication token is active and valid for 15 minutes. Complete password reconfiguration below.';
+      } else if (resetPasswordState === 'success') {
+        pillLabel.textContent = 'PASSWORD UPDATED';
+        pillBtn.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-[#00843D] border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer';
+        pulseDot.className = 'w-2 h-2 rounded-full bg-[#00843D]';
+        popDot.className = 'w-2.5 h-2.5 rounded-full bg-[#00843D]';
+        popHead.textContent = 'Credentials Secured';
+        popDesc.textContent = 'Your new credentials are confirmed and encrypted under standard cryptographic protocol.';
+      } else if (resetPasswordState === 'expired') {
+        pillLabel.textContent = 'LINK EXPIRED';
+        pillBtn.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/60 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer';
+        pulseDot.className = 'w-2 h-2 rounded-full bg-amber-500';
+        popDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500';
+        popHead.textContent = 'Token Expired';
+        popDesc.textContent = 'This single-use link has expired or has already been used. Please generate a fresh recovery link.';
+      }
+    }
+
+    function setResetPasswordState(state) {
+      resetPasswordState = state;
+      updateStateToolbar();
+      renderContent();
+    }
+
+    // --- 3. STATUS POPOVER TOGGLE ---
+    let isStatusOpen = false;
+    function toggleStatusDetails() {
+      if (isStatusOpen) {
+        closeStatusDetails();
+      } else {
+        openStatusDetails();
+      }
+    }
+    function openStatusDetails() {
+      isStatusOpen = true;
+      document.getElementById('statusDetailsPopover').classList.remove('hidden');
+      document.getElementById('statusChevron').classList.add('rotate-180');
+      document.getElementById('statusPillBtn').setAttribute('aria-expanded', 'true');
+    }
+    function closeStatusDetails() {
+      isStatusOpen = false;
+      document.getElementById('statusDetailsPopover').classList.add('hidden');
+      document.getElementById('statusChevron').classList.remove('rotate-180');
+      document.getElementById('statusPillBtn').setAttribute('aria-expanded', 'false');
+    }
+    document.addEventListener('click', (e) => {
+      const popover = document.getElementById('statusDetailsPopover');
+      const btn = document.getElementById('statusPillBtn');
+      if (isStatusOpen && popover && btn && !popover.contains(e.target) && !btn.contains(e.target)) {
+        closeStatusDetails();
+      }
+    });
+
+    // --- 4. SHOW/HIDE PASSWORD TOGGLES ---
+    function toggleNewPasswordVisibility() {
+      showNewPassword = !showNewPassword;
+      const input = document.getElementById('newPasswordInput');
+      const btn = document.getElementById('newPasswordToggleBtn');
+      if (!input || !btn) return;
+      input.type = showNewPassword ? 'text' : 'password';
+      btn.innerHTML = showNewPassword ? getEyeOffIcon() : getEyeOnIcon();
+    }
+
+    function toggleConfirmPasswordVisibility() {
+      showConfirmPassword = !showConfirmPassword;
+      const input = document.getElementById('confirmPasswordInput');
+      const btn = document.getElementById('confirmPasswordToggleBtn');
+      if (!input || !btn) return;
+      input.type = showConfirmPassword ? 'text' : 'password';
+      btn.innerHTML = showConfirmPassword ? getEyeOffIcon() : getEyeOnIcon();
+    }
+
+    function getEyeOnIcon() {
+      return `<svg class="w-4 h-4 text-gray-400 hover:text-[#071A2B] dark:hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      </svg>`;
+    }
+
+    function getEyeOffIcon() {
+      return `<svg class="w-4 h-4 text-[#F2B705]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+      </svg>`;
+    }
+
+    // --- 5. REAL TIME PASSWORD VALIDATION ENGINE ---
+    function handlePasswordValidation() {
+      const newPwdInput = document.getElementById('newPasswordInput');
+      const confirmPwdInput = document.getElementById('confirmPasswordInput');
+      if (!newPwdInput) return;
+
+      const pwd = newPwdInput.value || '';
+      const confirmPwd = confirmPwdInput ? confirmPwdInput.value || '' : '';
+
+      const hasLength = pwd.length >= 8;
+      const hasUpper = /[A-Z]/.test(pwd);
+      const hasLower = /[a-z]/.test(pwd);
+      const hasNumber = /[0-9]/.test(pwd);
+
+      updateChecklistBadge('chkLength', hasLength);
+      updateChecklistBadge('chkUpper', hasUpper);
+      updateChecklistBadge('chkLower', hasLower);
+      updateChecklistBadge('chkNumber', hasNumber);
+
+      // Inline mismatch check
+      const mismatchAlert = document.getElementById('mismatchAlert');
+      if (mismatchAlert && confirmPwd.length > 0) {
+        if (pwd !== confirmPwd) {
+          mismatchAlert.classList.remove('hidden');
+          mismatchAlert.textContent = 'Passwords do not match.';
+        } else {
+          mismatchAlert.classList.add('hidden');
+        }
+      } else if (mismatchAlert) {
+        mismatchAlert.classList.add('hidden');
+      }
+    }
+
+    function updateChecklistBadge(id, isValid) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const iconContainer = el.querySelector('.chk-icon');
+      if (isValid) {
+        el.className = 'flex items-center gap-2 text-[#00843D] dark:text-emerald-400 font-semibold transition-colors';
+        iconContainer.className = 'w-4 h-4 rounded-full bg-[#00843D] text-white flex items-center justify-center shrink-0 chk-icon';
+        iconContainer.innerHTML = `<svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>`;
+      } else {
+        el.className = 'flex items-center gap-2 text-[#667085] dark:text-gray-400 transition-colors';
+        iconContainer.className = 'w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 chk-icon';
+        iconContainer.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>`;
+      }
+    }
+
+    // --- 6. SUBMIT FORM VALIDATION ---
+    function handleSubmitReset(e) {
+      if (e) e.preventDefault();
+      
+      const newPwdInput = document.getElementById('newPasswordInput');
+      const confirmPwdInput = document.getElementById('confirmPasswordInput');
+      const formErrorBanner = document.getElementById('formErrorBanner');
+      const formErrorText = document.getElementById('formErrorText');
+
+      if (!newPwdInput || !confirmPwdInput) return;
+
+      const pwd = newPwdInput.value || '';
+      const confirmPwd = confirmPwdInput.value || '';
+
+      const hasLength = pwd.length >= 8;
+      const hasUpper = /[A-Z]/.test(pwd);
+      const hasLower = /[a-z]/.test(pwd);
+      const hasNumber = /[0-9]/.test(pwd);
+      const isComplete = hasLength && hasUpper && hasLower && hasNumber;
+
+      if (!pwd) {
+        formErrorText.textContent = 'Please enter a new password.';
+        formErrorBanner.classList.remove('hidden');
+        newPwdInput.focus();
+        return;
+      }
+
+      if (!isComplete) {
+        formErrorText.textContent = 'Please fulfill all password security requirements before proceeding.';
+        formErrorBanner.classList.remove('hidden');
+        newPwdInput.focus();
+        return;
+      }
+
+      if (!confirmPwd) {
+        formErrorText.textContent = 'Please confirm your new password.';
+        formErrorBanner.classList.remove('hidden');
+        confirmPwdInput.focus();
+        return;
+      }
+
+      if (pwd !== confirmPwd) {
+        formErrorText.textContent = 'Passwords do not match. Please ensure both fields match exactly.';
+        formErrorBanner.classList.remove('hidden');
+        confirmPwdInput.focus();
+        return;
+      }
+
+      // Hide error
+      formErrorBanner.classList.add('hidden');
+
+      // SUCCESS: Immediately set resetPasswordState = "success" and call renderContent()
+      setResetPasswordState('success');
+      showToast('Password updated successfully!', '🎉');
+    }
+
+    // --- 7. CORE DYNAMIC CONTENT RENDERER ---
+    function renderContent() {
+      const container = document.getElementById('authContentContainer');
+      if (!container) return;
+
+      if (resetPasswordState === 'reset') {
+        container.innerHTML = `
+          <div class="space-y-6">
+            <!-- Eyebrow & Headings -->
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold tracking-wider uppercase text-[#F2B705] font-sora">
+                  PASSWORD RECOVERY
+                </span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl font-bold font-sora text-[#071A2B] dark:text-white">
+                Create a New Password
+              </h1>
+              <p class="mt-2 text-sm text-[#667085] dark:text-gray-300">
+                Choose a new password for your WinDriveSA account.
+              </p>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="formErrorBanner" class="hidden p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-xs text-red-700 dark:text-red-300 flex items-start gap-2.5">
+              <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span id="formErrorText">Please review highlighted requirements.</span>
+            </div>
+
+            <!-- Main Form -->
+            <form onsubmit="handleSubmitReset(event)" class="space-y-5" novalidate>
+              
+              <!-- Field 1: New Password -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="newPasswordInput" class="block text-xs font-bold uppercase tracking-wider text-[#17212B] dark:text-gray-200">
+                    New Password <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <div class="relative">
+                  <input 
+                    type="${showNewPassword ? 'text' : 'password'}" 
+                    id="newPasswordInput" 
+                    name="newPassword" 
+                    placeholder="Enter secure new password" 
+                    oninput="handlePasswordValidation()"
+                    class="w-full px-4 py-3 text-sm rounded-xl border border-[#D9E0E7] dark:border-[#223244] bg-[#F5F7FA]/60 dark:bg-[#071A2B] text-[#071A2B] dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2B705] focus:border-transparent transition-all pr-11"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    id="newPasswordToggleBtn"
+                    onclick="toggleNewPasswordVisibility()" 
+                    aria-label="Show or hide new password"
+                    class="absolute right-3.5 top-1/2 -translate-y-1/2 focus:outline-none p-1 rounded hover:bg-gray-200/50 dark:hover:bg-white/10"
+                  >
+                    ${showNewPassword ? getEyeOffIcon() : getEyeOnIcon()}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Live Password Requirements Checklist -->
+              <div class="p-3.5 rounded-xl bg-[#F5F7FA] dark:bg-[#071A2B]/70 border border-[#D9E0E7]/80 dark:border-[#223244]">
+                <p class="text-xs font-bold uppercase tracking-wider text-[#667085] dark:text-gray-400 mb-2 font-sora">
+                  PASSWORD REQUIREMENTS
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                  <div id="chkLength" class="flex items-center gap-2 text-[#667085] dark:text-gray-400 transition-colors">
+                    <span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 chk-icon">
+                      <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
+                    </span>
+                    <span>At least 8 characters</span>
+                  </div>
+
+                  <div id="chkUpper" class="flex items-center gap-2 text-[#667085] dark:text-gray-400 transition-colors">
+                    <span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 chk-icon">
+                      <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
+                    </span>
+                    <span>Include an uppercase letter</span>
+                  </div>
+
+                  <div id="chkLower" class="flex items-center gap-2 text-[#667085] dark:text-gray-400 transition-colors">
+                    <span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 chk-icon">
+                      <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
+                    </span>
+                    <span>Include a lowercase letter</span>
+                  </div>
+
+                  <div id="chkNumber" class="flex items-center gap-2 text-[#667085] dark:text-gray-400 transition-colors">
+                    <span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center shrink-0 chk-icon">
+                      <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
+                    </span>
+                    <span>Include a number</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Field 2: Confirm New Password -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="confirmPasswordInput" class="block text-xs font-bold uppercase tracking-wider text-[#17212B] dark:text-gray-200">
+                    Confirm New Password <span class="text-red-500">*</span>
+                  </label>
+                  <span id="mismatchAlert" class="text-xs font-semibold text-red-500 hidden">Passwords do not match.</span>
+                </div>
+                <div class="relative">
+                  <input 
+                    type="${showConfirmPassword ? 'text' : 'password'}" 
+                    id="confirmPasswordInput" 
+                    name="confirmPassword" 
+                    placeholder="Re-type your new password" 
+                    oninput="handlePasswordValidation()"
+                    class="w-full px-4 py-3 text-sm rounded-xl border border-[#D9E0E7] dark:border-[#223244] bg-[#F5F7FA]/60 dark:bg-[#071A2B] text-[#071A2B] dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2B705] focus:border-transparent transition-all pr-11"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    id="confirmPasswordToggleBtn"
+                    onclick="toggleConfirmPasswordVisibility()" 
+                    aria-label="Show or hide confirm password"
+                    class="absolute right-3.5 top-1/2 -translate-y-1/2 focus:outline-none p-1 rounded hover:bg-gray-200/50 dark:hover:bg-white/10"
+                  >
+                    ${showConfirmPassword ? getEyeOffIcon() : getEyeOnIcon()}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Primary Submit Button -->
+              <div class="pt-2">
+                <button 
+                  type="submit" 
+                  id="submitResetBtn"
+                  class="w-full py-3.5 px-6 rounded-xl bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora font-bold text-sm hover:bg-[#17212B] dark:hover:bg-yellow-400 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#071A2B]/15 dark:shadow-[#F2B705]/10 cursor-pointer focus-visible:ring-2 focus-visible:ring-[#F2B705]"
+                >
+                  <span>Reset Password</span>
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Secondary Navigation Links -->
+              <div class="pt-2 flex flex-col sm:flex-row items-center justify-between text-xs text-[#667085] dark:text-gray-400 gap-2">
+                <div>
+                  Remember your password? <a href="/login" onclick="handleNavSignIn(event)" class="font-bold text-[#071A2B] dark:text-white hover:text-[#F2B705] dark:hover:text-[#F2B705] underline underline-offset-2 cursor-pointer">Sign In</a>
+                </div>
+                <div>
+                  Need a new link? <a href="/forgot-password" onclick="handleNavForgotPassword(event)" class="font-semibold hover:underline cursor-pointer">Forgot Password</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        `;
+        // Re-check in case user toggled states
+        handlePasswordValidation();
+
+      } else if (resetPasswordState === 'success') {
+        container.innerHTML = `
+          <div class="space-y-6 py-2">
+            <!-- Eyebrow & Badge -->
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold tracking-wider uppercase text-[#F2B705] font-sora">
+                  PASSWORD RECOVERY
+                </span>
+              </div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-[#00843D] dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 mb-3">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>PASSWORD UPDATED</span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl font-bold font-sora text-[#071A2B] dark:text-white">
+                Password Reset Successful
+              </h1>
+              <p class="mt-2 text-sm text-[#667085] dark:text-gray-300 leading-relaxed">
+                Your password has been updated successfully. You can now sign in to your WinDriveSA account.
+              </p>
+            </div>
+
+            <!-- Reassurance Note Card -->
+            <div class="p-4 rounded-xl border border-[#D9E0E7] dark:border-[#223244] bg-[#F5F7FA] dark:bg-[#071A2B]/70 text-xs space-y-2.5 text-[#667085] dark:text-gray-300">
+              <div class="flex items-start gap-2.5">
+                <svg class="w-4 h-4 text-[#00843D] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span class="font-semibold text-[#17212B] dark:text-gray-200">
+                  All active sessions have been terminated under POPIA Section 18 governance.
+                </span>
+              </div>
+              <p class="text-[11px] text-gray-500 dark:text-gray-400 pl-6.5">
+                Institutional protocol ensures no orphaned sessions remain open on secondary desktop or mobile devices.
+              </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="space-y-3 pt-2">
+              <a 
+                href="/login" 
+                onclick="handleNavSignIn(event)"
+                class="w-full py-3.5 px-6 rounded-xl bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora font-bold text-sm hover:bg-[#17212B] dark:hover:bg-yellow-400 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#071A2B]/15 text-center cursor-pointer"
+              >
+                <span>Sign In</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+
+              <button 
+                type="button" 
+                onclick="setResetPasswordState('reset')"
+                class="w-full py-3 px-6 rounded-xl border border-[#D9E0E7] dark:border-[#223244] text-[#17212B] dark:text-gray-200 font-semibold text-xs hover:bg-gray-50 dark:hover:bg-white/5 transition-all text-center cursor-pointer"
+              >
+                Back to Reset Password Form
+              </button>
+            </div>
+          </div>
+        `;
+
+      } else if (resetPasswordState === 'expired') {
+        container.innerHTML = `
+          <div class="space-y-6 py-2">
+            <!-- Eyebrow & Badge -->
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold tracking-wider uppercase text-[#F2B705] font-sora">
+                  PASSWORD RECOVERY
+                </span>
+              </div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 mb-3">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span>LINK EXPIRED</span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl font-bold font-sora text-[#071A2B] dark:text-white">
+                Reset Link Expired
+              </h1>
+              <p class="mt-2 text-sm text-[#667085] dark:text-gray-300 leading-relaxed">
+                This password reset link is no longer valid. Request a new reset link to continue.
+              </p>
+            </div>
+
+            <!-- Advisory Guidance Card -->
+            <div class="p-4 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 text-xs space-y-2 text-amber-900 dark:text-amber-200">
+              <p class="font-bold font-sora">Security Expiration Policies:</p>
+              <ul class="list-disc list-inside space-y-1 text-amber-800 dark:text-amber-300">
+                <li>Recovery tokens expire automatically 15 minutes after issuance.</li>
+                <li>Requesting a newer link invalidates all preceding tokens.</li>
+                <li>Single-use tokens cannot be reused once submitted.</li>
+              </ul>
+            </div>
+
+            <!-- Primary & Secondary Actions -->
+            <div class="space-y-3 pt-2">
+              <a 
+                href="/forgot-password" 
+                onclick="handleNavForgotPassword(event)"
+                class="w-full py-3.5 px-6 rounded-xl bg-[#071A2B] dark:bg-[#F2B705] text-white dark:text-[#071A2B] font-sora font-bold text-sm hover:bg-[#17212B] dark:hover:bg-yellow-400 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#071A2B]/15 text-center cursor-pointer"
+              >
+                <span>Request New Reset Link</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+
+              <a 
+                href="/login" 
+                onclick="handleNavSignIn(event)"
+                class="w-full py-3 px-6 rounded-xl border border-[#D9E0E7] dark:border-[#223244] text-[#17212B] dark:text-gray-200 font-semibold text-xs hover:bg-gray-50 dark:hover:bg-white/5 transition-all text-center block cursor-pointer"
+              >
+                Back to Sign In
+              </a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // --- 8. INITIAL BOOTSTRAP ---
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      updateStateToolbar();
+      renderContent();
+    });
+
+    // Run immediately as well
+    initTheme();
+    updateStateToolbar();
+    renderContent();
+  </script>
+</body></html>

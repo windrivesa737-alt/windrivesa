@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-fixed-variant":"#5b4300","on-primary-fixed":"#0a1d2e","on-surface-variant":"#44474c","surface-container-lowest":"#ffffff","tertiary-container":"#00210a","secondary-fixed":"#ffdf9d","surface":"#f7f9ff","error-container":"#ffdad6","tertiary-fixed":"#8ef9a4","on-tertiary-container":"#26974d","secondary-fixed-dim":"#f9bd14","on-surface":"#121c26","surface-container-highest":"#d9e3f1","inverse-primary":"#b6c8df","surface-bright":"#f7f9ff","on-tertiary-fixed-variant":"#005324","on-secondary":"#ffffff","primary-container":"#0a1d2e","on-primary-fixed-variant":"#37485b","on-error":"#ffffff","on-secondary-fixed":"#251a00","tertiary":"#000000","primary":"#000000","tertiary-fixed-dim":"#71dc8a","outline-variant":"#c4c6cd","on-background":"#121c26","surface-container":"#e4effd","on-error-container":"#93000a","primary-fixed":"#d2e4fc","on-tertiary":"#ffffff","on-secondary-container":"#6c5000","outline":"#74777d","error":"#ba1a1a","on-tertiary-fixed":"#00210a","on-primary":"#ffffff","surface-variant":"#d9e3f1","secondary-container":"#fcc019","primary-fixed-dim":"#b6c8df","surface-tint":"#4f6074","on-primary-container":"#74859b","inverse-surface":"#27313c","secondary":"#785900","background":"#f7f9ff","inverse-on-surface":"#e8f2ff","surface-container-high":"#dfe9f7","surface-dim":"#d1dbe9","surface-container-low":"#edf4ff"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-lg":"1.5rem","gutter-mobile":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","margin-mobile":"1rem","space-md":"1rem","margin":"2.5rem","space-xl":"2.5rem","gutter":"1.5rem"},"fontFamily":{"body-md":["Manrope"],"label-caps":["Manrope"],"body-lg":["Manrope"],"title-zar-val":["Sora"],"headline-sm":["Sora"],"tabular-stat":["Manrope"],"headline-xl":["Sora"],"headline-md":["Sora"],"headline-xl-mobile":["Sora"],"display-hero":["Sora"],"headline-lg":["Sora"],"display-hero-mobile":["Sora"],"body-sm":["Manrope"]},"fontSize":{"body-md":["15px",{"lineHeight":"22px","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"title-zar-val":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"tabular-stat":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"500"}]}}}};</script><title>WinDriveSA — Admin Settings (Operational Console)</title></head><body class="bg-[#F5F7FA] dark:bg-[#071624] font-body-md text-[#121c26] dark:text-[#F8FAFC] antialiased min-h-screen transition-colors duration-200"><div class="flex flex-col lg:flex-row min-h-screen w-full antialiased selection:bg-[#fcc019]/30">
+<!-- TABLET / MOBILE ADMIN COMPACT HEADER (Pure Light #FFFFFF in Light Mode, Dark in Dark Mode, normal document flow) -->
+<header class="lg:hidden w-full bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-white px-4 py-3 flex items-center justify-between border-b border-[#D9E0E7] dark:border-[#1E293B] shadow-sm z-30 transition-colors">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Logo" class="h-8 w-auto object-contain dark:brightness-0 dark:invert transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2wUx2wAgwwKh505ewVUZLeJ2SrradDq2zUBvbK-48a6T5qhp-tpV9SE5o8oPA9nemksgy1iL5RWMiJVsagWj0jU0N91RDpGC-k8k7CP-mUy5C-cCFLMvjBAZjOJU6oZjUYC_LcGOEHD5Thx3VeZza8LXRYpg9S07hlplQmgKaS5Saxxqk1yk7SD60geNUj8M20hohuEQERCE3dbcKqNYgbd5FH6FVT5x4OPBFB_KKrl1VbyXR6uukzTN0kIVAoyouxw4"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-sm font-bold text-[#071A2B] dark:text-white tracking-tight leading-tight">WinDriveSA</span>
+<span class="font-label-caps text-[9px] uppercase tracking-widest text-[#785900] dark:text-[#fcc019] font-bold">Ops Console</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Toggle Theme" class="p-2 text-[#44474c] dark:text-[#74859b] hover:text-[#071A2B] dark:hover:text-white transition-colors" onclick="toggleGlobalTheme()" title="Toggle Theme">
+<span class="material-symbols-outlined text-[20px] theme-icon-display">dark_mode</span>
+</button>
+<button aria-expanded="false" aria-label="Toggle Admin Navigation" class="p-2 text-[#071A2B] dark:text-white bg-[#F5F7FA] dark:bg-[#17212b] rounded hover:bg-[#dfe9f7] dark:hover:bg-[#27313c] transition-colors flex items-center justify-center border border-[#D9E0E7] dark:border-transparent" id="admin-menu-toggle-btn">
+<span class="material-symbols-outlined text-[22px]" id="admin-menu-icon">menu</span>
+</button>
+</div>
+</header>
+<!-- MOBILE NAVIGATION DRAWER & BACKDROP -->
+<div class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-200" id="mobileDrawerBackdrop"></div>
+<aside class="fixed top-0 left-0 bottom-0 w-72 max-w-[85vw] bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-white z-50 transform -translate-x-full transition-transform duration-200 ease-out flex flex-col shadow-2xl border-r border-[#D9E0E7] dark:border-[#1E293B]" id="ResponsiveAdminDrawer">
+<!-- Drawer Header -->
+<div class="p-5 flex items-center justify-between border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<div class="flex items-center gap-2.5">
+<img alt="WinDriveSA Logo" class="h-7 w-auto object-contain dark:brightness-0 dark:invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxONpovAntVJZlAs-C8Z4fQTy7m68UEZYVUIyUHR3vUCRTYBcRG_2zjtZuTu3-kP6hnuOSNnCoO-gyeLP6vwUZiApEH5Uc4dMBtbWFsN5aP-DCT6V9o12apMWg_1g9JeW1nfhxVkSDqYJDviaY7gLIYaetjZ6WbyoW-S_u_1sStyKnRJCQMgMXPVh6OnuYGUaPg7L7znxu7o0K5mz7w5OzD1pfgTXqa-3gxIvmiwjmFv2T4jSEW4I0As9QT4JfjUptvxQ"/>
+<div>
+<div class="font-headline-sm text-sm font-bold text-[#071A2B] dark:text-white">WinDriveSA</div>
+<div class="font-label-caps text-[9px] text-[#785900] dark:text-[#fcc019] tracking-wider uppercase font-bold">Institutional Core</div>
+</div>
+</div>
+<button aria-label="Close Navigation" class="p-1.5 text-[#44474c] dark:text-white/70 hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-[#F5F7FA] dark:hover:bg-white/10 transition-colors" id="closeMobileNav">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Mobile Operator Profile Strip -->
+<div class="px-5 py-3 bg-[#F5F7FA] dark:bg-[#071624] border-b border-[#D9E0E7] dark:border-white/5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#fcc019] text-[#0a1d2e] flex items-center justify-center font-bold text-xs shadow-xs">
+          AD
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-xs font-semibold text-[#071A2B] dark:text-white truncate">A. Du Plessis</span>
+<span class="font-label-caps text-[10px] text-[#00843D] dark:text-[#71dc8a] tracking-wider uppercase flex items-center gap-1 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00843D] inline-block"></span> Senior Registrar
+          </span>
+</div>
+</div>
+<!-- Drawer Nav Routes (12 Standard Admin Routes) -->
+<nav class="flex-1 overflow-y-auto py-3 px-3 space-y-1">
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin">
+<span class="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/users">
+<span class="material-symbols-outlined text-[18px]">group</span> Users
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/rewards">
+<span class="material-symbols-outlined text-[18px]">featured_seasonal_and_gifts</span> Rewards
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/cash-prizes">
+<span class="material-symbols-outlined text-[18px]">payments</span> Cash Prizes
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/vehicle-prizes">
+<span class="material-symbols-outlined text-[18px]">directions_car</span> Vehicle Prizes
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/claims">
+<span class="material-symbols-outlined text-[18px]">fact_check</span> Claim Requests
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/claim-requirements">
+<span class="material-symbols-outlined text-[18px]">rule_folder</span> Claim Requirements
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/winners">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span> Winners
+        </a>
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/support">
+<span class="material-symbols-outlined text-[18px]">contact_support</span> Support
+        </a>
+<!-- ACTIVE ROUTE: Audit Logs -->
+<a class="drawer-nav-item flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/audit-logs"><span class="material-symbols-outlined text-[18px]">history_edu</span> Audit Logs</a>
+<a class="drawer-nav-item flex items-center justify-between px-3 py-2.5 rounded bg-[#F5F7FA] dark:bg-[#1E293B] text-[#071A2B] dark:text-[#F8FAFC] font-semibold border-l-4 border-[#F2B705] shadow-xs" href="#/admin/settings"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[18px] text-[#785900] dark:text-[#fcc019]">settings</span><span>Settings</span></div><span class="font-label-caps text-[9px] bg-[#fcc019]/25 text-[#785900] dark:text-[#fcc019] px-1.5 py-0.5 rounded font-bold">ACTIVE</span></a>
+<div class="pt-4 mt-4 border-t border-[#D9E0E7] dark:border-white/10">
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm text-[#ba1a1a] hover:bg-red-50 dark:hover:bg-white/5 transition-colors text-left" onclick="triggerToast('Session termination simulated. Operational ledger remains locked.')">
+<span class="material-symbols-outlined text-[18px]">logout</span> Terminate Session
+          </button>
+</div>
+</nav>
+</aside>
+<!-- DESKTOP STICKY LEFT SIDEBAR (Pure Light #FFFFFF in Light Mode, Dark in Dark Mode) -->
+<aside class="hidden lg:flex lg:flex-col w-64 h-[100dvh] sticky top-0 bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-[#F8FAFC] border-r border-[#D9E0E7] dark:border-[#1E293B] shrink-0 z-20 transition-colors">
+<!-- Sidebar Header & Logo -->
+<div class="p-5 pb-4 flex flex-col gap-1 border-b border-[#D9E0E7] dark:border-white/5">
+<div class="flex items-center gap-3">
+<img alt="WinDriveSA Logo" class="h-8 w-auto object-contain dark:brightness-0 dark:invert transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzqgNcogmv2SlwWWOlLf58_SrJ2WEWAXa7LtARjdHFvRxXaTAoFGWreGZg477WDwdCDk_tEfKU3MjoCkYpygjvMMdgiDM1zvbMU7BnzYeLLGNW9Cg8Sb33H4pCiuTm2aEVwg7pFz1ZRvETRYPwriLszBG8D3c_iuTP96BHM8wsl8IEKTPeq4S4VmtecShr4tP_Z7M10PcofbCPKTq6Etez4SxTXns-Mp9gAq42ZsOEpnHdQDDstUmSdh_i1-dJ2L8hjD4"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-base font-bold text-[#071A2B] dark:text-white tracking-tight leading-none">WinDriveSA</span>
+<span class="font-label-caps text-[9px] text-[#785900] dark:text-[#fcc019] tracking-widest uppercase mt-1 font-bold">Audit Governance</span>
+</div>
+</div>
+</div>
+<!-- Admin Identity Strip -->
+<div class="px-5 py-3 bg-[#F5F7FA] dark:bg-[#071624] border-b border-[#D9E0E7] dark:border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-md bg-[#fcc019] text-[#0a1d2e] flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+            AD
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white truncate leading-tight">A. Du Plessis</span>
+<span class="font-label-caps text-[10px] text-[#00843D] dark:text-[#71dc8a] tracking-wider uppercase flex items-center gap-1 mt-0.5 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00843D]"></span> Senior Registrar
+            </span>
+</div>
+</div>
+<button aria-label="Toggle Theme" class="p-1.5 text-[#44474c] dark:text-[#74859b] hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-[#dfe9f7] dark:hover:bg-white/10 transition-colors shrink-0" onclick="toggleGlobalTheme()" title="Toggle Theme">
+<span class="material-symbols-outlined text-[18px] theme-icon-display">dark_mode</span>
+</button>
+</div>
+<!-- 12 Admin Routes Navigation -->
+<nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+<span class="px-3 text-[10px] font-bold uppercase tracking-wider text-[#74859b] font-label-caps">Platform Console</span>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin">
+<span class="material-symbols-outlined text-[19px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/users">
+<span class="material-symbols-outlined text-[19px]">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/rewards">
+<span class="material-symbols-outlined text-[19px]">featured_seasonal_and_gifts</span>
+<span>Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/cash-prizes">
+<span class="material-symbols-outlined text-[19px]">payments</span>
+<span>Cash Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/vehicle-prizes">
+<span class="material-symbols-outlined text-[19px]">directions_car</span>
+<span>Vehicle Prizes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/claims">
+<span class="material-symbols-outlined text-[19px]">fact_check</span>
+<span>Claim Requests</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/claim-requirements">
+<span class="material-symbols-outlined text-[19px]">rule_folder</span>
+<span>Claim Requirements</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/winners">
+<span class="material-symbols-outlined text-[19px]">workspace_premium</span>
+<span>Winners</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/support">
+<span class="material-symbols-outlined text-[19px]">contact_support</span>
+<span>Support</span>
+</a>
+<!-- ACTIVE ITEM: AUDIT LOGS (Light Mode: bg-[#F5F7FA] text-[#071A2B] font-semibold border-l-4 border-[#F2B705] | Dark Mode: bg-[#1E293B] text-[#F8FAFC]) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-sm text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-colors" href="#/admin/audit-logs"><span class="material-symbols-outlined text-[19px]">history_edu</span><span>Audit Logs</span></a>
+<a class="flex items-center justify-between px-3 py-2 rounded bg-[#F5F7FA] dark:bg-[#1E293B] text-[#071A2B] dark:text-[#F8FAFC] font-semibold shadow-xs border-l-4 border-[#F2B705]" href="#/admin/settings"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[19px] text-[#785900] dark:text-[#fcc019]">settings</span><span>Settings</span></div><span class="font-label-caps text-[9px] bg-[#fcc019]/25 text-[#785900] dark:text-[#fcc019] px-1.5 py-0.5 rounded font-bold">ACTIVE</span></a>
+</nav>
+<!-- Sidebar Footer / Session Termination -->
+<div class="p-4 border-t border-[#D9E0E7] dark:border-white/5 bg-[#F5F7FA] dark:bg-[#071624] flex flex-col gap-2">
+<div class="flex items-center justify-between text-xs text-[#74859b]">
+<span class="font-label-caps text-[10px] uppercase font-bold">Node Status</span>
+<span class="flex items-center gap-1.5 text-[#00843D] dark:text-[#71dc8a] font-tabular-stat text-xs font-bold">
+<span class="w-2 h-2 rounded-full bg-[#00843D] animate-pulse"></span>
+            RSA-JHB-01
+          </span>
+</div>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-semibold text-[#ba1a1a] bg-[#ffdad6]/40 hover:bg-[#ffdad6]/70 dark:text-[#ffdad6] dark:bg-[#ba1a1a]/15 dark:hover:bg-[#ba1a1a]/25 transition-colors" onclick="triggerToast('Session termination simulated. Re-authentication will be required.')">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Terminate Session</span>
+</button>
+</div>
+</aside>
+<!-- MAIN OPERATIONS WORKSPACE (Complete Audit Logs Workspace) -->
+<main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 flex flex-col gap-6 bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-[#F8FAFC] transition-colors"><!-- 1. TWO-LEVEL PAGE HEADER -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<div class="flex flex-col gap-1 max-w-2xl">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-[#785900] dark:text-[#fcc019] bg-[#fcc019]/20 px-2 py-0.5 rounded tracking-widest uppercase font-bold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">verified_user</span>
+        ADMIN CONFIGURATION • INSTITUTIONAL GOVERNANCE
+      </span>
+<span class="font-label-caps text-label-caps text-[#74859b] hidden sm:inline font-semibold">• ISO/IEC 27001 AUDITED</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl font-bold tracking-tight text-[#071A2B] dark:text-white">
+      Settings
+    </h1>
+<p class="font-body-md text-body-md text-[#44474c] dark:text-[#b6c8df] mt-0.5">
+      Manage your WinDriveSA operational profile, institutional communication channels, fiduciary security thresholds, and system preferences.
+    </p>
+</div>
+<!-- Quick Action & Deep Link Controls -->
+<div class="flex items-center gap-2.5 shrink-0 flex-wrap">
+<div class="hidden items-center gap-1.5 px-3 py-1.5 bg-[#fcc019]/20 text-[#785900] dark:text-[#fcc019] rounded text-xs font-bold border border-[#fcc019]/40 animate-pulse" id="unsavedIndicator">
+<span class="material-symbols-outlined text-[15px]">edit_note</span>
+<span>Unsaved Changes</span>
+</div>
+<a class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-white text-xs font-semibold rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs hover:bg-[#F5F7FA] dark:hover:bg-[#1E293B] transition-all" href="#/admin/audit-logs">
+<span class="material-symbols-outlined text-[16px] text-[#74859b]">history_edu</span>
+<span>Audit Logs</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow-xs hover:bg-[#17212b] dark:hover:bg-[#ffdf9d] transition-all" href="#/admin/claim-requirements">
+<span class="material-symbols-outlined text-[16px]">rule_folder</span>
+<span>Manage Requirements</span>
+</a>
+</div>
+</section>
+<!-- 2. REQUIREMENT & PRIZE BOUNDARY CALLOUT BANNER -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 bg-white dark:bg-[#0B1E30] border border-[#D9E0E7] dark:border-[#1E293B] rounded text-xs shadow-xs">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[20px] text-[#785900] dark:text-[#fcc019]">help_outline</span>
+<span class="font-body-md text-xs text-[#44474c] dark:text-[#dfe9f7]">
+      Looking to configure claim requirements, payout schedules, or prize tiers? Claim requirements are governed independently in the dedicated desk.
+    </span>
+</div>
+<a class="font-label-caps text-[11px] font-bold text-[#071A2B] dark:text-[#fcc019] hover:underline shrink-0 inline-flex items-center gap-1" href="#/admin/claim-requirements">
+<span>Open Claim Requirements</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- 3. MAIN SETTINGS TWO-COLUMN LAYOUT -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Settings Navigation Index (Sticky on Desktop) -->
+<nav class="lg:col-span-3 flex flex-col gap-1.5 bg-white dark:bg-[#0B1E30] p-3 rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs sticky top-4">
+<span class="px-3 py-1 font-label-caps text-[10px] uppercase font-bold text-[#74859b] tracking-wider">Configuration Index</span>
+<button class="settings-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-bold transition-all text-left bg-[#F5F7FA] dark:bg-[#1E293B] text-[#071A2B] dark:text-[#F8FAFC] border-l-4 border-[#F2B705] shadow-xs" id="tab-btn-general" onclick="switchSettingsTab('general')">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#785900] dark:text-[#fcc019]">tune</span>
+<span>General Settings</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-[#74859b]">chevron_right</span>
+</button>
+<button class="settings-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-semibold text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-all text-left" id="tab-btn-comm" onclick="switchSettingsTab('comm')">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>Communication</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-[#74859b]">chevron_right</span>
+</button>
+<button class="settings-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-semibold text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-all text-left" id="tab-btn-sec" onclick="switchSettingsTab('sec')">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+<span>Security &amp; Governance</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-[#74859b]">chevron_right</span>
+</button>
+<button class="settings-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-semibold text-[#44474c] dark:text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-white/5 hover:text-[#071A2B] dark:hover:text-white transition-all text-left" id="tab-btn-prefs" onclick="switchSettingsTab('prefs')">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+<span>System Preferences</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-[#74859b]">chevron_right</span>
+</button>
+<div class="my-2 border-t border-[#D9E0E7] dark:border-[#1E293B]"></div>
+<button class="settings-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-semibold text-[#ba1a1a] hover:bg-[#ffdad6]/40 dark:hover:bg-[#ba1a1a]/15 transition-all text-left" id="tab-btn-danger" onclick="switchSettingsTab('danger')">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span>Account &amp; Reset Controls</span>
+</div>
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+</nav>
+<!-- Right Tab Panes (Settings Workspace Content) -->
+<div class="lg:col-span-9 flex flex-col gap-6">
+<!-- PANE 1: GENERAL SETTINGS -->
+<section class="settings-tab-pane bg-white dark:bg-[#0B1E30] rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs flex flex-col overflow-hidden" id="pane-general">
+<div class="p-5 sm:p-6 border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<h2 class="font-headline-md text-lg font-bold text-[#071A2B] dark:text-white">General Settings</h2>
+<p class="font-body-md text-xs text-[#44474c] dark:text-[#b6c8df] mt-0.5">
+          Core institutional brand identities, nomenclature, and default operational currency.
+        </p>
+</div>
+<div class="p-5 sm:p-6 space-y-5">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="companyNameInput">Company Name</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="companyNameInput" oninput="markUnsaved()" type="text" value="WinDriveSA"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="taglineInput">Tagline</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="taglineInput" oninput="markUnsaved()" type="text" value="Win Big. Drive Away."/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold">Market / Operating Jurisdiction</label>
+<div class="flex items-center justify-between px-3 py-2 bg-[#F5F7FA] dark:bg-[#071624] border border-[#D9E0E7] dark:border-[#1E293B] rounded text-xs">
+<span class="font-bold text-[#071A2B] dark:text-white">Republic of South Africa</span>
+<span class="font-label-caps text-[9px] bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a] px-2 py-0.5 rounded font-bold">RSA JURISDICTION</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="currencySelect">Default Operational Currency</label>
+<div class="relative">
+<select class="w-full appearance-none px-3 py-2 pr-8 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="currencySelect" onchange="markUnsaved()">
+<option selected="" value="ZAR">ZAR — South African Rand (R)</option>
+<option value="USD">USD — US Dollar ($)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#74777d] text-[18px] pointer-events-none">expand_more</span>
+</div>
+<span class="text-[11px] text-[#74859b]">Used as the default currency for prize allocations, ledger valuations, and applicable charges.</span>
+</div>
+</div>
+<!-- Brand Identifier Asset Preview -->
+<div class="flex flex-col gap-2 pt-2 border-t border-[#D9E0E7] dark:border-[#1E293B]">
+<span class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold">Brand Identifier Asset</span>
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-[#F5F7FA] dark:bg-[#071624] border border-[#D9E0E7] dark:border-[#1E293B] rounded">
+<div class="flex items-center gap-4">
+<div class="bg-white p-2 rounded border border-[#D9E0E7] shadow-xs flex items-center justify-center">
+<img alt="WinDriveSA Official Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGUHfHzGfIkffA_PD58A61Ghj9MmYdH_3xQuydmax9Xtdz5KUbZTdX9AgqLH5raoc8urJtd78-Z7nh6ttjSIkvhLRpXeBK1LV5_n-hMvpHScCwPh6PMomKRXV3JF8pZqyuwF3rXUi9QPwnyYrnrq2-5y3VHSBbbNX_GdESlbpgemr_T-F7CuPifoF-DbQtRe3lmra4pPA8Sc0qAeXJO-N8ynqUgrYxvwxd7eyTarh-kIHj2KlHrSLM7aJrbfU4D2mu5qY"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white">WinDriveSA Institutional Crest &amp; Wordmark</span>
+<span class="text-[11px] text-[#74859b]">High-resolution PNG asset • RGB Vector Master Spec</span>
+</div>
+</div>
+<span class="font-label-caps text-[10px] bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a] px-2.5 py-1 rounded font-bold uppercase tracking-wider inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+              Verified Master Brand Mark
+            </span>
+</div>
+</div>
+</div>
+<!-- Save Action Bar -->
+<div class="p-4 sm:px-6 bg-[#F5F7FA] dark:bg-[#071624] border-t border-[#D9E0E7] dark:border-[#1E293B] flex items-center justify-between">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-white dark:hover:bg-[#1E293B] transition-colors" onclick="resetGeneralSettings()" type="button">
+          Cancel / Discard
+        </button>
+<button class="px-5 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow hover:bg-[#17212b] dark:hover:bg-[#ffdf9d] transition-colors inline-flex items-center gap-1.5" onclick="saveGeneralSettings()" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span>Save General Settings</span>
+</button>
+</div>
+</section>
+<!-- PANE 2: COMMUNICATION SETTINGS -->
+<section class="settings-tab-pane hidden bg-white dark:bg-[#0B1E30] rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs flex flex-col overflow-hidden" id="pane-comm">
+<div class="p-5 sm:p-6 border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<h2 class="font-headline-md text-lg font-bold text-[#071A2B] dark:text-white">Communication Settings</h2>
+<p class="font-body-md text-xs text-[#44474c] dark:text-[#b6c8df] mt-0.5">
+          Administrative channels used to provide verified support and claimant dispatch correspondence.
+        </p>
+</div>
+<div class="p-5 sm:p-6 space-y-5">
+<!-- Support Only Protocol Notice -->
+<div class="p-3.5 bg-[#edf4ff] dark:bg-[#1E293B] border border-[#D9E0E7] dark:border-[#1E293B] rounded flex items-start gap-2.5 text-xs text-[#0a1d2e] dark:text-[#d2e4fc]">
+<span class="material-symbols-outlined text-[18px] text-[#00843D] shrink-0">security</span>
+<p class="font-body-sm text-xs leading-relaxed">
+<strong>Support Only Protocol:</strong> WinDriveSA never processes payments, requests OTPs, or collects banking credentials via WhatsApp or unverified email channels. All outbound notifications point exclusively to official encrypted portal endpoints.
+          </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="waNumberInput">WhatsApp Support Dispatch Number</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="waNumberInput" oninput="markUnsaved()" type="text" value="+27 (0) 11 884 9200"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="supportEmailInput">Official Support Desk Email</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="supportEmailInput" oninput="markUnsaved()" type="email" value="support@windrivesa.co.za"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="complianceEmailInput">Escalation Fiduciary Email</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="complianceEmailInput" oninput="markUnsaved()" type="email" value="compliance@windrivesa.co.za"/>
+</div>
+<div class="flex flex-col gap-1.5 justify-between p-3 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B]">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold">Support Availability</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="supportActiveToggle" onchange="markUnsaved()" type="checkbox"/>
+<div class="w-9 h-5 bg-[#74859b] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00843D]"></div>
+</label>
+</div>
+<span class="font-label-caps text-[10px] text-[#00843D] dark:text-[#71dc8a] font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00843D]"></span> Active Operations
+            </span>
+</div>
+</div>
+<div class="p-3.5 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B] flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white block">Manage Support Ticket Queues</span>
+<span class="text-[11px] text-[#74859b]">Review live tickets and respondent assignments.</span>
+</div>
+<a class="px-3 py-1.5 bg-white dark:bg-[#0B1E30] text-[#071A2B] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] text-xs font-bold rounded hover:bg-[#edf4ff] transition-colors inline-flex items-center gap-1 shadow-xs" href="#/admin/support">
+<span>Open Support Desk</span>
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="p-4 sm:px-6 bg-[#F5F7FA] dark:bg-[#071624] border-t border-[#D9E0E7] dark:border-[#1E293B] flex items-center justify-between">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-white dark:hover:bg-[#1E293B] transition-colors" onclick="resetCommunicationSettings()" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow hover:bg-[#17212b] dark:hover:bg-[#ffdf9d] transition-colors inline-flex items-center gap-1.5" onclick="saveCommunicationSettings()" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span>Save Communication Settings</span>
+</button>
+</div>
+</section>
+<!-- PANE 3: SECURITY & GOVERNANCE -->
+<section class="settings-tab-pane hidden bg-white dark:bg-[#0B1E30] rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs flex flex-col overflow-hidden" id="pane-sec">
+<div class="p-5 sm:p-6 border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<h2 class="font-headline-md text-lg font-bold text-[#071A2B] dark:text-white">Security &amp; Governance</h2>
+<p class="font-body-md text-xs text-[#44474c] dark:text-[#b6c8df] mt-0.5">
+          Institutional access policies, administrative timeout durations, and statutory two-operator confirmation rules.
+        </p>
+</div>
+<div class="p-5 sm:p-6 space-y-5">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="timeoutSelect">Admin Session Inactivity Timeout</label>
+<div class="relative">
+<select class="w-full appearance-none px-3 py-2 pr-8 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="timeoutSelect" onchange="markUnsaved()">
+<option value="15">15 minutes</option>
+<option selected="" value="30">30 minutes (Default)</option>
+<option value="60">1 hour</option>
+<option value="240">4 hours</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#74777d] text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold">Administrative Access Level</label>
+<div class="flex items-center justify-between px-3 py-2 bg-[#F5F7FA] dark:bg-[#071624] border border-[#D9E0E7] dark:border-[#1E293B] rounded text-xs">
+<span class="font-bold text-[#071A2B] dark:text-white">Level 4 Registrar</span>
+<span class="font-label-caps text-[9px] bg-[#fcc019]/25 text-[#785900] dark:text-[#fcc019] px-2 py-0.5 rounded font-bold">A. Du Plessis (Active Session)</span>
+</div>
+</div>
+</div>
+<!-- Dual Confirmation Toggle -->
+<div class="p-4 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B] flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white">Require Dual Confirmation for Sensitive Actions</span>
+<p class="text-[11px] text-[#74859b]">
+              Requires an explicit secondary confirmation step before approving claims, reallocating vehicle prizes, or editing applicable charges.
+            </p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
+<input checked="" class="sr-only peer" id="dualConfirmToggle" onchange="markUnsaved()" type="checkbox"/>
+<div class="w-9 h-5 bg-[#74859b] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00843D]"></div>
+</label>
+</div>
+<!-- Immutable Audit Logging Policy -->
+<div class="p-4 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B] flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white">Immutable Audit Logging</span>
+<span class="font-label-caps text-[9px] bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a] px-2 py-0.5 rounded font-bold uppercase">
+                ISO/IEC 27001 &amp; POPIA Mandated
+              </span>
+</div>
+<p class="text-[11px] text-[#74859b]">
+              Cryptographic tamper-evident ledger logs every operator click, state transform, and authorization sequence permanently.
+            </p>
+</div>
+<div class="flex items-center gap-1 text-[#00843D] dark:text-[#71dc8a] text-xs font-bold shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Locked Active</span>
+</div>
+</div>
+<!-- Password Change Trigger -->
+<div class="flex items-center justify-between p-4 bg-[#edf4ff] dark:bg-[#1E293B] rounded border border-[#D9E0E7] dark:border-[#1E293B]">
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white">Admin Password Credentials</span>
+<span class="text-[11px] text-[#74859b]">Last rotated: 28 August 2026 (17 days ago)</span>
+</div>
+<button class="px-4 py-2 bg-white dark:bg-[#071624] text-[#071A2B] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] text-xs font-bold rounded shadow-xs hover:bg-[#dfe9f7] transition-all flex items-center gap-1.5" onclick="openPasswordModal()" type="button">
+<span class="material-symbols-outlined text-[16px]">key</span>
+<span>Change Admin Password</span>
+</button>
+</div>
+</div>
+<div class="p-4 sm:px-6 bg-[#F5F7FA] dark:bg-[#071624] border-t border-[#D9E0E7] dark:border-[#1E293B] flex items-center justify-between">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-white dark:hover:bg-[#1E293B] transition-colors" onclick="switchSettingsTab('general')" type="button">
+          Back to General
+        </button>
+<button class="px-5 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow hover:bg-[#17212b] dark:hover:bg-[#ffdf9d] transition-colors inline-flex items-center gap-1.5" onclick="saveSecuritySettings()" type="button">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+<span>Save Security Policies</span>
+</button>
+</div>
+</section>
+<!-- PANE 4: SYSTEM PREFERENCES -->
+<section class="settings-tab-pane hidden bg-white dark:bg-[#0B1E30] rounded border border-[#D9E0E7] dark:border-[#1E293B] shadow-xs flex flex-col overflow-hidden" id="pane-prefs">
+<div class="p-5 sm:p-6 border-b border-[#D9E0E7] dark:border-[#1E293B]">
+<h2 class="font-headline-md text-lg font-bold text-[#071A2B] dark:text-white">System Preferences</h2>
+<p class="font-body-md text-xs text-[#44474c] dark:text-[#b6c8df] mt-0.5">
+          Workspace visual configuration, chronological formats, and regional time synchronization.
+        </p>
+</div>
+<div class="p-5 sm:p-6 space-y-5">
+<!-- Theme Visual Selector -->
+<div class="flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold">Active Console Theme</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<button class="p-4 rounded border-2 flex items-center justify-between text-left transition-all bg-white border-[#0a1d2e] dark:border-white/10 dark:bg-[#071624] shadow-xs" onclick="setGlobalTheme(false)" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#F5F7FA] text-[#071A2B] border border-[#D9E0E7] flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</div>
+<div>
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white block">Light Theme</span>
+<span class="text-[11px] text-[#74859b]">Default crisp white institutional console</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#00843D] text-[20px]">radio_button_checked</span>
+</button>
+<button class="p-4 rounded border-2 flex items-center justify-between text-left transition-all bg-[#0B1E30] text-white border-transparent hover:border-[#fcc019] shadow-xs" onclick="setGlobalTheme(true)" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#071624] text-[#fcc019] border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</div>
+<div>
+<span class="font-headline-sm text-xs font-bold text-white block">Dark Theme</span>
+<span class="text-[11px] text-white/70">Deep navy high-contrast operations mode</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/40 text-[20px]">radio_button_unchecked</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="dateFormatSelect">Date &amp; Timestamp Format</label>
+<div class="relative">
+<select class="w-full appearance-none px-3 py-2 pr-8 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="dateFormatSelect" onchange="markUnsaved()">
+<option selected="" value="DD/MM/YYYY">DD/MM/YYYY (e.g. 14/09/2026)</option>
+<option value="YYYY-MM-DD">YYYY-MM-DD (ISO 8601)</option>
+<option value="DD_MMM_YYYY">DD MMM YYYY (e.g. 14 Sep 2026)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#74777d] text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="timezoneSelect">Regional Timezone</label>
+<div class="relative">
+<select class="w-full appearance-none px-3 py-2 pr-8 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="timezoneSelect" onchange="markUnsaved()">
+<option selected="" value="Africa/Johannesburg">Africa/Johannesburg (SAST — UTC+2)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#74777d] text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="languageSelect">Administrative Language</label>
+<div class="relative max-w-sm">
+<select class="w-full appearance-none px-3 py-2 pr-8 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="languageSelect" onchange="markUnsaved()">
+<option selected="" value="en-ZA">English (South Africa)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[#74777d] text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div class="p-4 sm:px-6 bg-[#F5F7FA] dark:bg-[#071624] border-t border-[#D9E0E7] dark:border-[#1E293B] flex items-center justify-between">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:text-[#071A2B] dark:hover:text-white rounded hover:bg-white dark:hover:bg-[#1E293B] transition-colors" onclick="switchSettingsTab('general')" type="button">
+          Discard
+        </button>
+<button class="px-5 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow hover:bg-[#17212b] dark:hover:bg-[#ffdf9d] transition-colors inline-flex items-center gap-1.5" onclick="saveSystemPreferences()" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Apply System Preferences</span>
+</button>
+</div>
+</section>
+<!-- PANE 5: DANGER ZONE / RESTRAINED GOVERNANCE -->
+<section class="settings-tab-pane hidden bg-white dark:bg-[#0B1E30] rounded border border-[#ffdad6] dark:border-[#ba1a1a]/30 shadow-xs flex flex-col overflow-hidden" id="pane-danger">
+<div class="p-5 sm:p-6 border-b border-[#ffdad6] dark:border-[#ba1a1a]/20 bg-[#ffdad6]/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#ba1a1a]">gavel</span>
+<h2 class="font-headline-md text-lg font-bold text-[#ba1a1a] dark:text-[#ffdad6]">Restricted Administrative Controls</h2>
+</div>
+<p class="font-body-md text-xs text-[#74859b] mt-0.5">
+          Fiduciary and baseline management controls restricted to authorized level 4 registrars.
+        </p>
+</div>
+<div class="p-5 sm:p-6 space-y-4">
+<!-- Option 1: Users Bulk Management -->
+<div class="p-4 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-[#071A2B] dark:text-white">Deactivate Inactive User Accounts</span>
+<span class="text-[11px] text-[#74859b]">Directs to Users management console for bulk state changes and regulatory audits.</span>
+</div>
+<a class="px-3.5 py-2 bg-white dark:bg-[#0B1E30] text-[#071A2B] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] text-xs font-bold rounded hover:bg-[#dfe9f7] transition-colors inline-flex items-center gap-1 shadow-xs shrink-0" href="#/admin/users">
+<span>Open Users Desk</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+<!-- Option 2: Reset Prototype Baseline -->
+<div class="p-4 bg-[#ffdad6]/20 dark:bg-[#ffdad6]/5 rounded border border-[#ffdad6] dark:border-[#ba1a1a]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex flex-col">
+<span class="font-headline-sm text-xs font-bold text-[#ba1a1a] dark:text-[#ffdad6]">Reset Prototype Configuration</span>
+<span class="text-[11px] text-[#74859b]">Restores default demo values and mock governance states without altering user databases.</span>
+</div>
+<button class="px-4 py-2 bg-[#ba1a1a] text-white text-xs font-bold rounded shadow-xs hover:bg-[#93000a] transition-colors inline-flex items-center gap-1 shrink-0" onclick="openResetModal()" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Reset to Baseline</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Institutional Fiduciary Footer Note -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#74859b] py-2 mt-4 border-t border-[#D9E0E7] dark:border-[#1E293B]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00843D]"></span>
+<span>Immutable Ledger Integrity: All configuration revisions logged under National Gambling &amp; Lotteries Compliance act.</span>
+</div>
+<div class="font-tabular-stat text-xs">
+    SHA-256 Config Root: <code class="text-[#071A2B] dark:text-white font-mono font-bold">8a4f91..d03e</code>
+</div>
+</div></main>
+</div>
+<!-- 5. AUDIT EVENT DETAIL MODAL / DRAWER -->
+<!-- PASSWORD CHANGE MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="passwordModal" role="dialog">
+<div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200 opacity-0" id="passwordModalBackdrop" onclick="closePasswordModal()"></div>
+<div class="fixed inset-0 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
+<div class="bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-[#F8FAFC] w-full max-w-md rounded shadow-2xl overflow-hidden flex flex-col pointer-events-auto transform scale-95 opacity-0 transition-all duration-200 border border-[#D9E0E7] dark:border-[#1E293B]" id="passwordModalCard">
+<div class="bg-[#0a1d2e] text-white p-5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-[#fcc019]">lock_reset</span>
+<h3 class="font-headline-md text-base font-bold text-white">Update Admin Password</h3>
+</div>
+<button class="text-white/70 hover:text-white p-1 rounded hover:bg-white/10" onclick="closePasswordModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="p-6 space-y-4" onsubmit="handlePasswordSubmit(event)">
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="currentPassword">Current Password</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="currentPassword" placeholder="••••••••••••" required="" type="password"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="newPassword">New Password</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="newPassword" placeholder="Minimum 12 characters" required="" type="password"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-[#74859b] uppercase font-bold" for="confirmPassword">Confirm New Password</label>
+<input class="w-full px-3 py-2 text-xs font-semibold bg-[#F5F7FA] dark:bg-[#071624] text-[#121c26] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded focus:outline-none focus:ring-2 focus:ring-[#0a1d2e]/20" id="confirmPassword" placeholder="Re-enter new password" required="" type="password"/>
+</div>
+<div class="p-3 bg-[#F5F7FA] dark:bg-[#071624] rounded border border-[#D9E0E7] dark:border-[#1E293B] text-[11px] text-[#74859b] space-y-1">
+<span class="font-bold block text-[#071A2B] dark:text-white">Institutional Password Policy:</span>
+<span>• Minimum 12 alphanumeric characters</span><br/>
+<span>• Must include at least 1 symbol and 1 uppercase letter</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-[#1E293B] rounded" onclick="closePasswordModal()" type="button">Cancel</button>
+<button class="px-4 py-2 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] text-xs font-bold rounded shadow-xs hover:bg-[#17212b] transition-colors" type="submit">Save New Password</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- RESET TO BASELINE MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="resetModal" role="dialog">
+<div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200 opacity-0" id="resetModalBackdrop" onclick="closeResetModal()"></div>
+<div class="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
+<div class="bg-white dark:bg-[#0B1E30] text-[#121c26] dark:text-[#F8FAFC] border border-[#ffdad6] dark:border-[#ba1a1a]/30 w-full max-w-md rounded shadow-2xl p-6 pointer-events-auto flex flex-col gap-4 transform scale-95 opacity-0 transition-all duration-200" id="resetModalCard">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#ba1a1a] text-[24px]">warning</span>
+<h3 class="font-headline-sm text-base font-bold text-[#ba1a1a] dark:text-[#ffdad6]">Reset Configuration?</h3>
+</div>
+<button class="text-[#74859b] hover:text-[#071A2B] dark:hover:text-white" onclick="closeResetModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-xs text-[#44474c] dark:text-[#b6c8df]">
+        Confirm that you want to restore demo operational values to the default institutional baseline. All fields will revert to factory preset parameters.
+      </p>
+<div class="flex items-center justify-end gap-2 pt-2">
+<button class="px-3.5 py-2 text-xs font-semibold text-[#74859b] hover:bg-[#F5F7FA] dark:hover:bg-[#1E293B] rounded" onclick="closeResetModal()" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 bg-[#ba1a1a] text-white text-xs font-bold rounded hover:bg-[#93000a] transition-colors flex items-center gap-1.5 shadow-sm" onclick="executeBaselineReset()" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Confirm Reset</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 6. TOAST NOTIFICATION CONTAINER -->
+<div class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none" id="toastContainer"></div>
+<!-- EXPORT PROMPT MODAL -->
+<!-- SCRIPT CONTROLLER -->
+<script>
+    // 1. GLOBAL SHARED THEME CONTROLLER (Default = Light Mode)
+    // Never auto-init from dark OS/browser setting
+    document.documentElement.classList.remove('dark');
+
+    function updateThemeIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.querySelectorAll('.theme-icon-display').forEach(icon => {
+        icon.innerText = isDark ? 'light_mode' : 'dark_mode';
+      });
+    }
+
+    function toggleGlobalTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      updateThemeIcons();
+      triggerToast(isDark ? 'Dark theme enabled.' : 'Light theme enabled.');
+    }
+
+    // 2. BELIEVABLE IMMUTABLE AUDIT RECORDS
+    const AUDIT_DATA = [
+      {
+        id: "AUD-20260914-0942-001",
+        date: "14 Sep 2026",
+        time: "09:42",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Approved User",
+        actionCategory: "USER",
+        entity: "User",
+        record: "John Mokoena (mokoena.j@africamail.co.za)",
+        summary: "Account status: Pending Review → Approved",
+        status: "Completed",
+        statusType: "success",
+        before: "Status: PENDING REVIEW (ID & Proof of Residence Pending Check)",
+        after: "Status: APPROVED (POPIA & FICA Verification Successful)",
+        relatedType: "User Profile",
+        relatedPath: "#/admin/users?id=JM-9921",
+        signature: "0x89a4..b4c1"
+      },
+      {
+        id: "AUD-20260914-0918-002",
+        date: "14 Sep 2026",
+        time: "09:18",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Assigned Reward",
+        actionCategory: "REWARD",
+        entity: "Reward",
+        record: "John Mokoena",
+        summary: "Cash: R250,000 ZAR · Vehicle: 2026 Toyota Hilux",
+        status: "Completed",
+        statusType: "success",
+        before: "Reward Ledger: UNASSIGNED TIER 1 DUAL ALLOCATION",
+        after: "Assigned to UID-48902 (Mokoena, J.) with Sandton Handover option",
+        relatedType: "Rewards Engine",
+        relatedPath: "#/admin/rewards?id=RWD-4481",
+        signature: "0x77f2..10e9"
+      },
+      {
+        id: "AUD-20260913-1605-003",
+        date: "13 Sep 2026",
+        time: "16:05",
+        admin: "C. van Zyl",
+        adminRole: "Fiduciary Auditor",
+        action: "Updated Claim Requirement",
+        actionCategory: "CLAIM_REQ",
+        entity: "Claim Requirement",
+        record: "Cash Prize Tier 1",
+        summary: "Applicable Charge configured (FICA Statutory Settlement)",
+        status: "Completed",
+        statusType: "success",
+        before: "Charge Rule: Standard Fee Template (2025 rev)",
+        after: "Charge Rule: 2026 Updated FICA Schedule #4 Registered",
+        relatedType: "Requirements Table",
+        relatedPath: "#/admin/claim-requirements?tier=1",
+        signature: "0x11a3..d84a"
+      },
+      {
+        id: "AUD-20260913-1431-004",
+        date: "13 Sep 2026",
+        time: "14:31",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Approved Cash Claim",
+        actionCategory: "CLAIM",
+        entity: "Claim",
+        record: "CLM-9820 (Lerato Khumalo)",
+        summary: "Status: Under Review → Approved (R150,000 ZAR)",
+        status: "Completed",
+        statusType: "success",
+        before: "Claim State: SUBMITTED (Document validation complete)",
+        after: "Claim State: APPROVED (EFT Disbursement Queue Scheduled)",
+        relatedType: "Claim Dossier",
+        relatedPath: "#/admin/claims?ref=CLM-9820",
+        signature: "0x33b9..9982"
+      },
+      {
+        id: "AUD-20260913-1214-005",
+        date: "13 Sep 2026",
+        time: "12:14",
+        admin: "Admin Controller 04",
+        adminRole: "Operations Controller",
+        action: "Updated Support Request",
+        actionCategory: "SUPPORT",
+        entity: "Support Request",
+        record: "#WD-SUP-1042 (Michael Dlamini)",
+        summary: "Status: Open → In Progress (Tier 2 Assigned)",
+        status: "Completed",
+        statusType: "success",
+        before: "Ticket Priority: Unassigned Queue · Status: OPEN",
+        after: "Ticket Priority: Escalated to Automotive Delivery Desk",
+        relatedType: "Support Ticket",
+        relatedPath: "#/admin/support?id=1042",
+        signature: "0x55aa..ee10"
+      },
+      {
+        id: "AUD-20260912-1520-006",
+        date: "12 Sep 2026",
+        time: "15:20",
+        admin: "C. van Zyl",
+        adminRole: "Fiduciary Auditor",
+        action: "Dispatched Vehicle Logistics",
+        actionCategory: "VEHICLE_PRIZE",
+        entity: "Vehicle Prize",
+        record: "CLM-9821 (Sipho Ndlovu)",
+        summary: "Handover Dealership: Sandton Toyota Assigned",
+        status: "Completed",
+        statusType: "success",
+        before: "Logistics: Factory Compound Holding (Durban Hub)",
+        after: "Logistics: Transporter Bill of Lading #TOY-SA-9901 Issued",
+        relatedType: "Vehicle Asset",
+        relatedPath: "#/admin/vehicle-prizes?ref=CLM-9821",
+        signature: "0x00cd..fa22"
+      },
+      {
+        id: "AUD-20260911-1005-007",
+        date: "11 Sep 2026",
+        time: "10:05",
+        admin: "A. Du Plessis",
+        adminRole: "Senior Registrar",
+        action: "Created Cash Prize Pool",
+        actionCategory: "CASH_PRIZE",
+        entity: "Cash Prize",
+        record: "Mid-Spring Tier A",
+        summary: "Amount: R500,000 ZAR · Escrow Verified",
+        status: "Completed",
+        statusType: "success",
+        before: "Pool Status: DRAFT ALLOCATION SPECIFICATION",
+        after: "Pool Status: ACTIVE ESCROW (Verified with Standard Bank Trust)",
+        relatedType: "Cash Pool",
+        relatedPath: "#/admin/cash-prizes?pool=spring-a",
+        signature: "0x9812..3041"
+      },
+      {
+        id: "AUD-20260910-1745-008",
+        date: "10 Sep 2026",
+        time: "17:45",
+        admin: "Admin Controller 04",
+        adminRole: "Operations Controller",
+        action: "Resolved Support Ticket",
+        actionCategory: "SUPPORT",
+        entity: "Support Request",
+        record: "#WD-SUP-1051 (Naledi Khumalo)",
+        summary: "Status: Waiting for User → Resolved",
+        status: "Completed",
+        statusType: "success",
+        before: "Status: PENDING USER CONFIRMATION (SMS Delivered)",
+        after: "Status: RESOLVED & ARCHIVED (Winner Acknowledgement Signed)",
+        relatedType: "Support Ticket",
+        relatedPath: "#/admin/support?id=1051",
+        signature: "0x89ee..4120"
+      }
+    ];
+
+    let currentEvents = [...AUDIT_DATA];
+    let selectedEvent = null;
+
+    // Render Table and Cards
+    function renderEvents(items) {
+      const tbody = document.getElementById('auditTableBody');
+      const cardsContainer = document.getElementById('auditCardsContainer');
+      const emptyState = document.getElementById('emptyAuditState');
+      const visibleCountEl = document.getElementById('visibleEventsCount');
+      const paginationSummary = document.getElementById('paginationSummary');
+
+      visibleCountEl.innerText = items.length;
+      paginationSummary.innerText = `Showing 1–${items.length} of 1,248 total recorded events`;
+
+      if (items.length === 0) {
+        tbody.innerHTML = '';
+        cardsContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // 1. Render Desktop Table Rows
+      tbody.innerHTML = items.map(ev => `
+        <tr class="hover:bg-[#F5F7FA] dark:hover:bg-[#071624]/60 transition-colors group">
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <div class="font-tabular-stat text-xs font-bold text-[#071A2B] dark:text-white">${ev.date}</div>
+            <div class="font-tabular-stat text-[11px] text-[#74859b]">${ev.time} SAST</div>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] flex items-center justify-center font-bold text-[10px]">
+                ${ev.admin.split(' ').map(n=>n[0]).join('')}
+              </span>
+              <div>
+                <span class="font-body-md text-xs font-semibold text-[#071A2B] dark:text-white block">${ev.admin}</span>
+                <span class="font-label-caps text-[9px] text-[#74859b]">${ev.adminRole}</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold ${getActionBadgeClass(ev.actionCategory)}">
+              ${ev.action}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 whitespace-nowrap font-body-sm text-xs text-[#44474c] dark:text-[#b6c8df]">
+            ${ev.entity}
+          </td>
+          <td class="py-3.5 px-4">
+            <div class="font-headline-sm text-xs font-semibold text-[#071A2B] dark:text-white max-w-[180px] truncate" title="${ev.record}">
+              ${ev.record}
+            </div>
+            <span class="font-mono text-[10px] text-[#74859b]">${ev.id}</span>
+          </td>
+          <td class="py-3.5 px-4 max-w-xs">
+            <span class="font-body-sm text-xs text-[#121c26] dark:text-[#dfe9f7] line-clamp-1" title="${ev.summary}">
+              ${ev.summary}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-center whitespace-nowrap">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-caps text-[10px] bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a] font-bold">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00843D]"></span>
+              ${ev.status}
+            </span>
+          </td>
+          <td class="py-3.5 px-4 text-right whitespace-nowrap">
+            <button onclick="openDetailModal('${ev.id}')" class="px-2.5 py-1.5 text-xs font-bold text-[#071A2B] dark:text-white hover:bg-[#F5F7FA] dark:hover:bg-[#1E293B] rounded transition-colors inline-flex items-center gap-1 group-hover:text-[#785900] dark:group-hover:text-[#fcc019]">
+              <span>View</span>
+              <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // 2. Render Mobile/Tablet Stacked Cards
+      cardsContainer.innerHTML = items.map(ev => `
+        <div class="p-4 flex flex-col gap-2 hover:bg-[#F5F7FA] dark:hover:bg-[#071624]/60 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[10px] text-[#74859b]">${ev.id}</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-caps text-[10px] bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a] font-bold">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00843D]"></span> ${ev.status}
+            </span>
+          </div>
+
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="font-headline-sm text-sm font-bold text-[#071A2B] dark:text-white block">${ev.action}</span>
+              <span class="font-body-sm text-xs text-[#74859b]">${ev.record}</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${getActionBadgeClass(ev.actionCategory)}">
+              ${ev.entity}
+            </span>
+          </div>
+
+          <div class="p-2 bg-[#F5F7FA] dark:bg-[#071624] border border-[#D9E0E7] dark:border-[#1E293B] rounded text-xs text-[#121c26] dark:text-[#dfe9f7] font-body-sm">
+            ${ev.summary}
+          </div>
+
+          <div class="flex items-center justify-between pt-1 text-[11px] text-[#74859b]">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px]">person</span>
+              <span class="font-semibold text-[#071A2B] dark:text-white">${ev.admin}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-tabular-stat">${ev.date} · ${ev.time}</span>
+              <button onclick="openDetailModal('${ev.id}')" class="px-2.5 py-1 bg-[#0a1d2e] dark:bg-[#fcc019] text-white dark:text-[#0a1d2e] rounded font-bold text-xs flex items-center gap-1">
+                <span>Details</span>
+                <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getActionBadgeClass(category) {
+      switch (category) {
+        case 'USER':
+          return 'bg-[#edf4ff] text-[#0a1d2e] dark:bg-[#1E293B] dark:text-[#d2e4fc]';
+        case 'REWARD':
+          return 'bg-[#fcc019]/25 text-[#785900] dark:text-[#fcc019]';
+        case 'CASH_PRIZE':
+          return 'bg-[#00843D]/10 text-[#00843D] dark:text-[#71dc8a]';
+        case 'VEHICLE_PRIZE':
+          return 'bg-[#0a1d2e] text-white dark:bg-[#fcc019] dark:text-[#0a1d2e]';
+        case 'CLAIM':
+        case 'CLAIM_REQ':
+          return 'bg-[#ffdf9d] text-[#5b4300] dark:bg-[#5b4300]/40 dark:text-[#ffdf9d]';
+        case 'SUPPORT':
+          return 'bg-[#e4effd] text-[#27313c] dark:bg-[#27313c] dark:text-[#e4effd]';
+        default:
+          return 'bg-[#F5F7FA] text-[#121c26] dark:bg-[#1E293B] dark:text-white';
+      }
+    }
+
+    function handleLiveFilter(isButtonTrigger = false) {
+      const searchVal = document.getElementById('auditSearchInput').value.toLowerCase().trim();
+      const actionCat = document.getElementById('filterActionCategory').value;
+      const adminVal = document.getElementById('filterAdmin').value;
+      const entityVal = document.getElementById('filterEntity').value;
+      const dateVal = document.getElementById('filterDateRange').value;
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+      if (searchVal.length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
+
+      currentEvents = AUDIT_DATA.filter(item => {
+        const matchesSearch = !searchVal || 
+          item.admin.toLowerCase().includes(searchVal) ||
+          item.action.toLowerCase().includes(searchVal) ||
+          item.record.toLowerCase().includes(searchVal) ||
+          item.summary.toLowerCase().includes(searchVal) ||
+          item.id.toLowerCase().includes(searchVal);
+
+        const matchesAction = (actionCat === 'ALL') || (item.actionCategory === actionCat);
+        const matchesAdmin = (adminVal === 'ALL') || (item.admin === adminVal);
+        const matchesEntity = (entityVal === 'ALL') || (item.entity === entityVal);
+
+        let matchesDate = true;
+        if (dateVal === 'TODAY') {
+          matchesDate = item.date.includes('14 Sep 2026');
+        }
+
+        return matchesSearch && matchesAction && matchesAdmin && matchesEntity && matchesDate;
+      });
+
+      renderEvents(currentEvents);
+
+      if (isButtonTrigger) {
+        triggerToast(`Applied filters. Showing ${currentEvents.length} events.`);
+      }
+    }
+
+    function clearSearchInput() {
+      document.getElementById('auditSearchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      handleLiveFilter();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('auditSearchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      document.getElementById('filterActionCategory').value = 'ALL';
+      document.getElementById('filterAdmin').value = 'ALL';
+      document.getElementById('filterEntity').value = 'ALL';
+      document.getElementById('filterDateRange').value = 'ALL';
+      currentEvents = [...AUDIT_DATA];
+      renderEvents(currentEvents);
+      triggerToast('Filters cleared. Showing all 8 recent operational entries.');
+    }
+
+    function refreshLedger() {
+      const icon = document.getElementById('refreshIcon');
+      icon.classList.add('animate-spin');
+      triggerToast('Syncing with cryptographic audit nodes...');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin');
+        renderEvents(currentEvents);
+        triggerToast('Ledger up to date. Latest SHA-256 block confirmed.');
+      }, 700);
+    }
+
+    function openDetailModal(eventId) {
+      const ev = AUDIT_DATA.find(i => i.id === eventId);
+      if (!ev) return;
+      selectedEvent = ev;
+
+      document.getElementById('modalEventIdBadge').innerText = ev.id;
+      document.getElementById('modalActionTitle').innerText = ev.action;
+      document.getElementById('modalTimestamp').innerText = `${ev.date}, ${ev.time} SAST`;
+      document.getElementById('modalOperator').innerText = `${ev.admin} (${ev.adminRole})`;
+      document.getElementById('modalEntity').innerText = ev.entity;
+      document.getElementById('modalTargetRecord').innerText = ev.record;
+      document.getElementById('modalBeforeState').innerText = ev.before;
+      document.getElementById('modalAfterState').innerText = ev.after;
+      document.getElementById('modalSignature').innerText = `NODE SIG: ${ev.signature}`;
+
+      const quickLinkContainer = document.getElementById('modalQuickLinkContainer');
+      quickLinkContainer.innerHTML = `
+        <a href="${ev.relatedPath}" onclick="triggerToast('Simulating navigation to target ${ev.relatedType}')" class="px-3 py-1.5 bg-white dark:bg-[#0B1E30] text-[#071A2B] dark:text-white border border-[#D9E0E7] dark:border-[#1E293B] rounded text-xs font-bold hover:bg-[#dfe9f7] transition-colors inline-flex items-center gap-1 shadow-xs">
+          <span>Inspect ${ev.relatedType}</span>
+          <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+        </a>
+      `;
+
+      const modal = document.getElementById('auditDetailModal');
+      const backdrop = document.getElementById('modalBackdrop');
+      const card = document.getElementById('modalCard');
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        card.classList.remove('opacity-0', 'scale-95');
+      }, 10);
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('auditDetailModal');
+      const backdrop = document.getElementById('modalBackdrop');
+      const card = document.getElementById('modalCard');
+
+      backdrop.classList.add('opacity-0');
+      card.classList.add('opacity-0', 'scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    function downloadSingleAuditRecord() {
+      if (!selectedEvent) return;
+      triggerToast(`Digest generated for ${selectedEvent.id}. Sending to printer queue.`);
+    }
+
+    function exportLogsModal() {
+      document.getElementById('exportModal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.add('hidden');
+    }
+
+    function executeExportDownload() {
+      const format = document.querySelector('input[name="exportFormat"]:checked').value;
+      closeExportModal();
+
+      triggerToast(`Preparing ${format} audit export (${currentEvents.length} events)...`);
+
+      setTimeout(() => {
+        const dummyContent = format === 'CSV' 
+          ? "ID,Timestamp,Admin,Action,Entity,Record,Summary,Status\n" + currentEvents.map(e => `"${e.id}","${e.date} ${e.time}","${e.admin}","${e.action}","${e.entity}","${e.record}","${e.summary}","${e.status}"`).join("\n")
+          : JSON.stringify(currentEvents, null, 2);
+
+        const blob = new Blob([dummyContent], { type: format === 'CSV' ? 'text/csv' : 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `WinDriveSA_AuditLogs_${new Date().toISOString().slice(0,10)}.${format.toLowerCase()}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        triggerToast(`Download started: WinDriveSA_AuditLogs.${format.toLowerCase()}`);
+      }, 800);
+    }
+
+    // 3. RESPONSIVE HAMBURGER & DRAWER INTERACTION
+    let isAdminMenuOpen = false;
+    const adminMenuToggleBtn = document.getElementById('admin-menu-toggle-btn');
+    const adminMenuIcon = document.getElementById('admin-menu-icon');
+    const closeMobileNavBtn = document.getElementById('closeMobileNav');
+    const responsiveDrawer = document.getElementById('ResponsiveAdminDrawer');
+    const drawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+
+    function openAdminDrawer() {
+      isAdminMenuOpen = true;
+      drawerBackdrop.classList.remove('hidden');
+      if (adminMenuIcon) adminMenuIcon.innerText = 'close';
+      if (adminMenuToggleBtn) adminMenuToggleBtn.setAttribute('aria-expanded', 'true');
+      setTimeout(() => {
+        drawerBackdrop.classList.remove('opacity-0');
+        responsiveDrawer.classList.remove('-translate-x-full');
+      }, 10);
+    }
+
+    function closeAdminDrawer() {
+      isAdminMenuOpen = false;
+      drawerBackdrop.classList.add('opacity-0');
+      responsiveDrawer.classList.add('-translate-x-full');
+      if (adminMenuIcon) adminMenuIcon.innerText = 'menu';
+      if (adminMenuToggleBtn) adminMenuToggleBtn.setAttribute('aria-expanded', 'false');
+      setTimeout(() => {
+        drawerBackdrop.classList.add('hidden');
+      }, 200);
+    }
+
+    function toggleAdminDrawer() {
+      if (isAdminMenuOpen) {
+        closeAdminDrawer();
+      } else {
+        openAdminDrawer();
+      }
+    }
+
+    if (adminMenuToggleBtn) adminMenuToggleBtn.addEventListener('click', toggleAdminDrawer);
+    if (closeMobileNavBtn) closeMobileNavBtn.addEventListener('click', closeAdminDrawer);
+    if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeAdminDrawer);
+
+    // Close on navigation item click
+    document.querySelectorAll('.drawer-nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        closeAdminDrawer();
+      });
+    });
+
+    // Resize listener closes drawer when resizing to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && isAdminMenuOpen) {
+        closeAdminDrawer();
+      }
+    });
+
+    // Keyboard ESC listener
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+        closeExportModal();
+        closeAdminDrawer();
+      }
+    });
+
+    // Lightweight Toast System
+    function triggerToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'bg-[#0a1d2e] dark:bg-[#0B1E30] text-white border-l-4 border-[#fcc019] px-4 py-3 rounded shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-200 pointer-events-auto max-w-sm border border-white/10';
+      toast.innerHTML = `
+        <span class="material-symbols-outlined text-[18px] text-[#fcc019]">info</span>
+        <span class="flex-1">${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 200);
+      }, 3500);
+    }
+
+    // Initial Ledger & Icon Render
+    renderEvents(currentEvents);
+    updateThemeIcons();
+  </script>
+<script>
+  // Tab Switching Controller
+  function switchSettingsTab(tabId) {
+    document.querySelectorAll('.settings-tab-pane').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.settings-nav-btn').forEach(btn => {
+      btn.classList.remove('bg-[#F5F7FA]', 'dark:bg-[#1E293B]', 'text-[#071A2B]', 'dark:text-[#F8FAFC]', 'border-l-4', 'border-[#F2B705]', 'shadow-xs', 'font-bold');
+      btn.classList.add('text-[#44474c]', 'dark:text-[#74859b]', 'font-semibold');
+    });
+
+    const targetPane = document.getElementById('pane-' + tabId);
+    const targetBtn = document.getElementById('tab-btn-' + tabId);
+    if (targetPane) targetPane.classList.remove('hidden');
+    if (targetBtn) {
+      targetBtn.classList.remove('text-[#44474c]', 'dark:text-[#74859b]', 'font-semibold');
+      targetBtn.classList.add('bg-[#F5F7FA]', 'dark:bg-[#1E293B]', 'text-[#071A2B]', 'dark:text-[#F8FAFC]', 'border-l-4', 'border-[#F2B705]', 'shadow-xs', 'font-bold');
+    }
+  }
+
+  // Unsaved Changes Tracking
+  let hasUnsavedChanges = false;
+  function markUnsaved() {
+    hasUnsavedChanges = true;
+    const indicator = document.getElementById('unsavedIndicator');
+    if (indicator) indicator.classList.remove('hidden');
+  }
+  function clearUnsaved() {
+    hasUnsavedChanges = false;
+    const indicator = document.getElementById('unsavedIndicator');
+    if (indicator) indicator.classList.add('hidden');
+  }
+
+  // Save Handlers
+  function saveGeneralSettings() {
+    clearUnsaved();
+    triggerToast('Settings Saved — Your general settings have been updated and logged to audit ledger.');
+  }
+  function resetGeneralSettings() {
+    document.getElementById('companyNameInput').value = 'WinDriveSA';
+    document.getElementById('taglineInput').value = 'Win Big. Drive Away.';
+    clearUnsaved();
+    triggerToast('Changes discarded.');
+  }
+  function saveCommunicationSettings() {
+    clearUnsaved();
+    triggerToast('Communication channels saved successfully.');
+  }
+  function resetCommunicationSettings() {
+    document.getElementById('waNumberInput').value = '+27 (0) 11 884 9200';
+    document.getElementById('supportEmailInput').value = 'support@windrivesa.co.za';
+    clearUnsaved();
+    triggerToast('Communication changes discarded.');
+  }
+  function saveSecuritySettings() {
+    clearUnsaved();
+    triggerToast('Security policies and timeout thresholds updated.');
+  }
+  function saveSystemPreferences() {
+    clearUnsaved();
+    triggerToast('System preferences applied successfully.');
+  }
+
+  // Global Theme Controller from Settings
+  function setGlobalTheme(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    updateThemeIcons();
+    triggerToast(isDark ? 'Dark theme enabled.' : 'Light theme enabled.');
+  }
+
+  // Password Modal Controls
+  function openPasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    const backdrop = document.getElementById('passwordModalBackdrop');
+    const card = document.getElementById('passwordModalCard');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      card.classList.remove('opacity-0', 'scale-95');
+    }, 10);
+  }
+  function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    const backdrop = document.getElementById('passwordModalBackdrop');
+    const card = document.getElementById('passwordModalCard');
+    backdrop.classList.add('opacity-0');
+    card.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 200);
+  }
+  function handlePasswordSubmit(e) {
+    e.preventDefault();
+    const newPass = document.getElementById('newPassword').value;
+    const confPass = document.getElementById('confirmPassword').value;
+    if (newPass !== confPass) {
+      triggerToast('Password mismatch: Please make sure passwords match.');
+      return;
+    }
+    closePasswordModal();
+    triggerToast('Admin password updated successfully. Authentication session re-keyed.');
+  }
+
+  // Reset Modal Controls
+  function openResetModal() {
+    const modal = document.getElementById('resetModal');
+    const backdrop = document.getElementById('resetModalBackdrop');
+    const card = document.getElementById('resetModalCard');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      card.classList.remove('opacity-0', 'scale-95');
+    }, 10);
+  }
+  function closeResetModal() {
+    const modal = document.getElementById('resetModal');
+    const backdrop = document.getElementById('resetModalBackdrop');
+    const card = document.getElementById('resetModalCard');
+    backdrop.classList.add('opacity-0');
+    card.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 200);
+  }
+  function executeBaselineReset() {
+    closeResetModal();
+    resetGeneralSettings();
+    resetCommunicationSettings();
+    setGlobalTheme(false);
+    switchSettingsTab('general');
+    triggerToast('Configuration reset to institutional baseline successfully.');
+  }
+
+  // Global ESC listener
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closePasswordModal();
+      closeResetModal();
+    }
+  });
+</script></body></html>
