@@ -6,8 +6,8 @@ export default defineConfig(({ mode }) => {
   const supabaseUrl = process.env.SUPABASE_URL || env.SUPABASE_URL || env.VITE_SUPABASE_URL || '';
   const supabasePublishableKey = process.env.SUPABASE_PUBLISHABLE_KEY || env.SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
 
-  // Base path for GitHub Pages (/WinDriveSA/) or override via VITE_BASE_PATH
-  const base = process.env.VITE_BASE_PATH || (mode === 'production' ? '/WinDriveSA/' : '/');
+  // Base path for Vercel deployment (served from root '/') or override via VITE_BASE_PATH
+  const base = process.env.VITE_BASE_PATH || '/';
 
   return {
     base,
